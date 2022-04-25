@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'MyBottomBarDemo.dart';
 import 'services/packageManagement.dart';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
+
 class AgHomeAgView extends StatefulWidget {
   const AgHomeAgView({Key? key}) : super(key: key);
 
@@ -17,14 +18,13 @@ class AgHomeAgView extends StatefulWidget {
 }
 
 class _AgHomeAgViewState extends State<AgHomeAgView> {
-
   @override
   void initState() {
     // TODO: implement initState
-    //context.read<packageProvider>().setPackages();
+
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,15 +83,16 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      //scrollDirection: Axis.horizontal,
-                      itemCount: context.read<packageProvider>().getList().length,
+                      itemCount:
+                          context.read<packageProvider>().getList().length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap:(){
+                          onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (Context) => PkgDetailAgency(pack: PackageList[index]),
+                              builder: (Context) =>
+                                  PkgDetailAgency(pack: PackageList[index]),
                             ));
-                          } ,
+                          },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -113,7 +114,11 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              context.read<packageProvider>().getList()[index].PName + '',
+                                              context
+                                                      .read<packageProvider>()
+                                                      .getList()[index]
+                                                      .PName +
+                                                  '',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -123,7 +128,10 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text('\b' +
-                                                context.read<packageProvider>().getList()[index].Days +
+                                                context
+                                                    .read<packageProvider>()
+                                                    .getList()[index]
+                                                    .Days +
                                                 ''),
                                             Text(
                                               'Price:',
@@ -131,7 +139,10 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text('\$' +
-                                                context.read<packageProvider>().getList()[index].Price +
+                                                context
+                                                    .read<packageProvider>()
+                                                    .getList()[index]
+                                                    .Price +
                                                 ''),
                                             Text(
                                               'Description:',
@@ -139,8 +150,15 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.6,
-                                                child: Text(context.read<packageProvider>().getList()[index].Desc + '')),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Text(context
+                                                        .read<packageProvider>()
+                                                        .getList()[index]
+                                                        .Desc +
+                                                    '')),
                                           ],
                                         ),
                                         Column(children: [
@@ -148,17 +166,22 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                               onPressed: () {
                                                 Navigator.of(context)
                                                     .push(MaterialPageRoute(
-                                                  builder: (Context) =>
-                                                      editPackage(p:context.read<packageProvider>().getList()[index]),
-                                                  
-                                                )).then((value) => setState((){}));
+                                                      builder: (Context) => editPackage(
+                                                          p: context
+                                                              .read<
+                                                                  packageProvider>()
+                                                              .getList()[index]),
+                                                    ))
+                                                    .then((value) =>
+                                                        setState(() {}));
                                               },
                                               child: Icon(Icons.edit)),
                                           TextButton(
                                               onPressed: () {
                                                 showDialog(
                                                     context: context,
-                                                    builder: (BuildContext ctx) {
+                                                    builder:
+                                                        (BuildContext ctx) {
                                                       return AlertDialog(
                                                         title: const Text(
                                                             'Please Confirm'),
@@ -168,15 +191,15 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                           // The "Yes" button
                                                           TextButton(
                                                               onPressed: () {
-                                                                // Remove the box
-                                                                //   packageManagement.removePackage(PackageList[index].pid);
-                                                                //   packageManagement.removePackage(packageManagement.p1[index].pid);
-                                                                setState(() {
+                                                                setState(() {});
+                                                                context
+                                                                    .read<
+                                                                        packageProvider>()
+                                                                    .RemovePackage(
+                                                                        PackageList[
+                                                                            index]);
 
-                                                                });
-                                                                  context.read<packageProvider>().RemovePackage(PackageList[index]);
-
-                                                                  // Close the dialog
+                                                                // Close the dialog
 
                                                                 Navigator.of(
                                                                         ctx)
@@ -217,7 +240,5 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
       ),
       //bottomNavigationBar: MyBottomBarDemo(),
     );
-
   }
 }
-

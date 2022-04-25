@@ -36,70 +36,14 @@ class _addPackage extends State<addPackage> {
   List<XFile>? imageFileList = [];
   UploadTask? task;
   List<String> ImgUrls1=[];
-  // final ImagePicker _picker = ImagePicker();
-  // late File _image;
-  // bool uploadStatus = false;
-  // _imageFromCamera() async {
-  //   final PickedFile? pickedImage =
-  //   await _picker.getImage(source: ImageSource.camera, imageQuality: 50);
-  //   if (pickedImage == null) {
-  //     showAlertDialog(
-  //         context: context,
-  //         title: "Error Uploading!",
-  //         content: "No Image was selected.");
-  //     return;
-  //   }
-  //   final File fileImage = File(pickedImage.path);
-  //
-  //   if (imageConstraint(fileImage)) {
-  //     setState(() {
-  //       _image = fileImage;
-  //     });
-  //   }
-  // }
-  // _imageFromGallery() async {
-  //   final PickedFile? pickedImage =
-  //   await _picker.getImage(source: ImageSource.gallery, imageQuality: 50);
-  //   if (pickedImage == null) {
-  //     showAlertDialog(
-  //         context: context,
-  //         title: "Error Uploading!",
-  //         content: "No Image was selected.");
-  //     return;
-  //   }
-  //   final File fileImage = File(pickedImage.path);
-  //   if (imageConstraint(fileImage))
-  //     setState(() {
-  //       _image = fileImage;
-  //     });
-  // }
-  // bool imageConstraint(File image) {
-  //   if (!['bmp', 'jpg', 'jpeg']
-  //       .contains(image.path.split('.').last.toString())) {
-  //     showAlertDialog(
-  //         context: context,
-  //         title: "Error Uploading!",
-  //         content: "Image format should be jpg/jpeg/bmp.");
-  //     return false;
-  //   }
-  //   if (image.lengthSync() > 100000) {
-  //     showAlertDialog(
-  //         context: context,
-  //         title: "Error Uploading!",
-  //         content: "Image Size should be less than 100KB.");
-  //     return false;
-  //   }
-  //   return true;
-  // }
+
   @override
   Widget build(BuildContext context) {
     final filename = file !=null ? file!.path.toString() : ('No file selected');
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      // floatingActionButton:
-      //     FloatingActionButton.extended(onPressed: () {}, label: null,
-      //         ),
+
       appBar: AppBar(
         title: const Text(
           'Add Package',
@@ -197,9 +141,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                       }),
                 ),
               ),
-               // SizedBox(
-               //  height: 40,
-               // ),
+
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: RaisedButton(
@@ -223,20 +165,6 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
 
 
 
-                    // FirebaseAuth.instance
-                    //     .createUserWithEmailAndPassword(
-                    //     email: _email.text,
-                    //     password: _password.text)
-                    //     .then((signedInUser) {
-                    //   agencyManagement(
-                    //       uid: FirebaseAuth
-                    //           .instance.currentUser!.uid)
-                    //       .storeNewAgency(signedInUser.user,
-                    //       _name.text, _phoneNum.text, context);
-                    // }).catchError((e) {
-                    //   print(e);
-                    //   signupErrorDialog(e.code, context);
-                    // });
 
                   },
                   child: Text(
@@ -254,7 +182,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
           ),
         ),
     ),
-     // bottomNavigationBar: MyBottomBarDemo(),
+
     );
   }
 
@@ -263,7 +191,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
     if(result==null) return;
     final path = result.files.toList();
     setState(() {
-     // file=File(path.iterator);
+
     });
   }
   void selectImages() async {
@@ -309,13 +237,13 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
          );
         final urlString = ref.getDownloadURL();
 
-       //print(ImgUrls1.length+200);
 
 
 
 
 
-        //return urlString;
+
+
       } catch (e) {
         print('error occured');
         print(e);
@@ -347,7 +275,7 @@ Widget userInput(String hintTitle, TextInputType keyboardType, TextEditingContro
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
-      // color: Colors.blueGrey.shade200,
+
         borderRadius: BorderRadius.circular(30)),
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),

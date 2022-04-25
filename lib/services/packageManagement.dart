@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:aaha/AgHomeAgView.dart';
 import 'package:aaha/Agency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +12,20 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'agencyManagement.dart';
 import 'package:aaha/agencyhome.dart';
+
 class packageManagement {
-    static String Agencyid='';
-    static String Packid='';
-    static List<Package1> p1=[];
+  static String Agencyid = '';
+  static String Packid = '';
+  static List<Package1> p1 = [];
 
   static CollectionReference Package =
-  FirebaseFirestore.instance.collection('Packages');
-  static storeNewPackage(user, name, desc,days,price,location,rating, context,ImgUrls) {
+      FirebaseFirestore.instance.collection('Packages');
+  static storeNewPackage(
+      user, name, desc, days, price, location, rating, context, ImgUrls) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
-    Packid=docp.id;
+    Packid = docp.id;
 
-    p.pid=docp.id;
+    p.pid = docp.id;
 
     docp.set({
       'Agency id': user.uid,
@@ -31,52 +34,43 @@ class packageManagement {
       'Package name': name,
       'description': desc,
       'days': days,
-      'price' : price,
-      'Location' : location,
-      'Rating' : rating,
-      'ImgUrls' : ImgUrls,
+      'price': price,
+      'Location': location,
+      'Rating': rating,
+      'ImgUrls': ImgUrls,
       'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
     }).then((value) {
-      Package1 p =Package1(docp.id,name,AgencyHomeState.Agencyname,price,days,desc,location,rating,user.uid,ImgUrls);
+      Package1 p = Package1(docp.id, name, AgencyHomeState.Agencyname, price,
+          days, desc, location, rating, user.uid, ImgUrls);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
-      // Navigator.of(context).push(MaterialPageRoute(
-      //   builder: (context) => MyBottomBarDemo(),
-      // ));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => AgHomeAgView(),
+      ));
     });
   }
 
-    static UpdatePackage(Package1 p,user, name, desc,days,price,location,rating, context,ImgUrls) async{
+  static UpdatePackage(Package1 p, user, name, desc, days, price, location,
+      rating, context, ImgUrls) async {
+    print(p.pid);
+    await FirebaseFirestore.instance.collection('Packages').doc(p.pid).update({
+      'Agency id': user.uid,
+      'Agency Name': AgencyHomeState.Agencyname,
+      'Package id': p.pid,
+      'Package name': name,
+      'description': desc,
+      'days': days,
+      'price': price,
+      'Location': location,
+      'Rating': rating,
+      'ImgUrls': ImgUrls,
+      'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
+    }).then((value) {
 
-            print(p.pid);
-           await FirebaseFirestore.instance.collection('Packages').doc(p.pid).update({
-              'Agency id': user.uid,
-              'Agency Name': AgencyHomeState.Agencyname,
-              'Package id': p.pid,
-              'Package name': name,
-              'description': desc,
-              'days': days,
-              'price' : price,
-              'Location' : location,
-              'Rating' : rating,
-              'ImgUrls' : ImgUrls,
-              'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
-            }).then((value) {
-              // Package1 p =Package1(docp.id,name,AgencyHomeState.Agencyname,price,days,desc,location,rating,user.uid,ImgUrls);
-              // PackageList.add(p);
+      Navigator.of(context).pop();
 
-              //updatePackage(p, name, desc, days, price, location, ImgUrls);
-
-              //context.read<packageProvider>().setPackages();
-              Navigator.of(context).pop();
-              // Navigator.of(context).push(MaterialPageRoute(
-              //   builder: (context) => MyBottomBarDemo(),
-              // ));
-            }).catchError((error)=> print(error));
-          }
-
-
-
+    }).catchError((error) => print(error));
+  }
 
   //static
   static updatePackageName(name) async {
@@ -90,23 +84,27 @@ class packageManagement {
   updatePackageDays(days) {
     Package.doc(p.pid).update({'days': days});
   }
+
   updatePackagePrice(price) {
     Package.doc(p.pid).update({'price': price});
   }
+
   updatePackageRating(rating) {
     Package.doc(p.pid).update({'rating': rating});
-
   }
 
   updatePackagePhotoUrl(photoUrl) {
     Package.doc(p.pid).update({'photoUrl': photoUrl});
   }
-  static removePackage(pid){
+
+  static removePackage(pid) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc(pid);
     docp.delete();
   }
+
   static Package1 fromJson(Map<String, dynamic> json) {
-    List<String>? strings = (json['ImgUrls'] as List)?.map((item) => item as String)?.toList();
+    List<String>? strings =
+        (json['ImgUrls'] as List)?.map((item) => item as String)?.toList();
     Package1 p1 = Package1(
       json['Package id'],
       json['Package name'],
@@ -121,27 +119,24 @@ class packageManagement {
     );
     return p1;
   }
-  static  getPackages()  async{
 
-
-    await FirebaseFirestore.instance.collection('Packages').get().then((QuerySnapshot querySnapshot) {
+  static getPackages() async {
+    await FirebaseFirestore.instance
+        .collection('Packages')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-
         p1.add(packageManagement.fromJson(doc.data() as Map<String, dynamic>));
-
       });
-
     });
-    for(var i=0;i<p1.length;i++){
+    for (var i = 0; i < p1.length; i++) {
       print(Agencyid);
       print(p1[i].agencyId);
-      if(p1[i].agencyId==Agencyid )
-        PackageList.add(p1[i]);
+      if (p1[i].agencyId == Agencyid) PackageList.add(p1[i]);
     }
-
   }
-
 }
+
 class packageProvider extends ChangeNotifier {
   String name = 'DummyName';
   String AgencyId = '111';
@@ -149,39 +144,40 @@ class packageProvider extends ChangeNotifier {
   String desc = 'About package';
   String price = '20';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
-  void updatePackage(Package1 p,name, desc,days,price,location,ImgUrls){
-    for(var i=0;i<PackageList.length;i++){
-      if(PackageList[i].pid==p.pid ){
-        PackageList[i].PName=name;
-        PackageList[i].Desc=desc;
-        PackageList[i].Days=days;
-        PackageList[i].Price=price;
-        PackageList[i].Location=location;
-        PackageList[i].ImgUrls=ImgUrls;
+  void updatePackage(Package1 p, name, desc, days, price, location, ImgUrls) {
+    for (var i = 0; i < PackageList.length; i++) {
+      if (PackageList[i].pid == p.pid) {
+        PackageList[i].PName = name;
+        PackageList[i].Desc = desc;
+        PackageList[i].Days = days;
+        PackageList[i].Price = price;
+        PackageList[i].Location = location;
+        PackageList[i].ImgUrls = ImgUrls;
       }
     }
 
     notifyListeners();
   }
-  void setPackages(){
-    WidgetsBinding.instance?.addPostFrameCallback((_) async{
+
+  void setPackages() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await packageManagement.getPackages();
-
-
     });
-    // sortList1();
-    // sortList();
+
     notifyListeners();
   }
-  static List<Package1> getList1(){
+
+  static List<Package1> getList1() {
     return PackageList;
   }
-   List<Package1> getList(){
+
+  List<Package1> getList() {
     return PackageList;
   }
+
   Future<String>? getName(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['Package name']);
       name = document['Package name'];
@@ -192,7 +188,7 @@ class packageProvider extends ChangeNotifier {
 
   Future<String>? getAgencyId(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['Agency Id']);
       AgencyId = document['Agency Id'];
@@ -203,7 +199,7 @@ class packageProvider extends ChangeNotifier {
 
   Future<String>? getDays(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['days']);
       days = document['days'];
@@ -214,7 +210,7 @@ class packageProvider extends ChangeNotifier {
 
   Future<String>? getDescription(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['description']);
       desc = document['description'];
@@ -222,9 +218,10 @@ class packageProvider extends ChangeNotifier {
     });
     return desc;
   }
+
   Future<String>? getPrice(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['price']);
       price = document['price'];
@@ -232,9 +229,10 @@ class packageProvider extends ChangeNotifier {
     });
     return price;
   }
+
   Future<String>? getPhotoUrl(var p) async {
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
+        await FirebaseFirestore.instance.collection('Packages').doc(p.pid);
     await document.get().then((document) {
       print(document['photoUrl']);
       photoUrl = document['photoUrl'];
@@ -242,7 +240,8 @@ class packageProvider extends ChangeNotifier {
     });
     return photoUrl;
   }
-  void RemovePackage(Package1 p){
+
+  void RemovePackage(Package1 p) {
     PackageList.remove(p);
     packageManagement.p1.remove(p);
     packageManagement.removePackage(p.pid);
