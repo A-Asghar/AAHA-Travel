@@ -6,8 +6,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'services/agencyManagement.dart';
 import 'services/packageManagement.dart';
 import 'package:provider/provider.dart';
-class loginScreen extends StatefulWidget {
 
+class loginScreen extends StatefulWidget {
   @override
   State<loginScreen> createState() => _loginScreenState();
 }
@@ -17,26 +17,10 @@ class _loginScreenState extends State<loginScreen> {
 
   final _password = TextEditingController();
 
-
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      //extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      //   leading: Padding(
-      //     padding: const EdgeInsets.all(8.0),
-      //     child: IconButton(
-      //       iconSize: 40,
-      //       icon: Icon(Icons.arrow_back_ios),
-      //       onPressed: () => Navigator.pop(context, false),
-      //     ),
-      //   ),
-      // ),
       body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -49,19 +33,12 @@ class _loginScreenState extends State<loginScreen> {
           ),
           child: Column(
             children: [
-              // Padding(
-              //   padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
-              //
-              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
-
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height*.3
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * .3),
                   Container(
-                    height: MediaQuery.of(context).size.height*.7,
+                    height: MediaQuery.of(context).size.height * .7,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -81,12 +58,11 @@ class _loginScreenState extends State<loginScreen> {
                                 'Log In ',
                                 style: TextStyle(
                                   fontSize: 50,
-                                  // fontWeight: FontWeight.bold
                                 ),
                               )),
                           SizedBox(height: 25),
-                          userInput(
-                              'Email', TextInputType.emailAddress, _email, false),
+                          userInput('Email', TextInputType.emailAddress, _email,
+                              false),
                           userInput('Password', TextInputType.visiblePassword,
                               _password, true),
                           Container(
@@ -97,24 +73,27 @@ class _loginScreenState extends State<loginScreen> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
                               color: Colors.indigo.shade800,
-                              onPressed: () async{
+                              onPressed: () async {
                                 FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
                                         email: _email.text,
                                         password: _password.text)
-                                    .then((signedInUser) async{
+                                    .then((signedInUser) async {
                                   if (await agencyManagement(
-                                  uid: signedInUser.user!.uid)
-                                  .isAgency()) {
-                                    packageManagement.Agencyid=signedInUser.user!.uid;
-                                  Navigator.of(context)
-                                      .push(MaterialPageRoute(
-                                  builder: (context) => MyBottomBarDemo(),
-                                  ));
+                                          uid: signedInUser.user!.uid)
+                                      .isAgency()) {
+                                    packageManagement.Agencyid =
+                                        signedInUser.user!.uid;
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => MyBottomBarDemo(),
+                                    ));
+                                    _email.clear();
+                                    _password.clear();
                                   } else {
-                                  loginErrorDialog(
-                                  'You are registered as a traveller !',
-                                  context);
+                                    loginErrorDialog(
+                                        'You are registered as a traveller !',
+                                        context);
                                   }
                                 }).catchError((e) {
                                   print(e);
@@ -189,7 +168,7 @@ Widget userInput(
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
-      // color: Colors.blueGrey.shade200,
+        // color: Colors.blueGrey.shade200,
         borderRadius: BorderRadius.circular(30)),
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),
