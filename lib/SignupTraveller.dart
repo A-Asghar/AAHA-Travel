@@ -24,7 +24,7 @@ class SignupTraveller extends StatelessWidget {
             alignment: Alignment.topCenter,
             fit: BoxFit.fill,
             image: NetworkImage(
-              'https://i.ibb.co/r70cMRh/rm222batch3-mind-01.jpg',
+              'https://i.ibb.co/bgXk4gp/pexels-mudassir-ali-2680270.jpg',
             ),
           ),
         ),
