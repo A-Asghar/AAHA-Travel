@@ -4,7 +4,6 @@ import 'loginSignupScreen.dart';
 import 'loginSignupScreenTraveller.dart';
 import 'travellerProfile.dart';
 import 'main.dart';
-import 'loginSignup.dart';
 
 class mainScreen extends StatelessWidget {
   const mainScreen({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class mainScreen extends StatelessWidget {
         constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: NetworkImage("https://i.ibb.co/5GVfYhZ/aaha-5.png"),
+                image: NetworkImage("https://i.ibb.co/wC05sqh/main-Screen.png"),
                 fit: BoxFit.fill)),
         child: Scaffold(
           backgroundColor: Colors.transparent,

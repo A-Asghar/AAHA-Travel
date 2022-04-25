@@ -11,7 +11,7 @@ class travellerManagement {
   final String uid;
   travellerManagement({required this.uid});
   CollectionReference Traveller =
-  FirebaseFirestore.instance.collection('Travellers');
+      FirebaseFirestore.instance.collection('Travellers');
   storeNewTraveller(user, name, phoneNum, context) {
     String joinDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
     Traveller.doc(uid).set({
@@ -22,7 +22,7 @@ class travellerManagement {
       'about': 'About you',
       'photoUrl': 'https://flyclipart.com/thumb2/person-icon-137546.png',
       'coverPhotoUrl':
-      'https://images.unsplash.com/photo-1488085061387-422e29b40080?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
+          'https://images.unsplash.com/photo-1488085061387-422e29b40080?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1331&q=80',
       'joinDate': joinDate,
       'city': 'Karachi'
     }).then((value) {
@@ -80,7 +80,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getName(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['name']);
       name = document['name'];
@@ -91,7 +91,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getEmail(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['email']);
       email = document['email'];
@@ -102,7 +102,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getPhoneNum(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['phoneNum']);
       phoneNum = document['phoneNum'];
@@ -113,7 +113,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getAbout(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['about']);
       about = document['about'];
@@ -124,7 +124,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getPhotoUrl(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['photoUrl']);
       photoUrl = document['photoUrl'];
@@ -135,7 +135,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getjoinDate(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['joinDate']);
       joinDate = document['joinDate'];
@@ -146,7 +146,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getCity(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['city']);
       city = document['city'];
@@ -157,7 +157,7 @@ class travellerProvider extends ChangeNotifier {
 
   Future<String>? getCoverPhotoUrl(var user) async {
     var document =
-    await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+        await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
     await document.get().then((document) {
       print(document['coverPhotoUrl']);
       coverPhotoUrl = document['coverPhotoUrl'];
@@ -165,5 +165,4 @@ class travellerProvider extends ChangeNotifier {
     });
     return coverPhotoUrl;
   }
-
 }
