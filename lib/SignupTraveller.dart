@@ -68,7 +68,6 @@ class SignupTraveller extends StatelessWidget {
                         userInput('Full Name', TextInputType.text, _name),
                         userInput(
                             'Phone Number', TextInputType.phone, _phoneNum),
-
                         userInput('Email', TextInputType.name, _email),
                         userInput('Password', TextInputType.visiblePassword,
                             _password),
@@ -97,9 +96,15 @@ class SignupTraveller extends StatelessWidget {
                                         email: _email.text,
                                         password: _password.text)
                                     .then((signedInUser) {
-                                      travellerManagement(uid:FirebaseAuth.instance.currentUser!.uid)
-                                          .storeNewTraveller(signedInUser.user, _name.text, _phoneNum.text, context);
-                                }).catchError((e){print(e); signupErrorDialog(e.code,context); });
+                                  travellerManagement(
+                                          uid: FirebaseAuth
+                                              .instance.currentUser!.uid)
+                                      .storeNewTraveller(signedInUser.user,
+                                          _name.text, _phoneNum.text, context);
+                                }).catchError((e) {
+                                  print(e);
+                                  signupErrorDialog(e.code, context);
+                                });
                               },
                               child: Text('Sign Up ',
                                   style: TextStyle(
@@ -120,22 +125,22 @@ class SignupTraveller extends StatelessWidget {
     );
   }
 }
-void signupErrorDialog(String e,context) async{
+
+void signupErrorDialog(String e, context) async {
   return showDialog(
-context: context,
-    builder:(context){
-return AlertDialog(
-  title: const Text('The following error has occurred : '),
-  content: Text(e.toString()),
-);
-    }
-  );
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('The following error has occurred : '),
+          content: Text(e.toString()),
+        );
+      });
 }
+
 Widget userInput(String hintTitle, TextInputType keyboardType, controller) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
-        // color: Colors.blueGrey.shade200,
         borderRadius: BorderRadius.circular(30)),
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),

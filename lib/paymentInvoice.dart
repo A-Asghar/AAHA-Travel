@@ -8,16 +8,16 @@ class paymentInvoice extends StatefulWidget {
   @override
   State<paymentInvoice> createState() => _paymentInvoiceState();
 }
+
 DateTime date = DateTime.now();
 bool validate2 = false;
-TextEditingController _controller2 =
-TextEditingController();
+TextEditingController _controller2 = TextEditingController();
+
 class _paymentInvoiceState extends State<paymentInvoice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-
       appBar: AppBar(
         title: const Text(
           'Payment Invoice',
@@ -39,7 +39,6 @@ class _paymentInvoiceState extends State<paymentInvoice> {
         child: Column(
           children: [
             const Text(
-
               'Select Date:                                        ',
               style: TextStyle(fontSize: 24),
               textAlign: TextAlign.left,
@@ -47,22 +46,24 @@ class _paymentInvoiceState extends State<paymentInvoice> {
             Center(
               child: Column(
                 children: [
-
                   Padding(
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                     child: TextFormField(
+                      onTap: () async {
+                        DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: date,
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime(2100));
+                        if (newDate == null) return;
 
-
-                      onTap: ()async {
-
-                        DateTime? newDate= await showDatePicker(context: context, initialDate: date, firstDate: DateTime(1900), lastDate: DateTime(2100));
-                        if(newDate==null) return;
-
-                        date=newDate;
-                        _controller2.text=(date.day.toString()+"/"+date.month.toString()+"/"+date.year.toString());
-                        setState(() {
-
-                        });
+                        date = newDate;
+                        _controller2.text = (date.day.toString() +
+                            "/" +
+                            date.month.toString() +
+                            "/" +
+                            date.year.toString());
+                        setState(() {});
                       },
                       decoration: InputDecoration(
                           errorText: validate2 ? 'Please enter a date' : null,
@@ -70,7 +71,6 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                           hintText: ("Choose a date")),
                       controller: _controller2,
                     ),
-
                   ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.9,
@@ -117,26 +117,22 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-
                               userInput('Name on card', TextInputType.text),
-
                               userInput('Card Number', TextInputType.number),
-
                               Row(
                                 children: [
                                   Expanded(
-                                    child:
-                                        userInput('Expiry Date', TextInputType.datetime),
+                                    child: userInput(
+                                        'Expiry Date', TextInputType.datetime),
                                   ),
                                   Expanded(
-                                    child:
-                                        userInput('Security Code', TextInputType.number),
+                                    child: userInput(
+                                        'Security Code', TextInputType.number),
                                   ),
                                 ],
                               ),
-
-                              userInput('ZIP / Postal code', TextInputType.number),
-
+                              userInput(
+                                  'ZIP / Postal code', TextInputType.number),
                               allButton(buttonText: 'Pay Now', onPressed: () {})
                             ],
                           ),
@@ -153,11 +149,12 @@ class _paymentInvoiceState extends State<paymentInvoice> {
     );
   }
 }
+
 Widget userInput(String hintTitle, TextInputType keyboardType) {
   return Container(
     margin: EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(
-      // color: Colors.blueGrey.shade200,
+        // color: Colors.blueGrey.shade200,
         borderRadius: BorderRadius.circular(30)),
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),
@@ -165,9 +162,7 @@ Widget userInput(String hintTitle, TextInputType keyboardType) {
         // controller: controller,
         decoration: InputDecoration(
           hintText: hintTitle,
-          hintStyle: TextStyle(
-              fontSize: 18,
-              fontStyle: FontStyle.italic),
+          hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
         ),
         keyboardType: keyboardType,
       ),

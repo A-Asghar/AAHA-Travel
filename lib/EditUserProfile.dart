@@ -183,7 +183,7 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: InkWell(
-                          child: Text(
+                          child: const Text(
                             'Update your current city',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 25),

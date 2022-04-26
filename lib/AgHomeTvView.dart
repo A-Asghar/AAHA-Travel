@@ -9,24 +9,16 @@ import 'package:flutter/material.dart';
 import 'MyBottomBarDemo.dart';
 import 'services/packageManagement.dart';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
+
 class AgHomeTvView extends StatefulWidget {
   final Agency1 agency;
-  const AgHomeTvView({Key? key,required this.agency}) : super(key: key);
+  const AgHomeTvView({Key? key, required this.agency}) : super(key: key);
 
   @override
   _AgHomeTvViewState createState() => _AgHomeTvViewState();
 }
 
 class _AgHomeTvViewState extends State<AgHomeTvView> {
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    //context.read<packageProvider>().setPackages();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,23 +57,25 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                               Text("                       "),
                             ],
                           )),
-
                     ]),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
                   child: ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      //scrollDirection: Axis.horizontal,
-                      itemCount: context.read<packageProvider>().getList().length,
+                      itemCount:
+                          context.read<packageProvider>().getList().length,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap:(){
-                            context.read<packageProvider>().setPackages(widget.agency.uid);
+                          onTap: () {
+                            context
+                                .read<packageProvider>()
+                                .setPackages(widget.agency.uid);
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (Context) => PkgDetailAgency(pack: PackageList[index]),
+                              builder: (Context) =>
+                                  PkgDetailAgency(pack: PackageList[index]),
                             ));
-                          } ,
+                          },
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
@@ -98,12 +92,16 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                                       child: Row(children: [
                                         Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              context.read<packageProvider>().getList()[index].PName + '',
+                                              context
+                                                      .read<packageProvider>()
+                                                      .getList()[index]
+                                                      .PName +
+                                                  '',
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -113,7 +111,10 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text('\b' +
-                                                context.read<packageProvider>().getList()[index].Days +
+                                                context
+                                                    .read<packageProvider>()
+                                                    .getList()[index]
+                                                    .Days +
                                                 ''),
                                             Text(
                                               'Price:',
@@ -121,7 +122,10 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             Text('\$' +
-                                                context.read<packageProvider>().getList()[index].Price +
+                                                context
+                                                    .read<packageProvider>()
+                                                    .getList()[index]
+                                                    .Price +
                                                 ''),
                                             Text(
                                               'Description:',
@@ -129,11 +133,17 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             SizedBox(
-                                                width: MediaQuery.of(context).size.width * 0.6,
-                                                child: Text(context.read<packageProvider>().getList()[index].Desc + '')),
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.6,
+                                                child: Text(context
+                                                        .read<packageProvider>()
+                                                        .getList()[index]
+                                                        .Desc +
+                                                    '')),
                                           ],
                                         ),
-
                                       ]),
                                     ),
                                   ),
@@ -149,6 +159,5 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
       ),
       //bottomNavigationBar: MyBottomBarDemo(),
     );
-
   }
 }

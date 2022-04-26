@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'AgHomeAgView.dart';
 import 'services/agencyManagement.dart';
 import 'services/packageManagement.dart';
+
 class AgencyHome extends StatefulWidget {
   const AgencyHome({Key? key}) : super(key: key);
 
@@ -15,19 +16,16 @@ class AgencyHome extends StatefulWidget {
 
 class AgencyHomeState extends State<AgencyHome> {
   void initState() {
-    PackageList=[];
-    packageManagement.p1=[];
-    WidgetsBinding.instance?.addPostFrameCallback((_){
-      context.read<packageProvider>().setPackages(FirebaseAuth.instance.currentUser!.uid);
-
-
+    PackageList = [];
+    packageManagement.p1 = [];
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      context
+          .read<packageProvider>()
+          .setPackages(FirebaseAuth.instance.currentUser!.uid);
     });
-
-
-
-
   }
-  static String Agencyname='';
+
+  static String Agencyname = '';
   final List<String> images = [
     'https://wander-lush.org/wp-content/uploads/2020/01/PhanderLakePakistanKanokwanPonokCanvaPro.jpg',
     'https://wander-lush.org/wp-content/uploads/2020/01/Beautiful-places-in-Pakistan-Hingol-National-Park-LukasBischoffGetty-CanvaPro.jpg',
@@ -47,231 +45,231 @@ class AgencyHomeState extends State<AgencyHome> {
       onWillPop: () async {
         return false;
       },
-      child :Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: const Icon(
-          Icons.account_circle,
-          color: Colors.black,
-        ),
-        title: FutureBuilder<String>(
-          future: context
-              .read<agencyProvider>()
-              .getName(FirebaseAuth.instance.currentUser),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              Agencyname=snapshot.data!.toString();
-              return Text(
-                'Hi, ' + snapshot.data!.toString(),
-                style: TextStyle(color: Colors.black),
-              );
-            }
-            return CircularProgressIndicator(
-              color: Colors.black,
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {
-                packageManagement.p1=[];
-                PackageList=[];
-                FirebaseAuth.instance.signOut();
-
-                Navigator.of(context).pop();
-              },
-              icon: Icon(
-                Icons.logout,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          leading: const Icon(
+            Icons.account_circle,
+            color: Colors.black,
+          ),
+          title: FutureBuilder<String>(
+            future: context
+                .read<agencyProvider>()
+                .getName(FirebaseAuth.instance.currentUser),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                Agencyname = snapshot.data!.toString();
+                return Text(
+                  'Hi, ' + snapshot.data!.toString(),
+                  style: TextStyle(color: Colors.black),
+                );
+              }
+              return CircularProgressIndicator(
                 color: Colors.black,
-              ))
-        ],
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            height: 250,
-            width: 400,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-                //color: Colors.blue,
-                image: DecorationImage(
-              image: NetworkImage(
-                'https://wallpaperaccess.com/full/51364.jpg',
-              ),
-              fit: BoxFit.fill,
-            )),
-            child: const Text(
-              'WELCOME !',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 45,
-                // fontWeight: FontWeight.bold,
-                letterSpacing: 8,
+              );
+            },
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  packageManagement.p1 = [];
+                  PackageList = [];
+                  FirebaseAuth.instance.signOut();
+
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ))
+          ],
+          centerTitle: false,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              height: 250,
+              width: 400,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                  //color: Colors.blue,
+                  image: DecorationImage(
+                image: NetworkImage(
+                  'https://wallpaperaccess.com/full/51364.jpg',
+                ),
+                fit: BoxFit.fill,
+              )),
+              child: const Text(
+                'WELCOME !',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 45,
+                  // fontWeight: FontWeight.bold,
+                  letterSpacing: 8,
+                ),
               ),
             ),
-          ),
-          Row(
-            children: [
-              const Expanded(
-                child: Padding(
+            Row(
+              children: [
+                const Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+                    child: Text(
+                      'Your Top selling Packages',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: InkWell(
+                      child: const Text(
+                        'see all',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => AgHomeAgView()));
+                      },
+                    )),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+              child: SizedBox(
+                height: 100,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            if (index.isOdd) {
+                              return const VerticalDivider(
+                                width: 5,
+                                color: Colors.white,
+                              );
+                            }
+
+                            return ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(images[index]),
+                                        fit: BoxFit.cover),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Kashmir',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                const Expanded(
+                    child: Padding(
                   padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
                   child: Text(
-                    'Your Top selling Packages',
+                    'Recently Added Packages',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: InkWell(
-                    child: const Text(
-                      'see all',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AgHomeAgView()));
-                    },
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
-            child: SizedBox(
-              height: 100,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          if (index.isOdd) {
-                            return const VerticalDivider(
-                              width: 5,
-                              color: Colors.white,
-                            );
-                          }
+                )),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
+                    child: InkWell(
+                      child: const Text(
+                        'see all',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => AgHomeAgView()));
+                      },
+                    )),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+              child: SizedBox(
+                height: 100,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: 10,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            if (index.isOdd) {
+                              return const VerticalDivider(
+                                width: 5,
+                                color: Colors.white,
+                              );
+                            }
 
-                          return ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(25), // Image border
-                            child: SizedBox.fromSize(
-                              size: const Size.fromRadius(50), // Image radius
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(images[index]),
-                                      fit: BoxFit.cover),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Kashmir',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                            return ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(images[index]),
+                                        fit: BoxFit.cover),
+                                  ),
+                                  child: const Center(
+                                    child: Text(
+                                      'Karachi',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Row(
-            children: [
-              const Expanded(
-                  child: Padding(
-                padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
-                child: Text(
-                  'Recently Added Packages',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )),
-              Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
-                  child: InkWell(
-                    child: const Text(
-                      'see all',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => AgHomeAgView()));
-                    },
-                  )),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
-            child: SizedBox(
-              height: 100,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: 10,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          if (index.isOdd) {
-                            return const VerticalDivider(
-                              width: 5,
-                              color: Colors.white,
                             );
-                          }
-
-                          return ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(25), // Image border
-                            child: SizedBox.fromSize(
-                              size: const Size.fromRadius(50), // Image radius
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(images[index]),
-                                      fit: BoxFit.cover),
-                                ),
-                                child: const Center(
-                                  child: Text(
-                                    'Karachi',
-                                    style: TextStyle(
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
-                ],
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
       ),
     );
   }

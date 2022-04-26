@@ -52,7 +52,6 @@ class _editPackage extends State<editPackage> {
   UploadTask? task;
   List<String> ImgUrls1 = [];
   TextEditingController _nameController = TextEditingController();
-
   TextEditingController _descController = TextEditingController();
   TextEditingController _daysController = TextEditingController();
   TextEditingController _priceController = TextEditingController();
