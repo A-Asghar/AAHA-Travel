@@ -1,12 +1,18 @@
 import 'dart:math';
 
+import 'package:aaha/services/agencyManagement.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'main.dart';
 import 'paymentInvoice.dart';
+import 'Agency.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PkgDetailTraveller extends StatefulWidget {
-  const PkgDetailTraveller({Key? key}) : super(key: key);
+  final Package package;
+  const PkgDetailTraveller({Key? key, required this.package}) : super(key: key);
 
   @override
   State<PkgDetailTraveller> createState() => PkgDetailTravellerState();
@@ -31,6 +37,10 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> images = widget.package.ImgUrls;
+    var agencyID = widget.package.agencyId;
+    var agencyPhoneNumber =
+        context.read<agencyProvider>().getPhoneNumber(agencyID);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -106,7 +116,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                     ..rotateY((pi / 6) * val),
                   child: Scaffold(
                     appBar: AppBar(
-                      title: const Text('Package Name',
+                      title: Text(widget.package.PName,
                           style: TextStyle(color: Colors.black, fontSize: 25)),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -141,12 +151,19 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                                       Radius.circular(5.0)),
                                               child: Stack(
                                                 children: <Widget>[
-                                                  Image.network(
-                                                    e,
-                                                    fit: BoxFit.cover,
-                                                    width: 450,
-                                                    height: 300,
-                                                  ),
+                                                  e.isNotEmpty
+                                                      ? Image.network(
+                                                          e,
+                                                          fit: BoxFit.cover,
+                                                          width: 450,
+                                                          height: 300,
+                                                        )
+                                                      : Image.network(
+                                                          'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-no-image-available-icon-flat-vector-illustration.jpg?ver=6',
+                                                          fit: BoxFit.cover,
+                                                          width: 450,
+                                                          height: 300,
+                                                        ),
                                                 ],
                                               )),
                                         ))
@@ -159,7 +176,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: RichText(
-                                      text: const TextSpan(
+                                      text: TextSpan(
                                         text: 'No. of Days: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -167,7 +184,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: '15',
+                                            text: widget.package.Days,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -179,7 +196,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: RichText(
-                                      text: const TextSpan(
+                                      text: TextSpan(
                                         text: 'Location: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -187,7 +204,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: 'Karachi',
+                                            text: widget.package.Location,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -199,15 +216,15 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                     child: RichText(
-                                      text: const TextSpan(
-                                        text: 'Cost: ',
+                                      text: TextSpan(
+                                        text: 'Cost: \$',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: 'PKR 50000',
+                                            text: widget.package.Price,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -219,7 +236,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                     child: RichText(
-                                      text: const TextSpan(
+                                      text: TextSpan(
                                         text: 'Agency Name: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -227,7 +244,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: 'XYZ Travels',
+                                            text: widget.package.Aname,
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -236,10 +253,9 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                       ),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.all(8),
-                                    child: const Text(
+                                    child: Text(
                                       'Description: ',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -247,7 +263,6 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                           color: Colors.black),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                     child: Container(
@@ -259,12 +274,12 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                         ),
                                       ),
                                       child: Column(
-                                        children: const [
+                                        children: [
                                           Expanded(
                                               child: SingleChildScrollView(
                                             scrollDirection: Axis.vertical,
                                             child: Text(
-                                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+                                              widget.package.Desc,
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.black),
@@ -274,8 +289,6 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                       ),
                                     ),
                                   ),
-
-
                                   Center(
                                     child: allButton(
                                         buttonText: 'Other Details',
@@ -285,15 +298,17 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                           });
                                         }),
                                   ),
-
-
                                   SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Expanded(
                                         child: allButton(
                                             buttonText: 'Call',
-                                            onPressed: () {}),
+                                            onPressed: () async {
+                                              String phone =
+                                                  await agencyPhoneNumber!;
+                                              _makePhoneCall(phone);
+                                            }),
                                       ),
                                       Expanded(
                                         child: allButton(
@@ -331,5 +346,13 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
         ],
       ),
     );
+  }
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launchUrl(launchUri);
   }
 }

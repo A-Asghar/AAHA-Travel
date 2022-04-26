@@ -74,8 +74,8 @@ class searchPage extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                   child: ListTile(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PkgDetailTraveller()));
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //     builder: (context) => PkgDetailTraveller()));
                     },
                     title: ClipRRect(
                       borderRadius: BorderRadius.circular(5.0),

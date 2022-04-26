@@ -1,11 +1,17 @@
+import 'dart:io';
+
+import 'package:aaha/services/packageManagement.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pkg_detail_pg_travellers.dart';
 import 'searchPage.dart';
 import 'topTravelDestinations.dart';
 import 'services/travellerManagement.dart';
+import 'Agency.dart';
 
 class TravellerHome extends StatefulWidget {
   const TravellerHome({Key? key}) : super(key: key);
@@ -45,8 +51,8 @@ class _TravellerHomeState extends State<TravellerHome> {
                 .getName(FirebaseAuth.instance.currentUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text('Hi, ' +
-                  snapshot.data!.toString(),
+                return Text(
+                  'Hi, ' + snapshot.data!.toString(),
                   style: TextStyle(color: Colors.black),
                 );
               }
@@ -55,12 +61,17 @@ class _TravellerHomeState extends State<TravellerHome> {
               );
             },
           ),
-actions: [
-  IconButton(onPressed: (){
-    FirebaseAuth.instance.signOut();
-    Navigator.of(context).pop();
-  }, icon: Icon(Icons.logout, color: Colors.black,))
-],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ))
+          ],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -148,7 +159,7 @@ actions: [
                       children: [
                         ListTile(
                           title: Text(
-                            'Top Travel Destinations',
+                            'Top Travel Packages',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -164,67 +175,7 @@ actions: [
                             child: Text('See All'),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0.0, horizontal: 8),
-                          child: SizedBox(
-                            height: 100,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                      itemCount: 10,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        if (index.isOdd) {
-                                          return const VerticalDivider(
-                                            width: 5,
-                                            color: Colors.white,
-                                          );
-                                        }
-
-                                        return ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              25), // Image border
-                                          child: SizedBox.fromSize(
-                                            size: const Size.fromRadius(
-                                                50), // Image radius
-                                            child: InkWell(
-                                              onTap: () {
-                                                Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            const PkgDetailTraveller()));
-                                              },
-                                              child: Container(
-                                                decoration: BoxDecoration(
-                                                  image: DecorationImage(
-                                                      image: NetworkImage(
-                                                          images[index]),
-                                                      fit: BoxFit.cover),
-                                                ),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Kashmir',
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        packageList(),
                         const ListTile(
                           title: Text(
                             'Top Rated Agencies',
@@ -299,4 +250,167 @@ actions: [
       ),
     );
   }
+
+  Future<List> retrievePackages() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot =
+        await FirebaseFirestore.instance.collection("Packages").get();
+    return snapshot.docs
+        .map((docSnapshot) => Package.fromDocumentSnapshot(docSnapshot))
+        .toList();
+  }
 }
+
+class packageList extends StatelessWidget {
+  final CollectionReference packs =
+      FirebaseFirestore.instance.collection('Packages');
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: packs.snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+            child: SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          if (index.isOdd) {
+                            return const VerticalDivider(
+                              width: 5,
+                              color: Colors.white,
+                            );
+                          }
+                          var package = snapshot.data.docs[index];
+                          return ClipRRect(
+                            borderRadius:
+                                BorderRadius.circular(25), // Image border
+                            child: SizedBox.fromSize(
+                              size: const Size.fromRadius(50), // Image radius
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => PkgDetailTraveller(
+                                            package: Package(
+                                              package['Package id'],
+                                              package['Package name'],
+                                              package['Agency Name'],
+                                              package['price'],
+                                              package['days'],
+                                              package['description'],
+                                              package['Location'],
+                                              package['Rating'],
+                                              package['Agency id'],
+                                              package['ImgUrls'].cast<String>(),
+                                            ),
+                                          )));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                          snapshot.data.docs[index]['photoUrl'],
+                                        ),
+                                        fit: BoxFit.cover),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      snapshot.data.docs[index]['Package name'],
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          );
+          ;
+        });
+  }
+}
+
+/**
+ * Padding(
+    padding: const EdgeInsets.symmetric(
+    vertical: 0.0, horizontal: 8),
+    child: SizedBox(
+    height: 100,
+    child: Row(
+    children: [
+    Expanded(
+    child: ListView.builder(
+    itemCount: snapshot.data.docs.length,
+    scrollDirection: Axis.horizontal,
+    itemBuilder: (context, index) {
+    if (index.isOdd) {
+    return const VerticalDivider(
+    width: 5,
+    color: Colors.white,
+    );
+    }
+
+    return ClipRRect(
+    borderRadius: BorderRadius.circular(
+    25), // Image border
+    child: SizedBox.fromSize(
+    size: const Size.fromRadius(
+    50), // Image radius
+    child: InkWell(
+    onTap: () {
+    Navigator.of(context).push(
+    MaterialPageRoute(
+    builder: (context) =>
+    const PkgDetailTraveller()));
+    },
+    child: Container(
+    decoration: BoxDecoration(
+    image: DecorationImage(
+    image: NetworkImage(
+    snapshot.data.docs[index].ImgUrls[0]),
+    fit: BoxFit.cover),
+    ),
+    child: Center(
+    child: Text(
+    snapshot.data.docs[index].PName,
+    style: TextStyle(
+    fontSize: 20,
+    fontWeight:
+    FontWeight.bold,
+    color: Colors.black,
+    ),
+    textAlign: TextAlign.center,
+    ),
+    ),
+    ),
+    ),
+    ),
+    );
+    }),
+    ),
+    ],
+    ),
+    ),
+    );
+ */

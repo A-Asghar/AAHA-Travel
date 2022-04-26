@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aaha/AgHomeAgView.dart';
 import 'package:aaha/Agency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,9 +14,9 @@ import 'package:aaha/agencyhome.dart';
 class packageManagement {
   static String Agencyid = '';
   static String Packid = '';
-  static List<Package1> p1 = [];
+  static List<Package> p1 = [];
 
-  static CollectionReference Package =
+  static CollectionReference Packages =
       FirebaseFirestore.instance.collection('Packages');
   static storeNewPackage(
       user, name, desc, days, price, location, rating, context, ImgUrls) {
@@ -38,9 +36,9 @@ class packageManagement {
       'Location': location,
       'Rating': rating,
       'ImgUrls': ImgUrls,
-      'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
+      'photoUrl': 'https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
     }).then((value) {
-      Package1 p = Package1(docp.id, name, AgencyHomeState.Agencyname, price,
+      Package p = Package(docp.id, name, AgencyHomeState.Agencyname, price,
           days, desc, location, rating, user.uid, ImgUrls);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
@@ -50,7 +48,7 @@ class packageManagement {
     });
   }
 
-  static UpdatePackage(Package1 p, user, name, desc, days, price, location,
+  static UpdatePackage(Package p, user, name, desc, days, price, location,
       rating, context, ImgUrls) async {
     print(p.pid);
     await FirebaseFirestore.instance.collection('Packages').doc(p.pid).update({
@@ -66,35 +64,33 @@ class packageManagement {
       'ImgUrls': ImgUrls,
       'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
     }).then((value) {
-
       Navigator.of(context).pop();
-
     }).catchError((error) => print(error));
   }
 
   //static
   static updatePackageName(name) async {
-    await Package.doc(p.pid).update({'Package name': name});
+    await Packages.doc(p.pid).update({'Package name': name});
   }
 
   updatePackagePhoneNum(desc) {
-    Package.doc(p.pid).update({'description': desc});
+    Packages.doc(p.pid).update({'description': desc});
   }
 
   updatePackageDays(days) {
-    Package.doc(p.pid).update({'days': days});
+    Packages.doc(p.pid).update({'days': days});
   }
 
   updatePackagePrice(price) {
-    Package.doc(p.pid).update({'price': price});
+    Packages.doc(p.pid).update({'price': price});
   }
 
   updatePackageRating(rating) {
-    Package.doc(p.pid).update({'rating': rating});
+    Packages.doc(p.pid).update({'rating': rating});
   }
 
   updatePackagePhotoUrl(photoUrl) {
-    Package.doc(p.pid).update({'photoUrl': photoUrl});
+    Packages.doc(p.pid).update({'photoUrl': photoUrl});
   }
 
   static removePackage(pid) {
@@ -102,10 +98,10 @@ class packageManagement {
     docp.delete();
   }
 
-  static Package1 fromJson(Map<String, dynamic> json) {
+  static Package fromJson(Map<String, dynamic> json) {
     List<String>? strings =
         (json['ImgUrls'] as List)?.map((item) => item as String)?.toList();
-    Package1 p1 = Package1(
+    Package p1 = Package(
       json['Package id'],
       json['Package name'],
       json['Agency Name'],
@@ -119,6 +115,7 @@ class packageManagement {
     );
     return p1;
   }
+
 
   static getPackages() async {
     await FirebaseFirestore.instance
@@ -135,6 +132,18 @@ class packageManagement {
       if (p1[i].agencyId == Agencyid) PackageList.add(p1[i]);
     }
   }
+
+  Future<List<Package>> getPackagesForTravellers() async {
+    List<Package> packageListForTravellerHomePage = [];
+    final QuerySnapshot querysnapshotPackages =
+        await FirebaseFirestore.instance.collection('myCollection').get();
+    final List<DocumentSnapshot> documentsPackages = querysnapshotPackages.docs;
+    documentsPackages.forEach((package) {
+      packageListForTravellerHomePage.add(
+          packageManagement.fromJson(package.data() as Map<String, dynamic>));
+    });
+    return packageListForTravellerHomePage;
+  }
 }
 
 class packageProvider extends ChangeNotifier {
@@ -143,8 +152,8 @@ class packageProvider extends ChangeNotifier {
   String days = '00';
   String desc = 'About package';
   String price = '20';
-  String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
-  void updatePackage(Package1 p, name, desc, days, price, location, ImgUrls) {
+  String photoUrl = 'https://images.pexels.com/photos/326058/pexels-photo-326058.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+  void updatePackage(Package p, name, desc, days, price, location, ImgUrls) {
     for (var i = 0; i < PackageList.length; i++) {
       if (PackageList[i].pid == p.pid) {
         PackageList[i].PName = name;
@@ -167,13 +176,14 @@ class packageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  static List<Package1> getList1() {
+  static List<Package> getList1() {
     return PackageList;
   }
 
-  List<Package1> getList() {
+  List<Package> getList() {
     return PackageList;
   }
+
 
   Future<String>? getName(var p) async {
     var document =
@@ -241,7 +251,7 @@ class packageProvider extends ChangeNotifier {
     return photoUrl;
   }
 
-  void RemovePackage(Package1 p) {
+  void RemovePackage(Package p) {
     PackageList.remove(p);
     packageManagement.p1.remove(p);
     packageManagement.removePackage(p.pid);

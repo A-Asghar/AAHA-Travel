@@ -96,6 +96,16 @@ class agencyProvider extends ChangeNotifier {
     });
     return phoneNum;
   }
+  Future<String>? getPhoneNumber(var userid) async {
+    var document =
+    await FirebaseFirestore.instance.collection('Agencies').doc(userid);
+    await document.get().then((document) {
+      print(document['phoneNum']);
+      phoneNum = document['phoneNum'];
+      notifyListeners();
+    });
+    return phoneNum;
+  }
 
   Future<String>? getAbout(var user) async {
     var document =
