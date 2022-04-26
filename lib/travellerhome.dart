@@ -341,14 +341,10 @@ class packageList extends StatelessWidget {
                         itemCount: snapshot.data.docs.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          if (index.isOdd) {
-                            return const VerticalDivider(
-                              width: 5,
-                              color: Colors.white,
-                            );
-                          }
+
                           var package = snapshot.data.docs[index];
-                          return ClipRRect(
+                          return Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                          child: ClipRRect(
                             borderRadius:
                             BorderRadius.circular(25), // Image border
                             child: SizedBox.fromSize(
@@ -393,6 +389,7 @@ class packageList extends StatelessWidget {
                                 ),
                               ),
                             ),
+                          ),
                           );
                         }),
                   ),

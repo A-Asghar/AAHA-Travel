@@ -1,4 +1,3 @@
-
 import 'package:aaha/services/agencyManagement.dart';
 import 'services/packageManagement.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +23,7 @@ import 'Agency.dart';
 import 'agencyhome.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-//check git push
+
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -118,25 +117,4 @@ class allButton extends StatelessWidget {
   }
 }
 
-class mainImage extends StatefulWidget {
-  const mainImage({Key? key}) : super(key: key);
 
-  @override
-  _mainImageState createState() => _mainImageState();
-}
-
-class _mainImageState extends State<mainImage> {
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8.0),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height / 2,
-        child: Image.network(
-          'https://i.ibb.co/hMfcXgs/ezgif-com-gif-maker.jpg',
-        ),
-      ),
-    );
-  }
-}

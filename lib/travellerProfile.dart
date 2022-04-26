@@ -60,9 +60,9 @@ class _travellerProfileState extends State<travellerProfile> {
                               builder: (Context) => EditUserProfile(),
                             ));
                             var newCoverUrl =
-                            await updateDialog(context, 'cover photo url');
+                                await updateDialog(context, 'cover photo url');
                             var travellerManagementObject =
-                            travellerManagement(uid: currentUser!.uid);
+                                travellerManagement(uid: currentUser!.uid);
                             if (newCoverUrl != null) {
                               setState(() {
                                 travellerManagementObject
@@ -88,14 +88,14 @@ class _travellerProfileState extends State<travellerProfile> {
                         ),
                         const Expanded(
                             child: ListTile(
-                              title: Text(
-                                'Username',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 17),
-                              ),
-                              subtitle: Text('@username'),
-                              contentPadding: EdgeInsets.fromLTRB(5, 0, 12, 0),
-                            )),
+                          title: Text(
+                            'Username',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 17),
+                          ),
+                          subtitle: Text('@username'),
+                          contentPadding: EdgeInsets.fromLTRB(5, 0, 12, 0),
+                        )),
                       ],
                     ),
                   ),
@@ -115,10 +115,10 @@ class _travellerProfileState extends State<travellerProfile> {
                         backgroundColor: MaterialStateProperty.all(
                             Colors.black.withOpacity(0.05)),
                         shape:
-                        MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5.0),
-                                side: BorderSide(color: Colors.black12)))),
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                    side: BorderSide(color: Colors.black12)))),
                     child: const Text(
                       'Edit profile',
                       style: TextStyle(
@@ -134,7 +134,7 @@ class _travellerProfileState extends State<travellerProfile> {
                   width: MediaQuery.of(context).size.width,
                   child: FutureBuilder<String>(
                     future:
-                    context.read<travellerProvider>().getAbout(currentUser),
+                        context.read<travellerProvider>().getAbout(currentUser),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var bio = snapshot.data!.toString().length < 30
@@ -157,7 +157,7 @@ class _travellerProfileState extends State<travellerProfile> {
                   width: MediaQuery.of(context).size.width,
                   child: FutureBuilder<String>(
                     future:
-                    context.read<travellerProvider>().getCity(currentUser),
+                        context.read<travellerProvider>().getCity(currentUser),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return Text(
@@ -201,9 +201,9 @@ class _travellerProfileState extends State<travellerProfile> {
                     tabs: [
                       Tab(
                           icon: Icon(
-                            Icons.notifications_active_outlined,
-                            color: Colors.black,
-                          )),
+                        Icons.notifications_active_outlined,
+                        color: Colors.black,
+                      )),
                       Tab(
                         icon: Icon(
                           Icons.travel_explore_outlined,
@@ -212,9 +212,9 @@ class _travellerProfileState extends State<travellerProfile> {
                       ),
                       Tab(
                           icon: Icon(
-                            Icons.photo_album_outlined,
-                            color: Colors.black,
-                          )),
+                        Icons.photo_album_outlined,
+                        color: Colors.black,
+                      )),
                       Tab(
                         icon: Icon(
                           Icons.reviews_outlined,
@@ -435,7 +435,9 @@ class CoverPictureWidget extends StatelessWidget {
             fit: BoxFit.fill,
           );
         } else {
-          return CircularProgressIndicator(color: Colors.white,);
+          return CircularProgressIndicator(
+            color: Colors.white,
+          );
         }
       },
     );

@@ -7,20 +7,18 @@ import 'main.dart';
 import 'paymentInvoice.dart';
 
 class PkgDetailAgency extends StatefulWidget {
-   final Package1 pack;
+  final Package1 pack;
   PkgDetailAgency({Key? key, required this.pack}) : super(key: key);
 
   @override
   State<PkgDetailAgency> createState() => PkgDetailAgencyState();
-
 }
-
 
 class PkgDetailAgencyState extends State<PkgDetailAgency> {
   double value = 0;
   @override
   Widget build(BuildContext context) {
-     List<String> images = widget.pack.ImgUrls;
+    List<String> images = widget.pack.ImgUrls;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -29,13 +27,13 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
           Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: [
-                    Colors.white,
-                    Colors.blue,
-                  ],
-                )),
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [
+                Colors.white,
+                Colors.blue,
+              ],
+            )),
           ),
           SafeArea(
             child: Container(
@@ -66,8 +64,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                   Expanded(
                       child: ListView.builder(
                           itemCount: 10,
-                          itemBuilder: (context, index) =>
-                              ListTile(
+                          itemBuilder: (context, index) => ListTile(
                                 title: Text(
                                   'Day: ${index + 1}',
                                   style: const TextStyle(
@@ -93,11 +90,12 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                 return (Transform(
                   alignment: Alignment.center,
                   transform: Matrix4.identity()
-                    ..setEntry(3, 2, 0.001)..setEntry(0, 3, 300 * val)
+                    ..setEntry(3, 2, 0.001)
+                    ..setEntry(0, 3, 300 * val)
                     ..rotateY((pi / 6) * val),
                   child: Scaffold(
                     appBar: AppBar(
-                      title:  Text(widget.pack.PName,
+                      title: Text(widget.pack.PName,
                           style: TextStyle(color: Colors.black, fontSize: 25)),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -119,35 +117,35 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                   autoPlay: true,
                                   autoPlayInterval: const Duration(seconds: 2),
                                   autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
+                                      const Duration(milliseconds: 800),
                                   autoPlayCurve: Curves.fastOutSlowIn,
                                   scrollDirection: Axis.horizontal,
                                 ),
                                 items: images
-                                    .map((e) =>
-                                    Container(
-                                      margin: const EdgeInsets.all(2),
-                                      child: ClipRRect(
-                                          borderRadius:
-                                          const BorderRadius.all(
-                                              Radius.circular(5.0)),
-                                          child: Stack(
-                                            children: <Widget>[
-                                              e.isNotEmpty ?
-                                              Image.network(
-                                                e,
-                                                fit: BoxFit.cover,
-                                                width: 450,
-                                                height: 300,
-                                              ) : Image.network(
-                                                'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-no-image-available-icon-flat-vector-illustration.jpg?ver=6',
-                                                fit: BoxFit.cover,
-                                                width: 450,
-                                                height: 300,
-                                              ),
-                                            ],
-                                          )),
-                                    ))
+                                    .map((e) => Container(
+                                          margin: const EdgeInsets.all(2),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                      Radius.circular(5.0)),
+                                              child: Stack(
+                                                children: <Widget>[
+                                                  e.isNotEmpty
+                                                      ? Image.network(
+                                                          e,
+                                                          fit: BoxFit.cover,
+                                                          width: 450,
+                                                          height: 300,
+                                                        )
+                                                      : Image.network(
+                                                          'https://us.123rf.com/450wm/pavelstasevich/pavelstasevich1811/pavelstasevich181101028/112815904-no-image-available-icon-flat-vector-illustration.jpg?ver=6',
+                                                          fit: BoxFit.cover,
+                                                          width: 450,
+                                                          height: 300,
+                                                        ),
+                                                ],
+                                              )),
+                                        ))
                                     .toList()),
                             Container(
                               padding: const EdgeInsets.all(8),
@@ -157,7 +155,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: RichText(
-                                      text:  TextSpan(
+                                      text: TextSpan(
                                         text: 'No. of Days: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -177,7 +175,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: RichText(
-                                      text:  TextSpan(
+                                      text: TextSpan(
                                         text: 'Location: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -197,7 +195,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                     child: RichText(
-                                      text:  TextSpan(
+                                      text: TextSpan(
                                         text: 'Price: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -205,7 +203,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: ('\$ '+widget.pack.Price),
+                                            text: ('\$ ' + widget.pack.Price),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -234,10 +232,9 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                       ),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.all(8),
-                                    child:  Text(
+                                    child: Text(
                                       'Description: ',
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
@@ -245,7 +242,6 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                           color: Colors.black),
                                     ),
                                   ),
-
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                     child: Container(
@@ -257,42 +253,37 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                         ),
                                       ),
                                       child: Column(
-                                        children:  [
+                                        children: [
                                           Expanded(
                                               child: SingleChildScrollView(
-                                                scrollDirection: Axis.vertical,
-                                                child: Text( (widget.pack.Desc),
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black),
-                                                ),
-                                              )),
+                                            scrollDirection: Axis.vertical,
+                                            child: Text(
+                                              (widget.pack.Desc),
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black),
+                                            ),
+                                          )),
                                         ],
                                       ),
                                     ),
                                   ),
-
-
                                   Center(
                                     child: allButton(
                                         buttonText: 'Other Details',
                                         onPressed: () {
                                           setState(() {
-                                              value == 0 ? value = 1 : value = 0;
-                                            });
+                                            value == 0 ? value = 1 : value = 0;
+                                          });
                                         }),
                                   ),
-
-
                                   SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Expanded(
                                         child: allButton(
                                             buttonText: 'Call',
-                                            onPressed: () {
-
-                                            }),
+                                            onPressed: () {}),
                                       ),
                                       Expanded(
                                         child: allButton(
@@ -304,8 +295,6 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                                           paymentInvoice()));
                                             }),
                                       ),
-
-                                      // allButton(buttonText: 'Book Now', onPressed: (){}),
                                     ],
                                   ),
                                 ],
@@ -324,8 +313,6 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                 setState(() {
                   value = 0;
                 });
-
-
               }
             },
           )
