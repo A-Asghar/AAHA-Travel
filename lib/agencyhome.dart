@@ -18,7 +18,7 @@ class AgencyHomeState extends State<AgencyHome> {
     PackageList=[];
     packageManagement.p1=[];
     WidgetsBinding.instance?.addPostFrameCallback((_){
-      context.read<packageProvider>().setPackages();
+      context.read<packageProvider>().setPackages(FirebaseAuth.instance.currentUser!.uid);
 
 
     });
@@ -75,6 +75,8 @@ class AgencyHomeState extends State<AgencyHome> {
         actions: [
           IconButton(
               onPressed: () {
+                packageManagement.p1=[];
+                PackageList=[];
                 FirebaseAuth.instance.signOut();
 
                 Navigator.of(context).pop();

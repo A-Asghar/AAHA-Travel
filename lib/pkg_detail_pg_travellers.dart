@@ -11,7 +11,7 @@ import 'Agency.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PkgDetailTraveller extends StatefulWidget {
-  final Package package;
+  final Package1 package;
   const PkgDetailTraveller({Key? key, required this.package}) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
     List<String> images = widget.package.ImgUrls;
     var agencyID = widget.package.agencyId;
     var agencyPhoneNumber =
-        context.read<agencyProvider>().getPhoneNumber(agencyID);
+        'aa';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(

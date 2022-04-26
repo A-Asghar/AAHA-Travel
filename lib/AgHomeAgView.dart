@@ -1,5 +1,6 @@
 import 'package:aaha/Pkg_details_Ag.dart';
 import 'package:provider/provider.dart';
+import 'agencyhome.dart';
 import 'editPackage.dart';
 import 'addPackage.dart';
 import 'ProfileAgency.dart';
@@ -57,7 +58,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                           child: Row(
                             children: [
                               Text(
-                                'XYZ TRAVELS',
+                                AgencyHomeState.Agencyname,
                                 style: TextStyle(fontSize: 30),
                               ),
                               Text("                       "),
