@@ -20,7 +20,7 @@ import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 
 class editPackage extends StatefulWidget {
-  final Package p;
+  final Package1 p;
   const editPackage({Key? key, required this.p}) : super(key: key);
   @override
   _editPackage createState() => _editPackage();

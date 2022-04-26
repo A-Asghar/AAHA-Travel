@@ -1,3 +1,5 @@
+import 'package:aaha/Agency.dart';
+import 'package:aaha/services/packageManagement.dart';
 import 'package:flutter/material.dart';
 import 'AgHomeAgView.dart';
 import 'ProfileAgency.dart';
@@ -67,5 +69,7 @@ class _MyBottomBarDemoState1 extends State<MyBottomBarDemo1> {
 
   void onTabTapped(int index) {
     this._pageController.animateToPage(index,duration: const Duration(milliseconds: 500),curve: Curves.easeInOut);
+    packageManagement.p1=[];
+    PackageList=[];
   }
 }

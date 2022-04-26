@@ -6,7 +6,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:aaha/MyBottomBarDemo.dart';
 import 'package:provider/provider.dart';
+import 'packageManagement.dart';
+import 'package:aaha/Agency.dart';
+
+import '../Agency.dart';
+
 class agencyManagement {
+ static List<Agency1> AgenciesList=[];
   final String uid;
   agencyManagement({required this.uid});
   CollectionReference Agency =
@@ -28,6 +34,36 @@ class agencyManagement {
       ));
     });
   }
+  static Agency1 fromJson(Map<String, dynamic> json) {
+    Agency1 agency = Agency1(
+      json['name'],
+      json['phoneNum'],
+      json['about'],
+      json['email'],
+      json['photoUrl'],
+      json['uid'],
+
+    );
+    return agency;
+  }
+  static  getAgencies()  async{
+
+
+    await FirebaseFirestore.instance.collection('Agencies').get().then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+
+        agencyManagement.AgenciesList.add(agencyManagement.fromJson(doc.data() as Map<String, dynamic>));
+        print(AgenciesList.length);
+        print('............');
+
+      });
+
+    });
+
+
+  }
+
+
 
   updateAgencyName(name) async {
     await Agency.doc(uid).update({'name': name});
@@ -63,7 +99,20 @@ class agencyProvider extends ChangeNotifier {
   String phoneNum = '00000000000';
   String about = 'About you';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
+  void setAgencies(){
+    WidgetsBinding.instance?.addPostFrameCallback((_) async{
+      await agencyManagement.getAgencies();
 
+
+    });
+
+    // sortList1();
+    // sortList();
+    notifyListeners();
+  }
+  List<Agency1> getAgencyList(){
+    return agencyManagement.AgenciesList;
+  }
   Future<String>? getName(var user) async {
     var document =
         await FirebaseFirestore.instance.collection('Agencies').doc(user.uid);

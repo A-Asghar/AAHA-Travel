@@ -1,18 +1,29 @@
+import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';
+import 'package:aaha/travellerhome.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'Agency.dart';
 import 'SignupTraveller.dart';
 import 'AgHomeAgView.dart';
 import 'MyBottomBarDemo1.dart';
 import 'travellerProfile.dart';
 
 class loginUser extends StatefulWidget {
+  static List<Agency1> agencyListLocal=[];
+
   @override
   State<loginUser> createState() => _loginUserState();
 }
 
 class _loginUserState extends State<loginUser> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
   final _email = TextEditingController();
 
   final _password = TextEditingController();
@@ -113,12 +124,31 @@ class _loginUserState extends State<loginUser> {
                                   if (await travellerManagement(
                                           uid: signedInUser.user!.uid)
                                       .isTraveller()) {
+
+                                    WidgetsBinding.instance?.addPostFrameCallback((_) async{
+                                      //  context.read<agencyProvider>().setAgencies();
+                                      context.read<agencyProvider>().setAgencies();
+                                      loginUser.agencyListLocal= await context.read<agencyProvider>().getAgencyList();
+                                      setState(() {
+
+                                      });
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) => MyBottomBarDemo1(),
+
+                                      ));
+                                      // context.watch<TaskProvider>().setTodos();
+
+                                    });
+
+
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) => MyBottomBarDemo1(),
                                     ));
                                     _email.clear();
                                     _password.clear();
+
                                   } else {
                                     loginErrorDialog(
                                         'You are registered as an agency !',

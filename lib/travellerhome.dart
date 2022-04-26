@@ -1,18 +1,18 @@
-import 'dart:io';
-
+import 'package:aaha/Agency.dart';
+import 'package:aaha/loginUser.dart';
+import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/packageManagement.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pkg_detail_pg_travellers.dart';
 import 'searchPage.dart';
 import 'topTravelDestinations.dart';
 import 'services/travellerManagement.dart';
+import 'AgHomeTvView.dart';
 import 'Agency.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class TravellerHome extends StatefulWidget {
   const TravellerHome({Key? key}) : super(key: key);
 
@@ -21,6 +21,22 @@ class TravellerHome extends StatefulWidget {
 }
 
 class _TravellerHomeState extends State<TravellerHome> {
+
+  @override
+
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+     //  context.read<agencyProvider>().setAgencies();
+      context.read<packageProvider>().setPackagesTraveler();
+
+      // context.watch<TaskProvider>().setTodos();
+
+    });
+
+
+    super.initState();
+  }
   final List<String> images = [
     'https://wander-lush.org/wp-content/uploads/2020/01/KatpanaColdDesertPakistanSuthidaloedchaiyapanCanvaPro.jpg',
     'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Naltar-Valley-lake-MolviDSLRGetty-CanvaPro.jpg',
@@ -51,8 +67,8 @@ class _TravellerHomeState extends State<TravellerHome> {
                 .getName(FirebaseAuth.instance.currentUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(
-                  'Hi, ' + snapshot.data!.toString(),
+                return Text('Hi, ' +
+                  snapshot.data!.toString(),
                   style: TextStyle(color: Colors.black),
                 );
               }
@@ -61,17 +77,16 @@ class _TravellerHomeState extends State<TravellerHome> {
               );
             },
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(
-                  Icons.logout,
-                  color: Colors.black,
-                ))
-          ],
+actions: [
+  IconButton(onPressed: (){
+    packageManagement.p1=[];
+    PackageList=[];
+    loginUser.agencyListLocal=[];
+    agencyManagement.AgenciesList=[];
+    FirebaseAuth.instance.signOut();
+    Navigator.of(context).pop();
+  }, icon: Icon(Icons.logout, color: Colors.black,))
+],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -198,42 +213,81 @@ class _TravellerHomeState extends State<TravellerHome> {
                               children: [
                                 Expanded(
                                   child: ListView.builder(
-                                      itemCount: 10,
+                                      itemCount: loginUser.agencyListLocal.length,
                                       scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index) {
-                                        if (index.isOdd) {
-                                          return const VerticalDivider(
-                                            width: 5,
-                                            color: Colors.white,
-                                          );
-                                        }
+                                      itemBuilder: (context, index1) {
+                                        // if (index1.isEven) {
+                                        //   return const VerticalDivider(
+                                        //     width: 5,
+                                        //     color: Colors.white,
+                                        //   );
+                                        // }
 
-                                        return ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              25), // Image border
-                                          child: SizedBox.fromSize(
-                                            size: const Size.fromRadius(
-                                                50), // Image radius
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                        images[index]),
-                                                    fit: BoxFit.cover),
-                                              ),
-                                              child: const Center(
-                                                child: Text(
-                                                  'XYZ Travels',
-                                                  style: TextStyle(
-                                                    fontSize: 22,
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.bold,
+                                        return Row(
+                                          children: [
+                                            VerticalDivider(
+                                              width: 10,
+                                              color: Colors.white,
+                                            ),
+                                            ClipRRect(
+
+                                              borderRadius: BorderRadius.circular(
+                                                  25), // Image border
+                                              child: SizedBox.fromSize(
+                                                size: const Size.fromRadius(
+                                                    50), // Image radius
+                                                child: InkWell(
+                                                  onTap:(){
+
+                                                    for(var i=0;i<packageManagement.p1.length;i++){
+                                                      print(packageManagement.p1[i].agencyId);
+                                                      print(context.read<agencyProvider>().getAgencyList()[index1].uid);
+                                                      setState(() {
+                                                        if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index1].uid){
+                                                          PackageList.add(packageManagement.p1[i]);
+                                                        }
+                                                      });
+                                                    }
+                                                    print(loginUser.agencyListLocal.length);
+                                                    print(packageManagement.p1.length);
+                                                    print(PackageList.length);
+
+
+                                                    //PackageList=[];
+                                                    // setState(() {
+                                                    //   WidgetsBinding.instance?.addPostFrameCallback((_) async{
+                                                    //     await context.read<packageProvider>().getListForTraveler(context.read<agencyProvider>().getAgencyList()[index].uid);
+                                                    //
+                                                    //
+                                                    //   });
+                                                    //
+                                                    // });
+                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AgHomeTvView(agency:context.read<agencyProvider>().getAgencyList()[index1]))).then((value) => PackageList=[]);
+                                                  } ,
+                                                  child: Container(
+
+                                                    decoration: BoxDecoration(
+                                                      image: DecorationImage(
+                                                          image: NetworkImage(
+                                                              images[index1]),
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                    child:  Center(
+                                                      child: Text(
+                                                        loginUser.agencyListLocal[index1].AName,
+                                                        style: TextStyle(
+                                                          fontSize: 22,
+                                                          color: Colors.white,
+                                                          fontWeight: FontWeight.bold,
+                                                        ),
+                                                        textAlign: TextAlign.center,
+                                                      ),
+                                                    ),
                                                   ),
-                                                  textAlign: TextAlign.center,
                                                 ),
                                               ),
                                             ),
-                                          ),
+                                          ],
                                         );
                                       }),
                                 ),
@@ -253,16 +307,16 @@ class _TravellerHomeState extends State<TravellerHome> {
 
   Future<List> retrievePackages() async {
     QuerySnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance.collection("Packages").get();
+    await FirebaseFirestore.instance.collection("Packages").get();
     return snapshot.docs
-        .map((docSnapshot) => Package.fromDocumentSnapshot(docSnapshot))
+        .map((docSnapshot) => Package1.fromDocumentSnapshot(docSnapshot))
         .toList();
   }
 }
 
 class packageList extends StatelessWidget {
   final CollectionReference packs =
-      FirebaseFirestore.instance.collection('Packages');
+  FirebaseFirestore.instance.collection('Packages');
 
   @override
   Widget build(BuildContext context) {
@@ -296,26 +350,26 @@ class packageList extends StatelessWidget {
                           var package = snapshot.data.docs[index];
                           return ClipRRect(
                             borderRadius:
-                                BorderRadius.circular(25), // Image border
+                            BorderRadius.circular(25), // Image border
                             child: SizedBox.fromSize(
                               size: const Size.fromRadius(50), // Image radius
                               child: InkWell(
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => PkgDetailTraveller(
-                                            package: Package(
-                                              package['Package id'],
-                                              package['Package name'],
-                                              package['Agency Name'],
-                                              package['price'],
-                                              package['days'],
-                                              package['description'],
-                                              package['Location'],
-                                              package['Rating'],
-                                              package['Agency id'],
-                                              package['ImgUrls'].cast<String>(),
-                                            ),
-                                          )));
+                                        package: Package1(
+                                          package['Package id'],
+                                          package['Package name'],
+                                          package['Agency Name'],
+                                          package['price'],
+                                          package['days'],
+                                          package['description'],
+                                          package['Location'],
+                                          package['Rating'],
+                                          package['Agency id'],
+                                          package['ImgUrls'].cast<String>(),
+                                        ),
+                                      )));
                                 },
                                 child: Container(
                                   decoration: BoxDecoration(
@@ -350,67 +404,3 @@ class packageList extends StatelessWidget {
         });
   }
 }
-
-/**
- * Padding(
-    padding: const EdgeInsets.symmetric(
-    vertical: 0.0, horizontal: 8),
-    child: SizedBox(
-    height: 100,
-    child: Row(
-    children: [
-    Expanded(
-    child: ListView.builder(
-    itemCount: snapshot.data.docs.length,
-    scrollDirection: Axis.horizontal,
-    itemBuilder: (context, index) {
-    if (index.isOdd) {
-    return const VerticalDivider(
-    width: 5,
-    color: Colors.white,
-    );
-    }
-
-    return ClipRRect(
-    borderRadius: BorderRadius.circular(
-    25), // Image border
-    child: SizedBox.fromSize(
-    size: const Size.fromRadius(
-    50), // Image radius
-    child: InkWell(
-    onTap: () {
-    Navigator.of(context).push(
-    MaterialPageRoute(
-    builder: (context) =>
-    const PkgDetailTraveller()));
-    },
-    child: Container(
-    decoration: BoxDecoration(
-    image: DecorationImage(
-    image: NetworkImage(
-    snapshot.data.docs[index].ImgUrls[0]),
-    fit: BoxFit.cover),
-    ),
-    child: Center(
-    child: Text(
-    snapshot.data.docs[index].PName,
-    style: TextStyle(
-    fontSize: 20,
-    fontWeight:
-    FontWeight.bold,
-    color: Colors.black,
-    ),
-    textAlign: TextAlign.center,
-    ),
-    ),
-    ),
-    ),
-    ),
-    );
-    }),
-    ),
-    ],
-    ),
-    ),
-    );
- */
