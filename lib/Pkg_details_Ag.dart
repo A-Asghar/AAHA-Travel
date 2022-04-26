@@ -7,7 +7,7 @@ import 'main.dart';
 import 'paymentInvoice.dart';
 
 class PkgDetailAgency extends StatefulWidget {
-   final Package1 pack;
+   final Package pack;
   PkgDetailAgency({Key? key, required this.pack}) : super(key: key);
 
   @override
@@ -15,9 +15,6 @@ class PkgDetailAgency extends StatefulWidget {
 
 }
 
-// class PkgDetailAgencyState extends State<PkgDetailAgency> {
-
-//
 
 class PkgDetailAgencyState extends State<PkgDetailAgency> {
   double value = 0;

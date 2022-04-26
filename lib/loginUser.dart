@@ -117,6 +117,8 @@ class _loginUserState extends State<loginUser> {
                                         .push(MaterialPageRoute(
                                       builder: (context) => MyBottomBarDemo1(),
                                     ));
+                                    _email.clear();
+                                    _password.clear();
                                   } else {
                                     loginErrorDialog(
                                         'You are registered as an agency !',
