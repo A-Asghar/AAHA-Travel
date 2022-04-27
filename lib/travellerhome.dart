@@ -305,13 +305,6 @@ actions: [
     );
   }
 
-  Future<List> retrievePackages() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-    await FirebaseFirestore.instance.collection("Packages").get();
-    return snapshot.docs
-        .map((docSnapshot) => Package1.fromDocumentSnapshot(docSnapshot))
-        .toList();
-  }
 }
 
 class packageList extends StatelessWidget {
@@ -328,7 +321,7 @@ class packageList extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Text("Loading");
+            return Text("Loading . .. ");
           }
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),

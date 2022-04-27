@@ -1,9 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'services/bookingManagement.dart';
 import 'package:flutter/material.dart';
 import 'signupAgency.dart';
 import 'main.dart';
+import 'Agency.dart';
+import 'services/packageManagement.dart';
 
 class paymentInvoice extends StatefulWidget {
-  const paymentInvoice({Key? key}) : super(key: key);
+  final Package1 package;
+  const paymentInvoice({Key? key, required this.package}) : super(key: key);
 
   @override
   State<paymentInvoice> createState() => _paymentInvoiceState();
@@ -12,8 +18,21 @@ class paymentInvoice extends StatefulWidget {
 DateTime date = DateTime.now();
 bool validate2 = false;
 TextEditingController _controller2 = TextEditingController();
+DateTime travelEndDate = DateTime.now();
+DateTime? travelStartDate = DateTime.now();
+String startDate = '<- Select Date';
+String endDate = '';
 
 class _paymentInvoiceState extends State<paymentInvoice> {
+
+  @override
+  void initState() {
+    startDate = 'Select Date';
+    endDate = '';
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,40 +57,50 @@ class _paymentInvoiceState extends State<paymentInvoice> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const Text(
-              'Select Date:                                        ',
-              style: TextStyle(fontSize: 24),
-              textAlign: TextAlign.left,
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: const Text(
+                'Schedule:',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Row(
+              children: [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: IconButton(
+                      icon: Icon(Icons.calendar_today_outlined),
+                      onPressed: () async {
+                        travelStartDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2021),
+                            lastDate: DateTime(2025));
+                        travelEndDate = travelStartDate!.add(
+                            Duration(days: int.parse(widget.package.Days)));
+                        setState(() {
+                          startDate = (travelStartDate!.day.toString() +
+                              "/" +
+                              travelStartDate!.month.toString() +
+                              "/" +
+                              travelStartDate!.year.toString());
+                          endDate = (travelEndDate!.day.toString() +
+                              "/" +
+                              travelEndDate!.month.toString() +
+                              "/" +
+                              travelEndDate!.year.toString());
+                        });
+                      },
+                    )),
+                Text(startDate),
+                Text(endDate == '' ? '' : ' till '),
+                Text(endDate),
+              ],
             ),
             Center(
               child: Column(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
-                    child: TextFormField(
-                      onTap: () async {
-                        DateTime? newDate = await showDatePicker(
-                            context: context,
-                            initialDate: date,
-                            firstDate: DateTime(1900),
-                            lastDate: DateTime(2100));
-                        if (newDate == null) return;
-
-                        date = newDate;
-                        _controller2.text = (date.day.toString() +
-                            "/" +
-                            date.month.toString() +
-                            "/" +
-                            date.year.toString());
-                        setState(() {});
-                      },
-                      decoration: InputDecoration(
-                          errorText: validate2 ? 'Please enter a date' : null,
-                          border: OutlineInputBorder(),
-                          hintText: ("Choose a date")),
-                      controller: _controller2,
-                    ),
-                  ),
                   Container(
                     height: MediaQuery.of(context).size.height * 0.9,
                     child: Column(
@@ -88,7 +117,6 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                         Container(
                           width: MediaQuery.of(context).size.width * 0.85,
                           height: MediaQuery.of(context).size.height * 0.6,
-                          // color: Colors.red,
                           child: Column(
                             children: [
                               Container(
@@ -101,9 +129,9 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.75,
-                                child: const Text(
-                                  '\$ 199',
-                                  style: TextStyle(
+                                child: Text(
+                                  '\$' + widget.package.Price,
+                                  style: const TextStyle(
                                     fontSize: 32,
                                     // fontWeight: FontWeight.bold,
                                     shadows: <Shadow>[
@@ -133,7 +161,14 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                               ),
                               userInput(
                                   'ZIP / Postal code', TextInputType.number),
-                              allButton(buttonText: 'Pay Now', onPressed: () {})
+                              allButton(
+                                  buttonText: 'Pay Now',
+                                  onPressed: () async {
+                                    bookingManagement().storeNewBooking(
+                                        widget.package.pid,
+                                        FirebaseAuth.instance.currentUser!.uid,
+                                        travelEndDate);
+                                  })
                             ],
                           ),
                         ),

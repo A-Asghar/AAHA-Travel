@@ -106,8 +106,6 @@ class agencyProvider extends ChangeNotifier {
 
     });
 
-    // sortList1();
-    // sortList();
     notifyListeners();
   }
   List<Agency1> getAgencyList(){
