@@ -6,16 +6,22 @@ import 'loginScreen.dart';
 import 'main.dart';
 import 'services/travellerManagement.dart';
 
-class SignupTraveller extends StatelessWidget {
+class SignupTraveller extends StatefulWidget {
   const SignupTraveller({Key? key}) : super(key: key);
 
   @override
+  State<SignupTraveller> createState() => _SignupTravellerState();
+}
+
+class _SignupTravellerState extends State<SignupTraveller> {
+  final _name = TextEditingController();
+  final _phoneNum = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    final _name = TextEditingController();
-    final _phoneNum = TextEditingController();
-    final _email = TextEditingController();
-    final _password = TextEditingController();
-    final _confirmPassword = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -91,20 +97,24 @@ class SignupTraveller extends StatelessWidget {
                                           side: BorderSide(
                                               color: Colors.blueGrey)))),
                               onPressed: () {
-                                FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: _email.text,
-                                        password: _password.text)
-                                    .then((signedInUser) {
-                                  travellerManagement(
-                                          uid: FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                      .storeNewTraveller(signedInUser.user,
-                                          _name.text, _phoneNum.text, context);
-                                }).catchError((e) {
-                                  print(e);
-                                  signupErrorDialog(e.code, context);
-                                });
+                                if(_password.text == _confirmPassword.text){
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                      email: _email.text,
+                                      password: _password.text)
+                                      .then((signedInUser) {
+                                    travellerManagement(
+                                        uid: FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .storeNewTraveller(signedInUser.user,
+                                        _name.text, _phoneNum.text, context);
+                                  }).catchError((e) {
+                                    print(e);
+                                    signupErrorDialog(e.code, context);
+                                  });
+                                }else{
+                                  signupErrorDialog('Passwords do not match ', context);
+                                }
                               },
                               child: Text('Sign Up ',
                                   style: TextStyle(

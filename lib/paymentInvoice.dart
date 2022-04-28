@@ -1,5 +1,7 @@
 import 'package:aaha/addPackage.dart';
+import 'package:aaha/services/travellerManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 import 'services/bookingManagement.dart';
 import 'package:flutter/material.dart';
@@ -142,12 +144,19 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                             'You did not select a start date !',
                                       );
                                     } else {
+                                      var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
+                                      var currentUserName = await context.read<travellerProvider>().getName(FirebaseAuth.instance.currentUser);
                                       bookingManagement().storeNewBooking(
-                                          FirebaseAuth
-                                              .instance.currentUser!.uid,
+                                          currentUserUid,
                                           widget.package.agencyId,
                                           widget.package.pid,
-                                          travelEndDate);
+                                          travelEndDate,
+                                          widget.package.PName,
+                                        widget.package.Days,
+                                        widget.package.Desc,
+                                        currentUserName,
+                                        widget.package.Price
+                                      );
                                       showAlertDialog(
                                           context: context,
                                           title: 'Success',

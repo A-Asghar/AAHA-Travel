@@ -27,10 +27,7 @@ class _TravellerHomeState extends State<TravellerHome> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance?.addPostFrameCallback((_) {
-     //  context.read<agencyProvider>().setAgencies();
       context.read<packageProvider>().setPackagesTraveler();
-
-      // context.watch<TaskProvider>().setTodos();
 
     });
 
@@ -308,13 +305,13 @@ actions: [
 }
 
 class packageList extends StatelessWidget {
-  final CollectionReference packs =
+  final CollectionReference Packages =
   FirebaseFirestore.instance.collection('Packages');
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: packs.snapshots(),
+        stream: Packages.snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
           if (snapshot.hasError) {
             return Text('Something went wrong');

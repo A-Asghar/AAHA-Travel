@@ -7,16 +7,22 @@ import 'main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'services/agencyManagement.dart';
 
-class signupAgency extends StatelessWidget {
+class signupAgency extends StatefulWidget {
   const signupAgency({Key? key}) : super(key: key);
 
   @override
+  State<signupAgency> createState() => _signupAgencyState();
+}
+
+class _signupAgencyState extends State<signupAgency> {
+  final _name = TextEditingController();
+  final _phoneNum = TextEditingController();
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+  final _confirmPassword = TextEditingController();
+  @override
   Widget build(BuildContext context) {
-    final _name = TextEditingController();
-    final _phoneNum = TextEditingController();
-    final _email = TextEditingController();
-    final _password = TextEditingController();
-    final _confirmPassword = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -93,21 +99,25 @@ class signupAgency extends StatelessWidget {
                                           side: BorderSide(
                                               color: Colors.blueGrey)))),
                               onPressed: () {
-                                FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: _email.text,
-                                        password: _password.text)
-                                    .then((signedInUser) {
-                                  agencyManagement(
-                                          uid: FirebaseAuth
-                                              .instance.currentUser!.uid)
-                                      .storeNewAgency(signedInUser.user,
-                                          _name.text, _phoneNum.text, context);
-                                  packageManagement.Agencyid=signedInUser.user!.uid;
-                                }).catchError((e) {
-                                  print(e);
-                                  signupErrorDialog(e.code, context);
-                                });
+                                if(_password.text == _confirmPassword.text){
+                                  FirebaseAuth.instance
+                                      .createUserWithEmailAndPassword(
+                                      email: _email.text,
+                                      password: _password.text)
+                                      .then((signedInUser) {
+                                    agencyManagement(
+                                        uid: FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .storeNewAgency(signedInUser.user,
+                                        _name.text, _phoneNum.text, context);
+                                    packageManagement.Agencyid=signedInUser.user!.uid;
+                                  }).catchError((e) {
+                                    print(e);
+                                    signupErrorDialog(e.code, context);
+                                  });
+                                }else{
+                                  signupErrorDialog('Password do not match ', context);
+                                }
                               },
                               child: Text('Sign Up ',
                                   style: TextStyle(
