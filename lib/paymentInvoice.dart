@@ -1,3 +1,4 @@
+import 'package:aaha/addPackage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'services/bookingManagement.dart';
@@ -20,15 +21,15 @@ bool validate2 = false;
 TextEditingController _controller2 = TextEditingController();
 DateTime travelEndDate = DateTime.now();
 DateTime? travelStartDate = DateTime.now();
-String startDate = '<- Select Date';
+String startDate = '';
 String endDate = '';
 
 class _paymentInvoiceState extends State<paymentInvoice> {
-
   @override
   void initState() {
     startDate = 'Select Date';
     endDate = '';
+    travelEndDate = DateTime.now();
     // TODO: implement initState
     super.initState();
   }
@@ -65,39 +66,7 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                 textAlign: TextAlign.left,
               ),
             ),
-            Row(
-              children: [
-                Padding(
-                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                    child: IconButton(
-                      icon: Icon(Icons.calendar_today_outlined),
-                      onPressed: () async {
-                        travelStartDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2021),
-                            lastDate: DateTime(2025));
-                        travelEndDate = travelStartDate!.add(
-                            Duration(days: int.parse(widget.package.Days)));
-                        setState(() {
-                          startDate = (travelStartDate!.day.toString() +
-                              "/" +
-                              travelStartDate!.month.toString() +
-                              "/" +
-                              travelStartDate!.year.toString());
-                          endDate = (travelEndDate!.day.toString() +
-                              "/" +
-                              travelEndDate!.month.toString() +
-                              "/" +
-                              travelEndDate!.year.toString());
-                        });
-                      },
-                    )),
-                Text(startDate),
-                Text(endDate == '' ? '' : ' till '),
-                Text(endDate),
-              ],
-            ),
+            selectSchedule(package: widget.package),
             Center(
               child: Column(
                 children: [
@@ -164,10 +133,27 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                               allButton(
                                   buttonText: 'Pay Now',
                                   onPressed: () async {
-                                    bookingManagement().storeNewBooking(
-                                        widget.package.pid,
-                                        FirebaseAuth.instance.currentUser!.uid,
-                                        travelEndDate);
+                                    if (travelEndDate.day ==
+                                        DateTime.now().day) {
+                                      showAlertDialog(
+                                        context: context,
+                                        title: 'A problem has occurred',
+                                        content:
+                                            'You did not select a start date !',
+                                      );
+                                    } else {
+                                      bookingManagement().storeNewBooking(
+                                          FirebaseAuth
+                                              .instance.currentUser!.uid,
+                                          widget.package.agencyId,
+                                          widget.package.pid,
+                                          travelEndDate);
+                                      showAlertDialog(
+                                          context: context,
+                                          title: 'Success',
+                                          content:
+                                              'Your holiday has been successfully booked');
+                                    }
                                   })
                             ],
                           ),
@@ -203,4 +189,51 @@ Widget userInput(String hintTitle, TextInputType keyboardType) {
       ),
     ),
   );
+}
+
+class selectSchedule extends StatefulWidget {
+  final Package1 package;
+  const selectSchedule({Key? key, required this.package}) : super(key: key);
+
+  @override
+  State<selectSchedule> createState() => _selectScheduleState();
+}
+
+class _selectScheduleState extends State<selectSchedule> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+            child: IconButton(
+              icon: Icon(Icons.calendar_today_outlined),
+              onPressed: () async {
+                travelStartDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(2021),
+                    lastDate: DateTime(2025));
+                travelEndDate = travelStartDate!
+                    .add(Duration(days: int.parse(widget.package.Days)));
+                setState(() {
+                  startDate = (travelStartDate!.day.toString() +
+                      "/" +
+                      travelStartDate!.month.toString() +
+                      "/" +
+                      travelStartDate!.year.toString());
+                  endDate = (travelEndDate!.day.toString() +
+                      "/" +
+                      travelEndDate!.month.toString() +
+                      "/" +
+                      travelEndDate!.year.toString());
+                });
+              },
+            )),
+        Text(startDate),
+        Text(endDate == '' ? '' : ' till '),
+        Text(endDate),
+      ],
+    );
+  }
 }
