@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
 class HistoryAg extends StatelessWidget {
@@ -82,6 +83,18 @@ class bookingHistoryList extends StatelessWidget {
                               snapshot.data.docs[index]['packageDescription'] :
                               snapshot.data.docs[index]['packageDescription'].substring(0,120)
                           ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Ended On:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              DateFormat('yyyy-MM-dd').format((snapshot.data.docs[index]['travelEndDate'] as Timestamp).toDate())),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
