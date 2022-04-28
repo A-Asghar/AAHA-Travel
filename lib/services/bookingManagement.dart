@@ -11,18 +11,22 @@ class bookingManagement {
   CollectionReference Bookings =
       FirebaseFirestore.instance.collection('Bookings');
 
-  storeNewBooking(travellerID,agencyID,packageID,travelEndDate ) {
+  storeNewBooking(travellerID, agencyID, packageID, travelEndDate, packageName,
+      packageNumOfDays, packageDescription, travellerName, packagePrice) {
     Bookings.add({
-      'travellerID' : travellerID,
-      'agencyID':agencyID,
-      'packageID' : packageID,
-      'travelEndDate' : Timestamp.fromDate(travelEndDate)
+      'travellerID': travellerID,
+      'agencyID': agencyID,
+      'packageID': packageID,
+      'travelEndDate': travelEndDate,
+      'packageName': packageName,
+      'packageNumOfDays': packageNumOfDays,
+      'packageDescription': packageDescription,
+      'travellerName': travellerName,
+      'packagePrice': packagePrice
     });
+  }
 
-
+  getBookingsForAgency(agencyID) {
+    Bookings.where('agencyID', isEqualTo: agencyID).get();
   }
 }
-
-
-
-
