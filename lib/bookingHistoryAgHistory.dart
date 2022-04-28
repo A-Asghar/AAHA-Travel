@@ -94,7 +94,7 @@ class bookingHistoryList extends StatelessWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                              DateFormat('yyyy-MM-dd').format((snapshot.data.docs[index]['travelEndDate'] as Timestamp).toDate())),
+                              DateFormat('EEE, MMM d, ''yy').format((snapshot.data.docs[index]['travelEndDate'] as Timestamp).toDate())),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
