@@ -1,4 +1,5 @@
 import 'package:aaha/Agency.dart';
+import 'package:aaha/otherDetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
@@ -19,7 +20,7 @@ import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 TextEditingController _nameController= TextEditingController();
 TextEditingController _descController= TextEditingController();
-TextEditingController _daysController= TextEditingController();
+TextEditingController daysController= TextEditingController();
 TextEditingController _priceController= TextEditingController();
 TextEditingController _locationController= TextEditingController();
 
@@ -70,9 +71,31 @@ class _addPackage extends State<addPackage> {
             children: [
               userInput('Package Name', TextInputType.text,_nameController),
               userInput('Description', TextInputType.text,_descController),
-              userInput('Days', TextInputType.text,_daysController),
+              userInput('Days', TextInputType.text,daysController),
               userInput('Price', TextInputType.number,_priceController),
               userInput('Location', TextInputType.text,_locationController),
+              Container(
+                width:MediaQuery.of(context).size.width * 0.9,
+                child: RaisedButton(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  color: Colors.indigo.shade500,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (Context) => otherDetails(),
+                    ));
+                  },
+                  child: Text(
+                    'Add Other Details',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
 
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -128,7 +151,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                                   height: MediaQuery.of(context).size.height * 0.118,
                                   width: MediaQuery.of(context).size.width * 0.35,
                                   child: Image.file(File(imageFileList![index].path),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.contain,
 
                                   ),
                                 ),
@@ -145,6 +168,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
               Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: RaisedButton(
+                  elevation: 20,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25)),
                   color: Colors.indigo.shade800,
@@ -152,13 +176,13 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
 
 
                       print(ImgUrls1.length);
-                    await packageManagement.storeNewPackage(FirebaseAuth.instance.currentUser, _nameController.text, _descController.text, _daysController.text, _priceController.text,_locationController.text, 0, context,ImgUrls1);
+                    await packageManagement.storeNewPackage(FirebaseAuth.instance.currentUser, _nameController.text, _descController.text, daysController.text, _priceController.text,_locationController.text, 0, context,ImgUrls1);
                       setState(() {
 
                       });
                       _nameController.clear();
                       _descController.clear();
-                      _daysController.clear();
+                      daysController.clear();
                       _priceController.clear();
                       _locationController.clear();
 
