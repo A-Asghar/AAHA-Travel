@@ -125,8 +125,8 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  height: 95,
-                                  width: 110,
+                                  height: MediaQuery.of(context).size.height * 0.118,
+                                  width: MediaQuery.of(context).size.width * 0.35,
                                   child: Image.file(File(imageFileList![index].path),
                                     fit: BoxFit.fill,
 
