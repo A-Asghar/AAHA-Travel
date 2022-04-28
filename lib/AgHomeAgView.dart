@@ -71,7 +71,9 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (Context) => addPackage(),
-                            ));
+                            )).then((value) {
+                              daysController.clear();
+                            });
                           },
                           backgroundColor: Colors.black,
                         ),
