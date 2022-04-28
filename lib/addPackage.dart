@@ -99,7 +99,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                 width: MediaQuery.of(context).size.width * 0.9,
                 //height: MediaQuery.of(context).size.height * 0.5-10,
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   child: GridView.builder(
                       itemCount: imageFileList!.length,
                       gridDelegate:
@@ -114,7 +114,7 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                           //height: 55,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0x44000000),
+                            // color: Color(0x44000000),
 
                           ),
                           child: Padding(
@@ -125,10 +125,10 @@ Padding(padding: EdgeInsets.fromLTRB(0, 0, 20 , 10), child: IconButton(onPressed
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  height: MediaQuery.of(context).size.height * 0.118,
+                                  height: MediaQuery.of(context).size.height * 0.1,
                                   width: MediaQuery.of(context).size.width * 0.35,
                                   child: Image.file(File(imageFileList![index].path),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.scaleDown,
 
                                   ),
                                 ),
