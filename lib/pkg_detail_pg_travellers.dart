@@ -304,7 +304,9 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          paymentInvoice()));
+                                                          paymentInvoice(
+                                                            package: widget.package
+                                                          )));
                                             }),
                                       ),
 

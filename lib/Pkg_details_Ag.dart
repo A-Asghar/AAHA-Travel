@@ -278,25 +278,6 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                         }),
                                   ),
                                   SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: allButton(
-                                            buttonText: 'Call',
-                                            onPressed: () {}),
-                                      ),
-                                      Expanded(
-                                        child: allButton(
-                                            buttonText: 'Book Now',
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          paymentInvoice()));
-                                            }),
-                                      ),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
