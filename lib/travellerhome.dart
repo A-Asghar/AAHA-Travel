@@ -387,7 +387,7 @@ class packageList extends StatelessWidget {
               ),
             ),
           );
-          ;
+
         });
   }
 }

@@ -1,9 +1,11 @@
 import 'package:aaha/Agency.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AgHomeAgView.dart';
+import 'Pkg_details_Ag.dart';
 import 'services/agencyManagement.dart';
 import 'services/packageManagement.dart';
 
@@ -131,7 +133,7 @@ class AgencyHomeState extends State<AgencyHome> {
                     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: InkWell(
                       child: const Text(
-                        'see all',
+                        'See All',
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
@@ -142,55 +144,7 @@ class AgencyHomeState extends State<AgencyHome> {
                     )),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
-              child: SizedBox(
-                height: 100,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            if (index.isOdd) {
-                              return const VerticalDivider(
-                                width: 5,
-                                color: Colors.white,
-                              );
-                            }
-
-                            return ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(25), // Image border
-                              child: SizedBox.fromSize(
-                                size: const Size.fromRadius(50), // Image radius
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(images[index]),
-                                        fit: BoxFit.cover),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Kashmir',
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            topSellingPackages(),
             Row(
               children: [
                 const Expanded(
@@ -208,7 +162,7 @@ class AgencyHomeState extends State<AgencyHome> {
                     padding: EdgeInsets.fromLTRB(0, 0, 10, 0),
                     child: InkWell(
                       child: const Text(
-                        'see all',
+                        'See All',
                         style: TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
@@ -219,58 +173,200 @@ class AgencyHomeState extends State<AgencyHome> {
                     )),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
-              child: SizedBox(
-                height: 100,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: 10,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            if (index.isOdd) {
-                              return const VerticalDivider(
-                                width: 5,
-                                color: Colors.white,
-                              );
-                            }
-
-                            return ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(25), // Image border
-                              child: SizedBox.fromSize(
-                                size: const Size.fromRadius(50), // Image radius
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(images[index]),
-                                        fit: BoxFit.cover),
-                                  ),
-                                  child: const Center(
-                                    child: Text(
-                                      'Karachi',
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            recentlyAddedPackages(),
           ],
         ),
       ),
     );
+  }
+}
+
+class recentlyAddedPackages extends StatelessWidget {
+  final CollectionReference Packages =
+      FirebaseFirestore.instance.collection('Packages');
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: Packages.where('Agency id',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .orderBy('packageAddedDate')
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading . .. ");
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+            child: SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          var package = snapshot.data.docs[index];
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PkgDetailAgency(
+                                                  pack: Package1(
+                                                    package['Package id'],
+                                                    package['Package name'],
+                                                    package['Agency Name'],
+                                                    package['price'],
+                                                    package['days'],
+                                                    package['description'],
+                                                    package['Location'],
+                                                    package['Rating'],
+                                                    package['Agency id'],
+                                                    package['ImgUrls']
+                                                        .cast<String>(),
+                                                  ),
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            snapshot.data.docs[index]
+                                                ['photoUrl'],
+                                          ),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data.docs[index]
+                                            ['Package name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}
+
+class topSellingPackages extends StatelessWidget {
+  final CollectionReference Packages =
+      FirebaseFirestore.instance.collection('Packages');
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: Packages.where('Agency id',
+                isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+            .orderBy('sales', descending: true)
+            .snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading . .. ");
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+            child: SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          var package = snapshot.data.docs[index];
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PkgDetailAgency(
+                                                  pack: Package1(
+                                                    package['Package id'],
+                                                    package['Package name'],
+                                                    package['Agency Name'],
+                                                    package['price'],
+                                                    package['days'],
+                                                    package['description'],
+                                                    package['Location'],
+                                                    package['Rating'],
+                                                    package['Agency id'],
+                                                    package['ImgUrls']
+                                                        .cast<String>(),
+                                                  ),
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            snapshot.data.docs[index]
+                                                ['photoUrl'],
+                                          ),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data.docs[index]
+                                            ['Package name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

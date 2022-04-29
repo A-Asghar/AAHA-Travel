@@ -144,19 +144,23 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                             'You did not select a start date !',
                                       );
                                     } else {
-                                      var currentUserUid = FirebaseAuth.instance.currentUser!.uid;
-                                      var currentUserName = await context.read<travellerProvider>().getName(FirebaseAuth.instance.currentUser);
+                                      var currentUserUid = FirebaseAuth
+                                          .instance.currentUser!.uid;
+                                      var currentUserName = await context
+                                          .read<travellerProvider>()
+                                          .getName(FirebaseAuth
+                                              .instance.currentUser);
                                       bookingManagement().storeNewBooking(
                                           currentUserUid,
                                           widget.package.agencyId,
                                           widget.package.pid,
                                           travelEndDate,
                                           widget.package.PName,
-                                        widget.package.Days,
-                                        widget.package.Desc,
-                                        currentUserName,
-                                        widget.package.Price
-                                      );
+                                          widget.package.Days,
+                                          widget.package.Desc,
+                                          currentUserName,
+                                          widget.package.Price);
+                                      packageManagement().updateSales(widget.package.pid);
                                       showAlertDialog(
                                           context: context,
                                           title: 'Success',
