@@ -14,11 +14,6 @@ class _editotherDetailsState extends State<editotherDetails> {
   var textEditingControllers = <TextEditingController>[];
 
   var textFields = <TextField>[];
-  // stringListReturnedFromApiCall.forEach((str) {
-  //   var textEditingController = new TextEditingController(text: str);
-  //   textEditingControllers.add(textEditingController);
-  //   return textFields.add(new TextField(controller: textEditingController));
-  // });
   initState(){
 
     int j=(int.parse(widget.p.Days));
@@ -51,7 +46,7 @@ class _editotherDetailsState extends State<editotherDetails> {
             physics: ScrollPhysics(),
             child: Padding(
               padding: const EdgeInsets.all(15.0),
-              child: new Column(
+              child: Column(
                 children:[
                   // textFields,
                   ListView.builder(
@@ -92,7 +87,7 @@ class _editotherDetailsState extends State<editotherDetails> {
                         }
                         Navigator.pop(context);
                       },
-                      child: Text(
+                      child: const Text(
                         'Save',
                         style: TextStyle(
                           fontSize: 25,

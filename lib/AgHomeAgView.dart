@@ -199,15 +199,6 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => MyBottomBarDemo(),
-        ));
-      },
-      child: Icon(Icons.home_rounded),
-        tooltip: 'Back to home',
-        backgroundColor: Colors.black,
-      ),
     );
   }
 }
