@@ -1,4 +1,5 @@
 import 'package:aaha/Agency.dart';
+import 'package:aaha/loginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -79,7 +80,8 @@ class AgencyHomeState extends State<AgencyHome> {
                   PackageList = [];
                   FirebaseAuth.instance.signOut();
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => loginScreen()));
                 },
                 icon: Icon(
                   Icons.logout,
