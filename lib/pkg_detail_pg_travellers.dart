@@ -51,17 +51,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
               //color: Colors.white,
               child: Column(
                 children: [
-                  const Text(
-                    "Do's and Don't:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const Text(
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-                    style: TextStyle(fontSize: 18),
-                  ),
+
                   const Text(
                     'Day Wise Detail: ',
                     style: TextStyle(
@@ -71,21 +61,22 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                   ),
                   Expanded(
                       child: ListView.builder(
-                          itemCount: 10,
+                          itemCount: int.parse(widget.package.Days),
                           itemBuilder: (context, index) => ListTile(
-                                title: Text(
-                                  'Day: ${index + 1}',
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                subtitle: const Text(
-                                  'Lorem Ipsum is simply dummy text ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              )))
+                            title: Text(
+                              'Day: ${index + 1}',
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            subtitle:  Text( widget.package!.otherDetails[index],
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                            ),
+                          )
+                      )
+                  )
                 ],
               ),
             ),

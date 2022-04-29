@@ -128,7 +128,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                 Navigator.of(context)
                                                     .push(MaterialPageRoute(
                                                       builder: (Context) => editPackage(
-                                                          p: context
+                                                          package: context
                                                               .read<
                                                                   packageProvider>()
                                                               .getList()[index]),

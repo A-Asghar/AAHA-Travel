@@ -239,6 +239,7 @@ class recentlyAddedPackages extends StatelessWidget {
                                                       package['Location'],
                                                       package['Rating'],
                                                       package['Agency id'],
+                                                      package['photoUrl'],
                                                       package['ImgUrls']
                                                           .cast<String>(),
                                                       package['otherDetails']
@@ -356,6 +357,7 @@ class topSellingPackages extends StatelessWidget {
                                                       package['Location'],
                                                       package['Rating'],
                                                       package['Agency id'],
+                                                      package['photoUrl'],
                                                       package['ImgUrls']
                                                           .cast<String>(),
                                                       package['otherDetails']
