@@ -1,4 +1,7 @@
 import 'package:aaha/Pkg_details_Ag.dart';
+import 'package:aaha/services/agencyManagement.dart';
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'agencyhome.dart';
 import 'editPackage.dart';
@@ -35,52 +38,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
           child: Center(
             child: Column(
               children: <Widget>[
-                Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.center,
-                    children: [
-                      Image.network(
-                        'https://media.istockphoto.com/photos/creative-concept-for-travel-agency-office-picture-id498890336?s=2048x2048',
-                      ),
-                      Positioned(
-                        top: 250,
-                        left: 30,
-                        child: CircleAvatar(
-                          radius: 55,
-                          backgroundImage: NetworkImage(
-                            'https://image.shutterstock.com/image-vector/abstract-modern-monogram-xyz-letter-260nw-1281772879.jpg',
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                          top: 300,
-                          left: 150,
-                          child: Row(
-                            children: [
-                              Text(
-                                AgencyHomeState.Agencyname,
-                                style: TextStyle(fontSize: 30),
-                              ),
-                              Text("                       "),
-                            ],
-                          )),
-                      Positioned(
-                        child: FloatingActionButton(
-                          heroTag: null,
-                          child: Icon(Icons.add),
-                          onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (Context) => addPackage(),
-                            )).then((value) {
-                              daysController.clear();
-                            });
-                          },
-                          backgroundColor: Colors.black,
-                        ),
-                        top: 240,
-                        right: 40,
-                      ),
-                    ]),
+                topView(),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
                   child: ListView.builder(
@@ -189,7 +147,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
                                                         title: const Text(
                                                             'Please Confirm'),
                                                         content: const Text(
-                                                            'Are you sure to remove the task?'),
+                                                            'Are you sure to remove the package?'),
                                                         actions: [
                                                           // The "Yes" button
                                                           TextButton(
@@ -241,7 +199,79 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
           ),
         ),
       ),
-      //bottomNavigationBar: MyBottomBarDemo(),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => MyBottomBarDemo(),
+        ));
+      },
+      child: Icon(Icons.home_rounded),
+        tooltip: 'Back to home',
+        backgroundColor: Colors.black,
+      ),
+    );
+  }
+}
+
+class topView extends StatelessWidget {
+  const topView({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var currentUser = FirebaseAuth.instance.currentUser;
+    return FutureBuilder(
+      future: context.read<agencyProvider>().getPhotoUrl(currentUser),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Image.network(
+                  'https://i.ibb.co/3dyzPVD/dylan-gillis-Kdeq-A3a-Tn-BY-unsplash.jpg',
+                ),
+                Positioned(
+                  top: 250,
+                  left: 30,
+                  child: CircularProfileAvatar(
+                    snapshot.data.toString(),
+                    radius: 55,
+                  ),
+                ),
+                Positioned(
+                    top: 300,
+                    left: 150,
+                    child: Row(
+                      children: [
+                        Text(
+                          AgencyHomeState.Agencyname,
+                          style: TextStyle(fontSize: 30),
+                        ),
+                        Text("                       "),
+                      ],
+                    )),
+                Positioned(
+                  child: FloatingActionButton(
+                    heroTag: null,
+                    child: Icon(Icons.add),
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(
+                        builder: (Context) => addPackage(),
+                      ))
+                          .then((value) {
+                        daysController.clear();
+                      });
+                    },
+                    backgroundColor: Colors.black,
+                  ),
+                  top: 240,
+                  right: 40,
+                ),
+              ]);
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
     );
   }
 }
