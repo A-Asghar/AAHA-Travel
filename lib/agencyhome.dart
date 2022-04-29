@@ -81,8 +81,7 @@ class AgencyHomeState extends State<AgencyHome> {
                   PackageList = [];
                   FirebaseAuth.instance.signOut();
 
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => loginScreen()));
+                  Navigator.of(context).pop();
                 },
                 icon: Icon(
                   Icons.logout,
@@ -284,15 +283,17 @@ class recentlyAddedPackages extends StatelessWidget {
           return Column(
             children: [
               TextButton(
-              onPressed: () {
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => addPackage()));
-          },
-          child: Text(
-          'Please add a package',
-          style: TextStyle(fontSize: 20),
-          )),
-          SizedBox(height: 60,)
+                  onPressed: () {
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => addPackage()));
+                  },
+                  child: Text(
+                    'Please add a package',
+                    style: TextStyle(fontSize: 20),
+                  )),
+              SizedBox(
+                height: 60,
+              )
             ],
           );
         });

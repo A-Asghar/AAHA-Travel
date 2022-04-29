@@ -20,6 +20,7 @@ import 'dart:io';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
+
 class editPackage extends StatefulWidget {
   final Package1 p;
   const editPackage({Key? key, required this.p}) : super(key: key);
@@ -105,7 +106,9 @@ class _editPackage extends State<editPackage> {
                   color: Colors.indigo.shade500,
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (Context) => editotherDetails(p: widget.p,),
+                      builder: (Context) => editotherDetails(
+                        p: widget.p,
+                      ),
                     ));
                   },
                   child: Text(
@@ -156,7 +159,7 @@ class _editPackage extends State<editPackage> {
                           //height: 55,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color: Color(0x44000000),
+                            color: Colors.white,
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(4.0),
@@ -170,7 +173,7 @@ class _editPackage extends State<editPackage> {
                                   width: 110,
                                   child: Image.file(
                                     File(imageFileList![index].path),
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.scaleDown,
                                   ),
                                 ),
                                 SizedBox(height: 5),

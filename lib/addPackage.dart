@@ -83,21 +83,19 @@ class _addPackage extends State<addPackage> {
                         borderRadius: BorderRadius.circular(25)),
                     color: Colors.indigo.shade500,
                     onPressed: () {
-
                       if (daysController.text == '') {
                         showAlertDialog(
                             context: context,
-                            title: 'Please enter a valid amount of days',
-                            content: '');
-                      }
-                      else{
+                            title: 'Something went wrong',
+                            content: 'Please enter a valid amount of days');
+                      } else {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => otherDetails(),
                         ));
                       }
                     },
                     child: Text(
-                      'Add Other Details',
+                      'Add Daywise Details',
                       style: TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.w700,
@@ -182,24 +180,32 @@ class _addPackage extends State<addPackage> {
                     color: Colors.indigo.shade800,
                     onPressed: () async {
                       print(ImgUrls1.length);
-                      await packageManagement.storeNewPackage(
-                          FirebaseAuth.instance.currentUser,
-                          _nameController.text,
-                          _descController.text,
-                          daysController.text,
-                          _priceController.text,
-                          _locationController.text,
-                          0,
-                          context,
-                          ImgUrls1,
-                          otherDetailsList);
-                      setState(() {});
-                      _nameController.clear();
-                      _descController.clear();
-                      daysController.clear();
-                      _priceController.clear();
-                      _locationController.clear();
-                      otherDetailsList = [];
+                      if (daysController.text == '') {
+                        showAlertDialog(
+                            context: context,
+                            title: 'Something went wrong',
+                            content: 'Please enter daywise details');
+                      }
+                      else{
+                        await packageManagement.storeNewPackage(
+                            FirebaseAuth.instance.currentUser,
+                            _nameController.text,
+                            _descController.text,
+                            daysController.text,
+                            _priceController.text,
+                            _locationController.text,
+                            0,
+                            context,
+                            ImgUrls1,
+                            otherDetailsList);
+                        setState(() {});
+                        _nameController.clear();
+                        _descController.clear();
+                        daysController.clear();
+                        _priceController.clear();
+                        _locationController.clear();
+                        otherDetailsList = [];
+                      }
                     },
                     child: Text(
                       'Submit',
