@@ -58,7 +58,7 @@ class packageManagement {
       'Agency id': user.uid,
       'Agency Name': AgencyHomeState.Agencyname,
       'Package id': p.pid,
-      'Package name': name,
+      'Package name': name.toString().toLowerCase(),
       'description': desc,
       'days': days,
       'price': price,
