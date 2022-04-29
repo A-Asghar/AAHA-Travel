@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'MyBottomBarDemo.dart';
+import 'editOtherDetails.dart';
 import 'signupAgency.dart';
 import 'loginScreen.dart';
 import 'MyBottomBarDemo.dart';
@@ -18,7 +19,7 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'otherDetails.dart';
 class editPackage extends StatefulWidget {
   final Package1 p;
   const editPackage({Key? key, required this.p}) : super(key: key);
@@ -95,6 +96,28 @@ class _editPackage extends State<editPackage> {
                   widget.p.Price),
               userInput('Location', TextInputType.text, _locationController,
                   widget.p.Location),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: RaisedButton(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  color: Colors.indigo.shade500,
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (Context) => editotherDetails(p: widget.p,),
+                    ));
+                  },
+                  child: Text(
+                    'Edit Other Details',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: Row(

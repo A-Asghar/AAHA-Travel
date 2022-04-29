@@ -36,8 +36,9 @@ class Package1 {
   int rating;
   String agencyId;
   List<String> ImgUrls = [];
+  List<String> otherDetails = [];
   Package1(this.pid, this.PName, this.Aname, this.Price, this.Days, this.Desc,
-      this.Location, this.rating, this.agencyId, this.ImgUrls) {
+      this.Location, this.rating, this.agencyId, this.ImgUrls,this.otherDetails) {
     PName = this.PName;
     Price = this.Price;
     Aname = this.Aname;
@@ -47,5 +48,6 @@ class Package1 {
     rating = this.rating;
     agencyId = this.agencyId;
     ImgUrls = this.ImgUrls;
+    otherDetails= this.otherDetails;
   }
 }

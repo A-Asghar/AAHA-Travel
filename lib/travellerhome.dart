@@ -354,6 +354,8 @@ class packageList extends StatelessWidget {
                                           package['Rating'],
                                           package['Agency id'],
                                           package['ImgUrls'].cast<String>(),
+                                          package['otherDetails']
+                                              .cast<String>(),
                                         ),
                                       )));
                                 },

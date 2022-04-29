@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'Agency.dart';
 import 'addPackage.dart';
-class otherDetails extends StatefulWidget {
-  const otherDetails({Key? key}) : super(key: key);
+class editotherDetails extends StatefulWidget {
+  final Package1 p;
+  const editotherDetails({Key? key, required this.p}) : super(key: key);
 
   @override
-  State<otherDetails> createState() => _otherDetailsState();
+  State<editotherDetails> createState() => _editotherDetailsState();
 }
 List<String> otherDetailsList=[];
-class _otherDetailsState extends State<otherDetails> {
+class _editotherDetailsState extends State<editotherDetails> {
   @override
   var textEditingControllers = <TextEditingController>[];
 
@@ -19,10 +21,10 @@ class _otherDetailsState extends State<otherDetails> {
   // });
   initState(){
 
-    int j=(int.parse(daysController.text));
+    int j=(int.parse(widget.p.Days));
     for(int i=0;i<j;i++){
       print(
-          (int.parse(daysController.text)
+          (int.parse(widget.p.Days)
           ));
       var textEditingController = new TextEditingController();
       textEditingControllers.add(textEditingController);
@@ -51,23 +53,23 @@ class _otherDetailsState extends State<otherDetails> {
               padding: const EdgeInsets.all(15.0),
               child: new Column(
                 children:[
-                 // textFields,
+                  // textFields,
                   ListView.builder(
                     scrollDirection: Axis.vertical,
                     physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: textFields.length,
                     itemBuilder: (context, index) {
-                     return Column(
-                       children: [
-                         ListTile(
+                      return Column(
+                        children: [
+                          ListTile(
 
                             title: Text('Day '+ (index+1).toString()),
 
-                         ),
-                         textFields[index],
-                       ],
-                     );
+                          ),
+                          textFields[index],
+                        ],
+                      );
 
                     },
                   ),
