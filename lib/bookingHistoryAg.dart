@@ -17,7 +17,7 @@ class bookingHistoryAg extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: Colors.transparent.withOpacity(0.5),
               title: Text(
                 'Bookings',
                 textAlign: TextAlign.center,
