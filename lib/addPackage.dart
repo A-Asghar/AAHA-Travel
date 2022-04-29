@@ -18,7 +18,7 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'otherDetails.dart';
 TextEditingController _nameController = TextEditingController();
 TextEditingController _descController = TextEditingController();
 TextEditingController daysController = TextEditingController();
@@ -62,144 +62,151 @@ class _addPackage extends State<addPackage> {
           onPressed: () => Navigator.pop(context, false),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              userInput('Package Name', TextInputType.text, _nameController),
-              userInput('Description', TextInputType.text, _descController),
-              userInput('Days', TextInputType.text, daysController),
-              userInput('Price', TextInputType.number, _priceController),
-              userInput('Location', TextInputType.text, _locationController),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: RaisedButton(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  color: Colors.indigo.shade500,
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (Context) => otherDetails(),
-                    ));
-                  },
-                  child: Text(
-                    'Add Other Details',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Gallery',
-                      textAlign: TextAlign.left,
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
-                      child: IconButton(
-                          onPressed: () {
-                            //_imageFromGallery();
-                            selectImages();
-                          },
-                          icon: Icon(Icons.camera_alt_outlined)),
-                    )
-                  ],
-                ),
-              ),
-              Container(
-                // color: Colors.red,
-                width: MediaQuery.of(context).size.width * 0.9,
-                //height: MediaQuery.of(context).size.height * 0.5-10,
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: GridView.builder(
-                      itemCount: imageFileList!.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 6,
-                        mainAxisSpacing: 6,
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.only(bottom: 45.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                userInput('Package Name', TextInputType.text, _nameController),
+                userInput('Description', TextInputType.text, _descController),
+                userInput('Days', TextInputType.text, daysController),
+                userInput('Price', TextInputType.number, _priceController),
+                userInput('Location', TextInputType.text, _locationController),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: RaisedButton(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    color: Colors.indigo.shade500,
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (Context) => otherDetails(),
+                      ));
+                    },
+                    child: Text(
+                      'Add Other Details',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
                       ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.white70
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(4.0),
-                            child: Column(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  height: MediaQuery.of(context).size.height *
-                                      0.1,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.35,
-                                  child: Image.file(
-                                    File(imageFileList![index].path),
-                                    fit: BoxFit.scaleDown,
-                                  ),
-                                ),
-                                SizedBox(height: 5),
-                                task != null
-                                    ? buildUploadStatus(task!)
-                                    : Container(),
-                              ],
-                            ),
-                          ),
-                        );
-                      }),
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: RaisedButton(
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  color: Colors.indigo.shade800,
-                  onPressed: () async {
-                    print(ImgUrls1.length);
-                    await packageManagement.storeNewPackage(
-                        FirebaseAuth.instance.currentUser,
-                        _nameController.text,
-                        _descController.text,
-                        daysController.text,
-                        _priceController.text,
-                        _locationController.text,
-                        0,
-                        context,
-                        ImgUrls1);
-                    setState(() {});
-                    _nameController.clear();
-                    _descController.clear();
-                    daysController.clear();
-                    _priceController.clear();
-                    _locationController.clear();
-                  },
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
                     ),
                   ),
                 ),
-              ),
-            ],
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Gallery',
+                        textAlign: TextAlign.left,
+                        style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
+                        child: IconButton(
+                            onPressed: () {
+                              //_imageFromGallery();
+                              selectImages();
+                            },
+                            icon: Icon(Icons.camera_alt_outlined)),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  // color: Colors.red,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  //height: MediaQuery.of(context).size.height * 0.5-10,
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.25,
+                    child: GridView.builder(
+                        itemCount: imageFileList!.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 6,
+                          mainAxisSpacing: 6,
+                        ),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white70
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.35,
+                                    child: Image.file(
+                                      File(imageFileList![index].path),
+                                      fit: BoxFit.scaleDown,
+                                    ),
+                                  ),
+                                  SizedBox(height: 5),
+                                  task != null
+                                      ? buildUploadStatus(task!)
+                                      : Container(),
+                                ],
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: RaisedButton(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    color: Colors.indigo.shade800,
+                    onPressed: () async {
+                      print(ImgUrls1.length);
+                      await packageManagement.storeNewPackage(
+                          FirebaseAuth.instance.currentUser,
+                          _nameController.text,
+                          _descController.text,
+                          daysController.text,
+                          _priceController.text,
+                          _locationController.text,
+                          0,
+                          context,
+                          ImgUrls1,
+                          otherDetailsList
+
+                      );
+                      setState(() {});
+                      _nameController.clear();
+                      _descController.clear();
+                      daysController.clear();
+                      _priceController.clear();
+                      _locationController.clear();
+                      otherDetailsList=[];
+                    },
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -43,17 +43,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
               //color: Colors.white,
               child: Column(
                 children: [
-                  const Text(
-                    "Do's and Don't:",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
-                  ),
-                  const Text(
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
-                    style: TextStyle(fontSize: 18),
-                  ),
+
                   const Text(
                     'Day Wise Detail: ',
                     style: TextStyle(
@@ -63,7 +53,7 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                   ),
                   Expanded(
                       child: ListView.builder(
-                          itemCount: 10,
+                          itemCount: int.parse(widget.pack.Days),
                           itemBuilder: (context, index) => ListTile(
                                 title: Text(
                                   'Day: ${index + 1}',
@@ -71,13 +61,14 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
                                 ),
-                                subtitle: const Text(
-                                  'Lorem Ipsum is simply dummy text ',
+                                subtitle:  Text( widget.pack!.otherDetails[index],
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
                                 ),
-                              )))
+                              )
+                      )
+                  )
                 ],
               ),
             ),

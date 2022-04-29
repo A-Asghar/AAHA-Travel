@@ -21,7 +21,7 @@ class packageManagement {
   static CollectionReference Package =
       FirebaseFirestore.instance.collection('Packages');
   static storeNewPackage(
-  user, name, desc, days, price, location, rating, context, ImgUrls) {
+  user, name, desc, days, price, location, rating, context, ImgUrls,otherDetails) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
     Packid = docp.id;
 
@@ -36,12 +36,13 @@ class packageManagement {
       'Location': location,
       'Rating': rating,
       'ImgUrls': ImgUrls,
+      'otherDetails': otherDetails,
       'photoUrl': 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Ym9hdCUyMG9uJTIwd2F0ZXJ8ZW58MHx8MHx8&w=1000&q=80',
       'packageAddedDate':DateTime.now(),
       'sales':0
     }).then((value) {
       Package1 p = Package1(docp.id, name, AgencyHomeState.Agencyname, price,
-          days, desc, location, rating, user.uid, ImgUrls);
+          days, desc, location, rating, user.uid, ImgUrls,otherDetails);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -79,8 +80,10 @@ class packageManagement {
   }
 
   static Package1 fromJson(Map<String, dynamic> json) {
-    List<String>? strings =
+    List<String>? imgUrls =
         (json['ImgUrls'] as List)?.map((item) => item as String)?.toList();
+    List<String>? otherDetailsList =
+    (json['otherDetails'] as List)?.map((item) => item as String)?.toList();
     Package1 p1 = Package1(
       json['Package id'],
       json['Package name'],
@@ -91,7 +94,8 @@ class packageManagement {
       json['Location'],
       json['Rating'],
       json['Agency id'],
-      strings!,
+      imgUrls!,
+      otherDetailsList!,
     );
     return p1;
   }

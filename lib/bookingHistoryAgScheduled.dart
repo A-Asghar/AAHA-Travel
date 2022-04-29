@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 class ScheduledAg extends StatelessWidget {
   const ScheduledAg({Key? key}) : super(key: key);
 
@@ -79,6 +79,18 @@ class bookingScheduledList extends StatelessWidget {
                               snapshot.data.docs[index]['packageDescription'] :
                               snapshot.data.docs[index]['packageDescription'].substring(0,120)
                           ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Ending On:',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                              DateFormat('EEE, MMM d, ''yy').format((snapshot.data.docs[index]['travelEndDate'] as Timestamp).toDate())),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
