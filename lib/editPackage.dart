@@ -22,8 +22,8 @@ import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
 
 class editPackage extends StatefulWidget {
-  final Package1 p;
-  const editPackage({Key? key, required this.p}) : super(key: key);
+  final Package1 package;
+  const editPackage({Key? key, required this.package}) : super(key: key);
   @override
   _editPackage createState() => _editPackage();
 }
@@ -31,11 +31,11 @@ class editPackage extends StatefulWidget {
 class _editPackage extends State<editPackage> {
   @override
   void initState() {
-    _nameController..text = widget.p.PName;
-    _locationController..text = widget.p.Location;
-    _daysController..text = widget.p.Days;
-    _priceController..text = widget.p.Price;
-    _descController..text = widget.p.Desc;
+    _nameController..text = widget.package.PName;
+    _locationController..text = widget.package.Location;
+    _daysController..text = widget.package.Days;
+    _priceController..text = widget.package.Price;
+    _descController..text = widget.package.Desc;
 
     // TODO: implement initState
     super.initState();
@@ -88,15 +88,15 @@ class _editPackage extends State<editPackage> {
           child: Column(
             children: [
               userInput('Package Name', TextInputType.text, _nameController,
-                  widget.p.PName),
+                  widget.package.PName),
               userInput('Description', TextInputType.text, _descController,
-                  widget.p.Desc),
+                  widget.package.Desc),
               userInput(
-                  'Days', TextInputType.text, _daysController, widget.p.Days),
+                  'Days', TextInputType.text, _daysController, widget.package.Days),
               userInput('Price', TextInputType.number, _priceController,
-                  widget.p.Price),
+                  widget.package.Price),
               userInput('Location', TextInputType.text, _locationController,
-                  widget.p.Location),
+                  widget.package.Location),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: RaisedButton(
@@ -107,7 +107,7 @@ class _editPackage extends State<editPackage> {
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (Context) => editotherDetails(
-                        p: widget.p,
+                        p: widget.package,
                       ),
                     ));
                   },
@@ -196,7 +196,7 @@ class _editPackage extends State<editPackage> {
                   onPressed: () async {
                     print(ImgUrls1.length);
                     await packageManagement.UpdatePackage(
-                        widget.p,
+                        widget.package,
                         FirebaseAuth.instance.currentUser,
                         _nameController.text,
                         _descController.text,
@@ -208,7 +208,7 @@ class _editPackage extends State<editPackage> {
                         ImgUrls1);
                     setState(() {});
                     context.read<packageProvider>().updatePackage(
-                        widget.p,
+                        widget.package,
                         _nameController.text,
                         _descController.text,
                         _daysController.text,

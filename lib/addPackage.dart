@@ -39,7 +39,7 @@ class _addPackage extends State<addPackage> {
   List<XFile>? imageFileList = [];
   UploadTask? task;
   List<String> ImgUrls1 = [];
-
+  String PhotoUrl='';
   @override
   Widget build(BuildContext context) {
     final filename =
@@ -83,6 +83,27 @@ class _addPackage extends State<addPackage> {
                         borderRadius: BorderRadius.circular(25)),
                     color: Colors.indigo.shade500,
                     onPressed: () {
+                     selectImage();
+                    },
+                    child: Text(
+                      'Add thumbnail photo',
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: RaisedButton(
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25)),
+                    color: Colors.indigo.shade500,
+                    onPressed: () {
                       if (daysController.text == '') {
                         showAlertDialog(
                             context: context,
@@ -103,7 +124,9 @@ class _addPackage extends State<addPackage> {
                       ),
                     ),
                   ),
+
                 ),
+
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Row(
@@ -197,7 +220,10 @@ class _addPackage extends State<addPackage> {
                             0,
                             context,
                             ImgUrls1,
-                            otherDetailsList);
+                            otherDetailsList,
+                            PhotoUrl,
+
+                            );
                         setState(() {});
                         _nameController.clear();
                         _descController.clear();
@@ -226,10 +252,36 @@ class _addPackage extends State<addPackage> {
   }
 
   Future selectImage() async {
-    final result = await FilePicker.platform.pickFiles();
+    final result = await imagePicker.pickImage(source: ImageSource.gallery );
     if (result == null) return;
-    final path = result.files.toList();
+    final path = File(result.path);
     setState(() {});
+    final fileName = basename(path.path);
+    final destination = '$fileName';
+    int i = 1;
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref =
+      storage.ref().child(packageManagement.Packid + '___' + fileName);
+      i = i + 1;
+      String url = '';
+      task = ref.putFile(path);
+      setState(() {});
+      TaskSnapshot taskSnapshot = await task!.whenComplete(() {});
+      taskSnapshot.ref.getDownloadURL().then(
+            (value) {
+          url = value;
+          PhotoUrl=url;
+          print(PhotoUrl +
+              '\n...................................................................................................................');
+          print("Done: $value");
+        },
+      );
+
+    } catch (e) {
+      print('error occured');
+      print(e);
+    }
   }
 
   void selectImages() async {

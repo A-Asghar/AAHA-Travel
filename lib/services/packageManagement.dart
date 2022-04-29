@@ -21,7 +21,7 @@ class packageManagement {
   static CollectionReference Package =
       FirebaseFirestore.instance.collection('Packages');
   static storeNewPackage(
-  user, name, desc, days, price, location, rating, context, ImgUrls,otherDetails) {
+  user, name, desc, days, price, location, rating, context, ImgUrls,otherDetails,photoUrl) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
     Packid = docp.id;
 
@@ -37,12 +37,12 @@ class packageManagement {
       'Rating': rating,
       'ImgUrls': ImgUrls,
       'otherDetails': otherDetails,
-      'photoUrl': 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Ym9hdCUyMG9uJTIwd2F0ZXJ8ZW58MHx8MHx8&w=1000&q=80',
+      'photoUrl': photoUrl,
       'packageAddedDate':DateTime.now(),
       'sales':0
     }).then((value) {
       Package1 p = Package1(docp.id, name, AgencyHomeState.Agencyname, price,
-          days, desc, location, rating, user.uid, ImgUrls,otherDetails);
+          days, desc, location, rating, user.uid,photoUrl, ImgUrls,otherDetails);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -94,6 +94,7 @@ class packageManagement {
       json['Location'],
       json['Rating'],
       json['Agency id'],
+      json['photoUrl'],
       imgUrls!,
       otherDetailsList!,
     );
