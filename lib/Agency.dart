@@ -22,7 +22,6 @@ class Agency1 {
 
 Agency1 a = Agency1('XYZ', '03331234567', 'About', 'a@gmail.com', '', '000');
 List<Agency1> AgencyList = [a, a, a];
-//Package1 p = Package1('123','Karachi 1','XYZ', '200', '15', 'Lorem Ipsum is simply dummy text of the \n printing and typesetting industry','',0,'',[]);
 List<Package1> PackageList = [];
 
 class Package1 {

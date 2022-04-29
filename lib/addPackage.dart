@@ -1,4 +1,5 @@
 import 'package:aaha/Agency.dart';
+import 'package:aaha/editPackage.dart';
 import 'package:aaha/otherDetails.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -19,6 +20,7 @@ import 'dart:io';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
+
 TextEditingController _nameController = TextEditingController();
 TextEditingController _descController = TextEditingController();
 TextEditingController daysController = TextEditingController();
@@ -70,7 +72,7 @@ class _addPackage extends State<addPackage> {
               children: [
                 userInput('Package Name', TextInputType.text, _nameController),
                 userInput('Description', TextInputType.text, _descController),
-                userInput('Days', TextInputType.text, daysController),
+                userInput('Days', TextInputType.number, daysController),
                 userInput('Price', TextInputType.number, _priceController),
                 userInput('Location', TextInputType.text, _locationController),
                 Container(
@@ -81,9 +83,18 @@ class _addPackage extends State<addPackage> {
                         borderRadius: BorderRadius.circular(25)),
                     color: Colors.indigo.shade500,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (Context) => otherDetails(),
-                      ));
+
+                      if (daysController.text == '') {
+                        showAlertDialog(
+                            context: context,
+                            title: 'Please enter a valid amount of days',
+                            content: '');
+                      }
+                      else{
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => otherDetails(),
+                        ));
+                      }
                     },
                     child: Text(
                       'Add Other Details',
@@ -103,8 +114,8 @@ class _addPackage extends State<addPackage> {
                       const Text(
                         'Gallery',
                         textAlign: TextAlign.left,
-                        style:
-                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                       Padding(
                         padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
@@ -119,9 +130,7 @@ class _addPackage extends State<addPackage> {
                   ),
                 ),
                 Container(
-                  // color: Colors.red,
                   width: MediaQuery.of(context).size.width * 0.9,
-                  //height: MediaQuery.of(context).size.height * 0.5-10,
                   child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.25,
                     child: GridView.builder(
@@ -134,9 +143,8 @@ class _addPackage extends State<addPackage> {
                         itemBuilder: (BuildContext context, int index) {
                           return Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white70
-                            ),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white70),
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Column(
@@ -147,8 +155,8 @@ class _addPackage extends State<addPackage> {
                                     ),
                                     height: MediaQuery.of(context).size.height *
                                         0.1,
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.35,
+                                    width: MediaQuery.of(context).size.width *
+                                        0.35,
                                     child: Image.file(
                                       File(imageFileList![index].path),
                                       fit: BoxFit.scaleDown,
@@ -184,16 +192,14 @@ class _addPackage extends State<addPackage> {
                           0,
                           context,
                           ImgUrls1,
-                          otherDetailsList
-
-                      );
+                          otherDetailsList);
                       setState(() {});
                       _nameController.clear();
                       _descController.clear();
                       daysController.clear();
                       _priceController.clear();
                       _locationController.clear();
-                      otherDetailsList=[];
+                      otherDetailsList = [];
                     },
                     child: Text(
                       'Submit',
@@ -295,7 +301,6 @@ Widget userInput(
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),
       child: TextField(
-        // controller: controller,
         decoration: InputDecoration(
           hintText: hintTitle,
           hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
