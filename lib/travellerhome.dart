@@ -13,6 +13,7 @@ import 'services/travellerManagement.dart';
 import 'AgHomeTvView.dart';
 import 'Agency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TravellerHome extends StatefulWidget {
   const TravellerHome({Key? key}) : super(key: key);
 
@@ -21,19 +22,16 @@ class TravellerHome extends StatefulWidget {
 }
 
 class _TravellerHomeState extends State<TravellerHome> {
-
   @override
-
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       context.read<packageProvider>().setPackagesTraveler();
-
     });
-
 
     super.initState();
   }
+
   final List<String> images = [
     'https://wander-lush.org/wp-content/uploads/2020/01/KatpanaColdDesertPakistanSuthidaloedchaiyapanCanvaPro.jpg',
     'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Naltar-Valley-lake-MolviDSLRGetty-CanvaPro.jpg',
@@ -47,7 +45,7 @@ class _TravellerHomeState extends State<TravellerHome> {
     'https://wander-lush.org/wp-content/uploads/2020/01/Beautiful-places-in-Pakistan-Hingol-National-Park-LukasBischoffGetty-CanvaPro.jpg',
     'https://wander-lush.org/wp-content/uploads/2020/01/MargalaHillsPakistanNaqshCanvaPro.jpg',
   ];
-
+  final TextEditingController searchbarController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -64,8 +62,8 @@ class _TravellerHomeState extends State<TravellerHome> {
                 .getName(FirebaseAuth.instance.currentUser),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text('Hi, ' +
-                  snapshot.data!.toString(),
+                return Text(
+                  'Hi, ' + snapshot.data!.toString(),
                   style: TextStyle(color: Colors.black),
                 );
               }
@@ -74,16 +72,21 @@ class _TravellerHomeState extends State<TravellerHome> {
               );
             },
           ),
-actions: [
-  IconButton(onPressed: (){
-    packageManagement.p1=[];
-    PackageList=[];
-    loginUser.agencyListLocal=[];
-    agencyManagement.AgenciesList=[];
-    FirebaseAuth.instance.signOut();
-    Navigator.of(context).pop();
-  }, icon: Icon(Icons.logout, color: Colors.black,))
-],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  packageManagement.p1 = [];
+                  PackageList = [];
+                  loginUser.agencyListLocal = [];
+                  agencyManagement.AgenciesList = [];
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.black,
+                ))
+          ],
           backgroundColor: Colors.transparent,
           elevation: 0,
         ),
@@ -127,11 +130,12 @@ actions: [
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          const Expanded(
+                          Expanded(
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(6, 0, 0, 0),
                               child: TextField(
-                                decoration: InputDecoration(
+                                controller: searchbarController,
+                                decoration: const InputDecoration(
                                   hintText: 'Search for Places',
                                   border: InputBorder.none,
                                   focusedBorder: InputBorder.none,
@@ -151,8 +155,12 @@ actions: [
                                 child: Icon(Icons.search,
                                     size: 30, color: Colors.grey.shade700),
                                 onTap: () {
+                                  print('from home : ' + searchbarController.text);
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => searchPage()));
+                                      builder: (context) => searchPage(
+                                            searchTerm:
+                                                searchbarController.text,
+                                          )));
                                 },
                               )),
                         ],
@@ -210,7 +218,8 @@ actions: [
                               children: [
                                 Expanded(
                                   child: ListView.builder(
-                                      itemCount: loginUser.agencyListLocal.length,
+                                      itemCount:
+                                          loginUser.agencyListLocal.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context, index1) {
                                         // if (index1.isEven) {
@@ -227,28 +236,49 @@ actions: [
                                               color: Colors.white,
                                             ),
                                             ClipRRect(
-
-                                              borderRadius: BorderRadius.circular(
-                                                  25), // Image border
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      25), // Image border
                                               child: SizedBox.fromSize(
                                                 size: const Size.fromRadius(
                                                     50), // Image radius
                                                 child: InkWell(
-                                                  onTap:(){
-
-                                                    for(var i=0;i<packageManagement.p1.length;i++){
-                                                      print(packageManagement.p1[i].agencyId);
-                                                      print(context.read<agencyProvider>().getAgencyList()[index1].uid);
+                                                  onTap: () {
+                                                    for (var i = 0;
+                                                        i <
+                                                            packageManagement
+                                                                .p1.length;
+                                                        i++) {
+                                                      print(packageManagement
+                                                          .p1[i].agencyId);
+                                                      print(context
+                                                          .read<
+                                                              agencyProvider>()
+                                                          .getAgencyList()[
+                                                              index1]
+                                                          .uid);
                                                       setState(() {
-                                                        if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index1].uid){
-                                                          PackageList.add(packageManagement.p1[i]);
+                                                        if (packageManagement
+                                                                .p1[i]
+                                                                .agencyId ==
+                                                            context
+                                                                .read<
+                                                                    agencyProvider>()
+                                                                .getAgencyList()[
+                                                                    index1]
+                                                                .uid) {
+                                                          PackageList.add(
+                                                              packageManagement
+                                                                  .p1[i]);
                                                         }
                                                       });
                                                     }
-                                                    print(loginUser.agencyListLocal.length);
-                                                    print(packageManagement.p1.length);
+                                                    print(loginUser
+                                                        .agencyListLocal
+                                                        .length);
+                                                    print(packageManagement
+                                                        .p1.length);
                                                     print(PackageList.length);
-
 
                                                     //PackageList=[];
                                                     // setState(() {
@@ -259,25 +289,38 @@ actions: [
                                                     //   });
                                                     //
                                                     // });
-                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> AgHomeTvView(agency:context.read<agencyProvider>().getAgencyList()[index1]))).then((value) => PackageList=[]);
-                                                  } ,
+                                                    Navigator.of(context)
+                                                        .push(MaterialPageRoute(
+                                                            builder: (context) => AgHomeTvView(
+                                                                agency: context
+                                                                        .read<
+                                                                            agencyProvider>()
+                                                                        .getAgencyList()[
+                                                                    index1])))
+                                                        .then((value) =>
+                                                            PackageList = []);
+                                                  },
                                                   child: Container(
-
                                                     decoration: BoxDecoration(
                                                       image: DecorationImage(
                                                           image: NetworkImage(
                                                               images[index1]),
                                                           fit: BoxFit.cover),
                                                     ),
-                                                    child:  Center(
+                                                    child: Center(
                                                       child: Text(
-                                                        loginUser.agencyListLocal[index1].AName,
+                                                        loginUser
+                                                            .agencyListLocal[
+                                                                index1]
+                                                            .AName,
                                                         style: TextStyle(
                                                           fontSize: 22,
                                                           color: Colors.white,
-                                                          fontWeight: FontWeight.bold,
+                                                          fontWeight:
+                                                              FontWeight.bold,
                                                         ),
-                                                        textAlign: TextAlign.center,
+                                                        textAlign:
+                                                            TextAlign.center,
                                                       ),
                                                     ),
                                                   ),
@@ -301,12 +344,11 @@ actions: [
       ),
     );
   }
-
 }
 
 class packageList extends StatelessWidget {
   final CollectionReference Packages =
-  FirebaseFirestore.instance.collection('Packages');
+      FirebaseFirestore.instance.collection('Packages');
 
   @override
   Widget build(BuildContext context) {
@@ -331,58 +373,63 @@ class packageList extends StatelessWidget {
                         itemCount: snapshot.data.docs.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-
                           var package = snapshot.data.docs[index];
-                          return Padding(padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                          child: ClipRRect(
-                            borderRadius:
-                            BorderRadius.circular(25), // Image border
-                            child: SizedBox.fromSize(
-                              size: const Size.fromRadius(50), // Image radius
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => PkgDetailTraveller(
-                                        package: Package1(
-                                          package['Package id'],
-                                          package['Package name'],
-                                          package['Agency Name'],
-                                          package['price'],
-                                          package['days'],
-                                          package['description'],
-                                          package['Location'],
-                                          package['Rating'],
-                                          package['Agency id'],
-                                          package['photoUrl'],
-                                          package['ImgUrls'].cast<String>(),
-                                          package['otherDetails']
-                                              .cast<String>(),
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                PkgDetailTraveller(
+                                                  package: Package1(
+                                                    package['Package id'],
+                                                    package['Package name'],
+                                                    package['Agency Name'],
+                                                    package['price'],
+                                                    package['days'],
+                                                    package['description'],
+                                                    package['Location'],
+                                                    package['Rating'],
+                                                    package['Agency id'],
+                                                    package['photoUrl'],
+                                                    package['ImgUrls']
+                                                        .cast<String>(),
+                                                    package['otherDetails']
+                                                        .cast<String>(),
+                                                  ),
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            snapshot.data.docs[index]
+                                                ['photoUrl'],
+                                          ),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data.docs[index]
+                                            ['Package name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
                                         ),
-                                      )));
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                          snapshot.data.docs[index]['photoUrl'],
-                                        ),
-                                        fit: BoxFit.cover),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      snapshot.data.docs[index]['Package name'],
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white,
+                                        textAlign: TextAlign.center,
                                       ),
-                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
                           );
                         }),
                   ),
@@ -390,7 +437,6 @@ class packageList extends StatelessWidget {
               ),
             ),
           );
-
         });
   }
 }

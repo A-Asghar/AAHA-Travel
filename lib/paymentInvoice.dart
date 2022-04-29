@@ -19,8 +19,6 @@ class paymentInvoice extends StatefulWidget {
 }
 
 DateTime date = DateTime.now();
-bool validate2 = false;
-TextEditingController _controller2 = TextEditingController();
 DateTime travelEndDate = DateTime.now();
 DateTime? travelStartDate = DateTime.now();
 String startDate = '';
@@ -160,7 +158,8 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                           widget.package.Desc,
                                           currentUserName,
                                           widget.package.Price);
-                                      packageManagement().updateSales(widget.package.pid);
+                                      packageManagement()
+                                          .updateSales(widget.package.pid);
                                       showAlertDialog(
                                           context: context,
                                           title: 'Success',
@@ -220,7 +219,7 @@ class _selectScheduleState extends State<selectSchedule> {
         Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: IconButton(
-              icon: Icon(Icons.calendar_today_outlined),
+              icon: Icon(Icons.calendar_today_outlined,color: Colors.blueAccent,),
               onPressed: () async {
                 travelStartDate = await showDatePicker(
                     context: context,
