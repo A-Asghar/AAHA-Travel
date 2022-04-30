@@ -32,7 +32,7 @@ class Package1 {
   String Days;
   String Desc;
   String Location;
-  int rating;
+  double rating;
   String agencyId;
   String photoUrl;
   List<String> ImgUrls = [];

@@ -12,7 +12,7 @@ class bookingManagement {
       FirebaseFirestore.instance.collection('Bookings');
 
   storeNewBooking(travellerID, agencyID, packageID, travelEndDate, packageName,
-      packageNumOfDays, packageDescription, travellerName, packagePrice) {
+      packageNumOfDays, packageDescription, travellerName, packagePrice,agencyName,hasRated) {
     Bookings.add({
       'travellerID': travellerID,
       'agencyID': agencyID,
@@ -22,11 +22,16 @@ class bookingManagement {
       'packageNumOfDays': packageNumOfDays,
       'packageDescription': packageDescription,
       'travellerName': travellerName,
-      'packagePrice': packagePrice
+      'packagePrice': packagePrice,
+      'agencyName':agencyName,
+      'hasRated':hasRated
     });
   }
 
   getBookingsForAgency(agencyID) {
     Bookings.where('agencyID', isEqualTo: agencyID).get();
+  }
+  updateHasRated(bookingID) {
+    Bookings.doc(bookingID).update({'hasRated': true});
   }
 }

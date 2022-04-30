@@ -217,7 +217,7 @@ class _addPackage extends State<addPackage> {
                             daysController.text,
                             _priceController.text,
                             _locationController.text,
-                            0,
+                            0.0,
                             context,
                             ImgUrls1,
                             otherDetailsList,
