@@ -124,6 +124,7 @@ class packageManagement {
         p1.add(packageManagement.fromJson(doc.data() as Map<String, dynamic>));
       });
     });
+    print(p1.length);
     for (var i = 0; i < p1.length; i++) {
       if (p1[i].agencyId == Agencyid) PackageList.add(p1[i]);
     }
