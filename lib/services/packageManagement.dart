@@ -106,7 +106,7 @@ class packageManagement {
       json['days'],
       json['description'],
       json['Location'],
-      json['Rating'],
+      double.parse(json['Rating'].toString()),
       json['Agency id'],
       json['photoUrl'],
       imgUrls!,
@@ -143,6 +143,16 @@ class packageManagement {
 
   updateSales(packageID) {
     Package.doc(packageID).update({'sales': FieldValue.increment(1)});
+  }
+  updateRating(packageID,rating) async {
+    var document = await FirebaseFirestore.instance.collection('Packages').doc(packageID).get();
+    double ratingcount =double.parse(document['reviewCount'].toString());
+    double existingRating =double.parse(document['Rating'].toString());
+    double totalRating = (ratingcount-1)*existingRating;
+    Package.doc(packageID).update({'Rating': (rating+totalRating)/ratingcount});
+  }
+  updateReviewCount(packageID) {
+    Package.doc(packageID).update({'reviewCount': FieldValue.increment(1)});
   }
 }
 

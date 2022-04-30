@@ -157,7 +157,10 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                           widget.package.Days,
                                           widget.package.Desc,
                                           currentUserName,
-                                          widget.package.Price);
+                                          widget.package.Price,
+                                          widget.package.Aname,
+                                          false
+                                      );
                                       packageManagement()
                                           .updateSales(widget.package.pid);
                                       showAlertDialog(

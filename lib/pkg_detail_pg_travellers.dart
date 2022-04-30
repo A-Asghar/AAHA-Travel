@@ -153,22 +153,44 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'No. of Days: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20,
-                                            color: Colors.black),
-                                        children: <TextSpan>[
-                                          TextSpan(
-                                            text: widget.package.Days,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'No. of Days: ',
                                             style: TextStyle(
-                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
                                                 color: Colors.black),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: widget.package.Days,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                            text: 'Rating: ',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20,
+                                                color: Colors.black),
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: widget.package.rating==0 ? 'Unrated' : widget.package.rating.toStringAsFixed(2),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    color: Colors.black),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Padding(
