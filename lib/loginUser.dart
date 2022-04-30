@@ -127,11 +127,6 @@ class _loginUserState extends State<loginUser> {
                                           .read<agencyProvider>()
                                           .getAgencyList();
                                       setState(() {});
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyBottomBarDemo1(),
-                                      ));
                                     });
 
                                     Navigator.of(context)

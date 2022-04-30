@@ -20,11 +20,13 @@ class packageManagement {
 
   static CollectionReference Package =
       FirebaseFirestore.instance.collection('Packages');
-  static storeNewPackage(
-  user, name, desc, days, price, location, rating, context, ImgUrls,otherDetails,photoUrl) {
+  static storeNewPackage(user, name, desc, days, price, location, rating,
+      context, ImgUrls, otherDetails, photoUrl) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
     Packid = docp.id;
-
+    photoUrl == ''
+        ? photoUrl = 'https://www.teahub.io/photos/full/276-2767031_river-background-images-hd.jpg'
+        : photoUrl = photoUrl;
     docp.set({
       'Agency id': user.uid,
       'Agency Name': AgencyHomeState.Agencyname,
@@ -33,16 +35,27 @@ class packageManagement {
       'description': desc,
       'days': days,
       'price': price,
-      'Location': location,
+      'Location': location.toString().toLowerCase(),
       'Rating': rating,
       'ImgUrls': ImgUrls,
       'otherDetails': otherDetails,
       'photoUrl': photoUrl,
-      'packageAddedDate':DateTime.now(),
-      'sales':0
+      'packageAddedDate': DateTime.now(),
+      'sales': 0
     }).then((value) {
-      Package1 p = Package1(docp.id, name, AgencyHomeState.Agencyname, price,
-          days, desc, location, rating, user.uid,photoUrl, ImgUrls,otherDetails);
+      Package1 p = Package1(
+          docp.id,
+          name,
+          AgencyHomeState.Agencyname,
+          price,
+          days,
+          desc,
+          location,
+          rating,
+          user.uid,
+          photoUrl,
+          ImgUrls,
+          otherDetails);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -58,14 +71,15 @@ class packageManagement {
       'Agency id': user.uid,
       'Agency Name': AgencyHomeState.Agencyname,
       'Package id': p.pid,
-      'Package name': name.toString().toLowerCase(),
+      'Package name': name,
       'description': desc,
       'days': days,
       'price': price,
       'Location': location,
       'Rating': rating,
       'ImgUrls': ImgUrls,
-      'photoUrl': 'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Ym9hdCUyMG9uJTIwd2F0ZXJ8ZW58MHx8MHx8&w=1000&q=80',
+      'photoUrl':
+          'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8Ym9hdCUyMG9uJTIwd2F0ZXJ8ZW58MHx8MHx8&w=1000&q=80',
     }).then((value) {
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -83,7 +97,7 @@ class packageManagement {
     List<String>? imgUrls =
         (json['ImgUrls'] as List)?.map((item) => item as String)?.toList();
     List<String>? otherDetailsList =
-    (json['otherDetails'] as List)?.map((item) => item as String)?.toList();
+        (json['otherDetails'] as List)?.map((item) => item as String)?.toList();
     Package1 p1 = Package1(
       json['Package id'],
       json['Package name'],
@@ -126,11 +140,9 @@ class packageManagement {
     });
   }
 
-  updateSales(packageID){
+  updateSales(packageID) {
     Package.doc(packageID).update({'sales': FieldValue.increment(1)});
   }
-  
-  
 }
 
 class packageProvider extends ChangeNotifier {
@@ -154,7 +166,6 @@ class packageProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  
 
   void setPackages(AgencyId) {
     WidgetsBinding.instance?.addPostFrameCallback((_) async {

@@ -72,7 +72,7 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                                 .read<packageProvider>()
                                 .setPackages(widget.agency.uid);
                             Navigator.of(context).push(MaterialPageRoute(
-                              builder: (Context) =>
+                              builder: (context) =>
                                   PkgDetailAgency(pack: PackageList[index]),
                             ));
                           },

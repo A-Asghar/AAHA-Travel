@@ -4,6 +4,7 @@ import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'pkg_detail_pg_travellers.dart';
@@ -142,7 +143,6 @@ class _TravellerHomeState extends State<TravellerHome> {
                                   enabledBorder: InputBorder.none,
                                   errorBorder: InputBorder.none,
                                   disabledBorder: InputBorder.none,
-                                  //hintStyle: TextStyle(),
                                 ),
                                 cursorColor: Colors.black,
                                 cursorHeight: 20,
@@ -155,7 +155,8 @@ class _TravellerHomeState extends State<TravellerHome> {
                                 child: Icon(Icons.search,
                                     size: 30, color: Colors.grey.shade700),
                                 onTap: () {
-                                  print('from home : ' + searchbarController.text);
+                                  print('from home : ' +
+                                      searchbarController.text);
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => searchPage(
                                             searchTerm:
@@ -195,7 +196,7 @@ class _TravellerHomeState extends State<TravellerHome> {
                             child: Text('See All'),
                           ),
                         ),
-                        packageList(),
+                        topTravelPackages(),
                         const ListTile(
                           title: Text(
                             'Top Rated Agencies',
@@ -209,132 +210,7 @@ class _TravellerHomeState extends State<TravellerHome> {
                             child: Text('See All'),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 0.0, horizontal: 8),
-                          child: SizedBox(
-                            height: 100,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: ListView.builder(
-                                      itemCount:
-                                          loginUser.agencyListLocal.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder: (context, index1) {
-                                        // if (index1.isEven) {
-                                        //   return const VerticalDivider(
-                                        //     width: 5,
-                                        //     color: Colors.white,
-                                        //   );
-                                        // }
-
-                                        return Row(
-                                          children: [
-                                            VerticalDivider(
-                                              width: 10,
-                                              color: Colors.white,
-                                            ),
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      25), // Image border
-                                              child: SizedBox.fromSize(
-                                                size: const Size.fromRadius(
-                                                    50), // Image radius
-                                                child: InkWell(
-                                                  onTap: () {
-                                                    for (var i = 0;
-                                                        i <
-                                                            packageManagement
-                                                                .p1.length;
-                                                        i++) {
-                                                      print(packageManagement
-                                                          .p1[i].agencyId);
-                                                      print(context
-                                                          .read<
-                                                              agencyProvider>()
-                                                          .getAgencyList()[
-                                                              index1]
-                                                          .uid);
-                                                      setState(() {
-                                                        if (packageManagement
-                                                                .p1[i]
-                                                                .agencyId ==
-                                                            context
-                                                                .read<
-                                                                    agencyProvider>()
-                                                                .getAgencyList()[
-                                                                    index1]
-                                                                .uid) {
-                                                          PackageList.add(
-                                                              packageManagement
-                                                                  .p1[i]);
-                                                        }
-                                                      });
-                                                    }
-                                                    print(loginUser
-                                                        .agencyListLocal
-                                                        .length);
-                                                    print(packageManagement
-                                                        .p1.length);
-                                                    print(PackageList.length);
-
-                                                    //PackageList=[];
-                                                    // setState(() {
-                                                    //   WidgetsBinding.instance?.addPostFrameCallback((_) async{
-                                                    //     await context.read<packageProvider>().getListForTraveler(context.read<agencyProvider>().getAgencyList()[index].uid);
-                                                    //
-                                                    //
-                                                    //   });
-                                                    //
-                                                    // });
-                                                    Navigator.of(context)
-                                                        .push(MaterialPageRoute(
-                                                            builder: (context) => AgHomeTvView(
-                                                                agency: context
-                                                                        .read<
-                                                                            agencyProvider>()
-                                                                        .getAgencyList()[
-                                                                    index1])))
-                                                        .then((value) =>
-                                                            PackageList = []);
-                                                  },
-                                                  child: Container(
-                                                    decoration: BoxDecoration(
-                                                      image: DecorationImage(
-                                                          image: NetworkImage(
-                                                              images[index1]),
-                                                          fit: BoxFit.cover),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        loginUser
-                                                            .agencyListLocal[
-                                                                index1]
-                                                            .AName,
-                                                        style: TextStyle(
-                                                          fontSize: 22,
-                                                          color: Colors.white,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        topRatedAgencies(),
                       ],
                     ),
                   )),
@@ -346,7 +222,7 @@ class _TravellerHomeState extends State<TravellerHome> {
   }
 }
 
-class packageList extends StatelessWidget {
+class topTravelPackages extends StatelessWidget {
   final CollectionReference Packages =
       FirebaseFirestore.instance.collection('Packages');
 
@@ -418,6 +294,90 @@ class packageList extends StatelessWidget {
                                       child: Text(
                                         snapshot.data.docs[index]
                                             ['Package name'],
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}
+
+class topRatedAgencies extends StatelessWidget {
+  final CollectionReference Agencies =
+      FirebaseFirestore.instance.collection('Agencies');
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+        stream: Agencies.snapshots(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.hasError) {
+            return Text('Something went wrong');
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading . .. ");
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8),
+            child: SizedBox(
+              height: 100,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: snapshot.data.docs.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          var agency = snapshot.data.docs[index];
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+                            child: ClipRRect(
+                              borderRadius:
+                                  BorderRadius.circular(25), // Image border
+                              child: SizedBox.fromSize(
+                                size: const Size.fromRadius(50), // Image radius
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => AgHomeTvView(
+                                                  agency: Agency1(
+                                                      agency['name'],
+                                                      agency['phoneNum'],
+                                                      agency['about'],
+                                                      agency['email'],
+                                                      agency['photoUrl'],
+                                                      agency['uid']),
+                                                )));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                          image: NetworkImage(
+                                            snapshot.data.docs[index]
+                                                ['photoUrl'],
+                                          ),
+                                          fit: BoxFit.cover),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        snapshot.data.docs[index]['name'],
                                         style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,

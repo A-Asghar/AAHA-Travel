@@ -5,9 +5,25 @@ import 'pkg_detail_pg_travellers.dart';
 import 'signupAgency.dart';
 import 'loginScreen.dart';
 
-class searchPage extends StatelessWidget {
-  final searchTerm;
+class searchPage extends StatefulWidget {
+  final searchTerm; //searchTerm is the value received by travellerhome
   const searchPage({Key? key, required this.searchTerm}) : super(key: key);
+
+  @override
+  State<searchPage> createState() => _searchPageState();
+}
+
+final TextEditingController searchbarController = TextEditingController();
+String searchedTerm =
+    ''; // searchedTerm is the value that is used and changed in this page
+
+class _searchPageState extends State<searchPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    searchedTerm = widget.searchTerm;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +34,7 @@ class searchPage extends StatelessWidget {
         title: Container(
           width: MediaQuery.of(context).size.width,
           child: TextField(
+            controller: searchbarController,
             decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
                 suffixIcon: Icon(Icons.filter_list_outlined),
@@ -28,13 +45,18 @@ class searchPage extends StatelessWidget {
                 hintStyle: TextStyle(color: Colors.grey[800]),
                 hintText: "Search for destinations",
                 fillColor: Colors.white),
+            onSubmitted: (value) {
+              setState(() {
+                searchedTerm = value;
+              });
+            },
           ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: searchResults(
-        searchTerm: searchTerm,
+        searchTerm: searchedTerm,
       ),
     );
   }
@@ -55,74 +77,80 @@ class _searchResultsState extends State<searchResults> {
         FirebaseFirestore.instance.collection('Packages');
     return StreamBuilder(
       stream:
-          Packages.where('Location', isEqualTo: widget.searchTerm.toLowerCase()).snapshots(),
+          Packages.where('Location', isEqualTo: widget.searchTerm.toLowerCase())
+              .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: Card(
-                        // color: Colors.black,
-                        elevation: 0,
-                        margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        child: ListTile(
-                          title: ClipRRect(
-                            borderRadius: BorderRadius.circular(5.0),
-                            child: Image.network(
-                                snapshot.data.docs[index]['photoUrl']),
-                          ),
-                          subtitle: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text('Package ' +
-                                    snapshot.data.docs[index]['Package name'],
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black),
-                                  ),
-                                ],
+        if (snapshot.hasData && snapshot.data.docs.length > 0) {
+          print(snapshot.data.docs.length);
+          return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                return Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: Card(
+                      // color: Colors.black,
+                      elevation: 0,
+                      margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      child: ListTile(
+                        title: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: Image.network(
+                              snapshot.data.docs[index]['photoUrl']),
+                        ),
+                        subtitle: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Package ' +
+                                      snapshot.data.docs[index]['Package name'],
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              width: double.infinity,
+                              child: Text(
+                                snapshot.data.docs[index]['days'] + ' Days',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black),
+                                textAlign: TextAlign.left,
                               ),
-                              Container(
-                                width: double.infinity,
-                                child: Text(
-                                  snapshot.data.docs[index]['days'] + ' Days',
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  snapshot.data.docs[index]['Agency Name'],
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.black),
-                                  textAlign: TextAlign.left,
                                 ),
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    snapshot.data.docs[index]['Agency Name'],
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.black),
-                                  ),
-                                  Text('\$ '+
-                                    snapshot.data.docs[index]['price'],
-                                    style: TextStyle(
-                                        fontSize: 20, color: Colors.black),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                                Text(
+                                  '\$ ' + snapshot.data.docs[index]['price'],
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.black),
+                                ),
+                              ],
+                            )
+                          ],
                         ),
                       ),
                     ),
-                  );
-                });
-
+                  ),
+                );
+              });
         } else {
-          return (Text('Not Found'));
+          return (Center(
+            child: Text(
+              'Not Found',
+              style: TextStyle(fontSize: 25),
+            ),
+          ));
         }
       },
     );
