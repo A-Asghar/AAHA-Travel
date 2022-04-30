@@ -317,7 +317,12 @@ class topTravelPackages extends StatelessWidget {
   }
 }
 
-class topRatedAgencies extends StatelessWidget {
+class topRatedAgencies extends StatefulWidget {
+  @override
+  State<topRatedAgencies> createState() => _topRatedAgenciesState();
+}
+
+class _topRatedAgenciesState extends State<topRatedAgencies> {
   final CollectionReference Agencies =
       FirebaseFirestore.instance.collection('Agencies');
 
@@ -354,6 +359,19 @@ class topRatedAgencies extends StatelessWidget {
                                 size: const Size.fromRadius(50), // Image radius
                                 child: InkWell(
                                   onTap: () {
+                                    for(var i=0;i<packageManagement.p1.length;i++){
+                                      print(packageManagement.p1[i].agencyId);
+                                      print(context.read<agencyProvider>().getAgencyList()[index].uid);
+                                      setState(() {
+                                        if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index].uid){
+                                          PackageList.add(packageManagement.p1[i]);
+                                        }
+                                      });
+                                    }
+                                    print(loginUser.agencyListLocal.length);
+                                    print(packageManagement.p1.length);
+                                    print(PackageList.length);
+
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: (context) => AgHomeTvView(
@@ -364,7 +382,7 @@ class topRatedAgencies extends StatelessWidget {
                                                       agency['email'],
                                                       agency['photoUrl'],
                                                       agency['uid']),
-                                                )));
+                                                ))).then((value) => PackageList=[]);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(

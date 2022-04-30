@@ -68,9 +68,9 @@ class _AgHomeTvViewState extends State<AgHomeTvView> {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: () {
-                            context
-                                .read<packageProvider>()
-                                .setPackages(widget.agency.uid);
+                            // context
+                            //     .read<packageProvider>()
+                            //     .setPackages(widget.agency.uid);
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) =>
                                   PkgDetailAgency(pack: PackageList[index]),
