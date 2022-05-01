@@ -21,7 +21,7 @@ class packageManagement {
   static CollectionReference Package =
       FirebaseFirestore.instance.collection('Packages');
   static storeNewPackage(user, name, desc, days, price, location, rating,
-      context, ImgUrls, otherDetails, photoUrl) {
+      context, ImgUrls, otherDetails, photoUrl,isSaved) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
     Packid = docp.id;
     photoUrl == ''
@@ -41,7 +41,8 @@ class packageManagement {
       'otherDetails': otherDetails,
       'photoUrl': photoUrl,
       'packageAddedDate': DateTime.now(),
-      'sales': 0
+      'sales': 0,
+      'isSaved':isSaved
     }).then((value) {
       Package1 p = Package1(
           docp.id,
@@ -55,7 +56,9 @@ class packageManagement {
           user.uid,
           photoUrl,
           ImgUrls,
-          otherDetails);
+          otherDetails,
+          isSaved
+      );
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -111,6 +114,7 @@ class packageManagement {
       json['photoUrl'],
       imgUrls!,
       otherDetailsList!,
+      json['isSaved']
     );
     return p1;
   }

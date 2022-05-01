@@ -244,6 +244,7 @@ class recentlyAddedPackages extends StatelessWidget {
                                                           .cast<String>(),
                                                       package['otherDetails']
                                                           .cast<String>(),
+                                                      package['isSaved']
                                                     ),
                                                   )));
                                     },
@@ -362,6 +363,7 @@ class topSellingPackages extends StatelessWidget {
                                                           .cast<String>(),
                                                       package['otherDetails']
                                                           .cast<String>(),
+                                                      package['isSaved']
                                                     ),
                                                   )));
                                     },

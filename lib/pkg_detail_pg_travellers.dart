@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
+import 'otherDetails.dart';
+import 'otherDetails.dart';
 import 'paymentInvoice.dart';
 import 'Agency.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -44,7 +46,15 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
             )),
           ),
           SafeArea(
-            child: Container(
+            child: !widget.package.isSaved ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 300,horizontal: 100),
+              child: Column(
+                children: [
+                  Text('Other Details Not ',style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(' Added By The Agency',style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
+            ) :  Container(
               //margin: const EdgeInsets.all(8),
               padding: const EdgeInsets.all(4),
               width: 300,
@@ -293,6 +303,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                     child: allButton(
                                         buttonText: 'Other Details',
                                         onPressed: () {
+                                          print(widget.package.isSaved);
                                           setState(() {
                                             value == 0 ? value = 1 : value = 0;
                                           });

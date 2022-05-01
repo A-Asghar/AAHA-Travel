@@ -222,6 +222,7 @@ class _addPackage extends State<addPackage> {
                             ImgUrls1,
                             otherDetailsList,
                             PhotoUrl,
+                            isSaved
 
                             );
                         setState(() {});
