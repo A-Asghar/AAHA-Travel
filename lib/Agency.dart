@@ -35,10 +35,11 @@ class Package1 {
   double rating;
   String agencyId;
   String photoUrl;
+  bool isSaved;
   List<String> ImgUrls = [];
   List<String> otherDetails = [];
   Package1(this.pid, this.PName, this.Aname, this.Price, this.Days, this.Desc,
-      this.Location, this.rating, this.agencyId,this.photoUrl, this.ImgUrls,this.otherDetails) {
+      this.Location, this.rating, this.agencyId,this.photoUrl, this.ImgUrls,this.otherDetails,this.isSaved) {
     PName = this.PName;
     Price = this.Price;
     Aname = this.Aname;
@@ -48,6 +49,7 @@ class Package1 {
     rating = this.rating;
     agencyId = this.agencyId;
     photoUrl=this.photoUrl;
+    isSaved=this.isSaved;
     ImgUrls = this.ImgUrls;
     otherDetails= this.otherDetails;
   }

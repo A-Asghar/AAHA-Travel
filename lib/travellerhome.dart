@@ -278,6 +278,7 @@ class topTravelPackages extends StatelessWidget {
                                                         .cast<String>(),
                                                     package['otherDetails']
                                                         .cast<String>(),
+                                                    package['isSaved']
                                                   ),
                                                 )));
                                   },

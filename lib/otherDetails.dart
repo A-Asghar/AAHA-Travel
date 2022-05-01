@@ -7,14 +7,15 @@ class otherDetails extends StatefulWidget {
   @override
   State<otherDetails> createState() => _otherDetailsState();
 }
-
+bool isSaved=false;
 List<String> otherDetailsList = [];
+ var textFields = <TextField>[];
 
 class _otherDetailsState extends State<otherDetails> {
   @override
   var textEditingControllers = <TextEditingController>[];
 
-  var textFields = <TextField>[];
+
   // stringListReturnedFromApiCall.forEach((str) {
   //   var textEditingController = new TextEditingController(text: str);
   //   textEditingControllers.add(textEditingController);
@@ -81,6 +82,7 @@ class _otherDetailsState extends State<otherDetails> {
                             otherDetailsList.add('no detail added');
                           }
                         }
+                        isSaved=true;
                         Navigator.pop(context);
                       },
                       child: Text(

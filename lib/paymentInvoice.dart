@@ -160,7 +160,7 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                           widget.package.Price,
                                           widget.package.Aname,
                                           false,
-                                          widget.package.Location
+                                          widget.package.Location,
                                       );
                                       packageManagement()
                                           .updateSales(widget.package.pid);

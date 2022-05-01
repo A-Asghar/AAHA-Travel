@@ -11,6 +11,7 @@ import 'Agency.dart';
 import 'main.dart';
 import 'package:flutter/material.dart';
 import 'MyBottomBarDemo.dart';
+import 'otherDetails.dart';
 import 'services/packageManagement.dart';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 
@@ -248,7 +249,7 @@ class topView extends StatelessWidget {
                       Navigator.of(context)
                           .push(MaterialPageRoute(
                         builder: (Context) => addPackage(),
-                      ))
+                      )).then((value) => isSaved=false)
                           .then((value) {
                         daysController.clear();
                       }).then((value) => Navigator.pop(context));

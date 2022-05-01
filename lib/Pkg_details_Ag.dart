@@ -36,7 +36,15 @@ class PkgDetailAgencyState extends State<PkgDetailAgency> {
             )),
           ),
           SafeArea(
-            child: Container(
+            child: !widget.pack.isSaved ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 300,horizontal: 100),
+              child: Column(
+                children: [
+                  Text('Other Details Not ',style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(' Added By The Agency',style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
+            ) : Container(
               //margin: const EdgeInsets.all(8),
               padding: const EdgeInsets.all(4),
               width: 300,
