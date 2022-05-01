@@ -154,6 +154,17 @@ class packageManagement {
   updateReviewCount(packageID) {
     Package.doc(packageID).update({'reviewCount': FieldValue.increment(1)});
   }
+  Future<String> getLocation(p)async{
+    String name='a ';
+    var document =
+    await FirebaseFirestore.instance.collection('Packages').doc(p);
+    await document.get().then((document) {
+      print(document['Location']);
+       name = document['Location'];
+
+    });
+    return name;
+  }
 }
 
 class packageProvider extends ChangeNotifier {
@@ -212,6 +223,7 @@ class packageProvider extends ChangeNotifier {
     });
     return name;
   }
+
 
   Future<String>? getAgencyId(var p) async {
     var document =
