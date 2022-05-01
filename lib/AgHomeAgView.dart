@@ -251,7 +251,7 @@ class topView extends StatelessWidget {
                       ))
                           .then((value) {
                         daysController.clear();
-                      });
+                      }).then((value) => Navigator.pop(context));
                     },
                     backgroundColor: Colors.black,
                   ),

@@ -376,7 +376,7 @@ showAlertDialog(
     required String content}) {
   return showDialog(
       context: context,
-      builder: (BuildContext context) {
+      builder: (BuildContext contextAletDialog) {
         return AlertDialog(
           title: Text(title ?? ""),
           content: Text(content ?? ""),
@@ -384,6 +384,9 @@ showAlertDialog(
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(contextAletDialog);
+
+
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
