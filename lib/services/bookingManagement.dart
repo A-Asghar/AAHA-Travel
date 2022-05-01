@@ -12,7 +12,7 @@ class bookingManagement {
       FirebaseFirestore.instance.collection('Bookings');
 
   storeNewBooking(travellerID, agencyID, packageID, travelEndDate, packageName,
-      packageNumOfDays, packageDescription, travellerName, packagePrice,agencyName,hasRated) {
+      packageNumOfDays, packageDescription, travellerName, packagePrice,agencyName,hasRated,location) {
     Bookings.add({
       'travellerID': travellerID,
       'agencyID': agencyID,
@@ -24,7 +24,8 @@ class bookingManagement {
       'travellerName': travellerName,
       'packagePrice': packagePrice,
       'agencyName':agencyName,
-      'hasRated':hasRated
+      'hasRated':hasRated,
+      'location' : location
     });
   }
 

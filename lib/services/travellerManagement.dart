@@ -88,7 +88,16 @@ class travellerProvider extends ChangeNotifier {
     });
     return name;
   }
-
+  String getTravellerName(var user)  {
+    var document =
+     FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+     document.get().then((document) {
+      print(document['name']);
+      name = document['name'];
+      notifyListeners();
+    });
+    return name;
+  }
   Future<String>? getEmail(var user) async {
     var document =
         await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
