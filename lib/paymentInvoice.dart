@@ -2,13 +2,14 @@ import 'package:aaha/addPackage.dart';
 import 'package:aaha/services/travellerManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-
+import 'Widgets/userInput.dart';
 import 'services/bookingManagement.dart';
 import 'package:flutter/material.dart';
 import 'signupAgency.dart';
 import 'main.dart';
 import 'Agency.dart';
 import 'services/packageManagement.dart';
+import 'Widgets/allButton.dart';
 
 class paymentInvoice extends StatefulWidget {
   final Package1 package;
@@ -23,6 +24,11 @@ DateTime travelEndDate = DateTime.now();
 DateTime? travelStartDate = DateTime.now();
 String startDate = '';
 String endDate = '';
+TextEditingController _nameOnCard = TextEditingController();
+TextEditingController _cardNumber = TextEditingController();
+TextEditingController _expiryDate = TextEditingController();
+TextEditingController _securityCode = TextEditingController();
+TextEditingController _zip = TextEditingController();
 
 class _paymentInvoiceState extends State<paymentInvoice> {
   @override
@@ -48,7 +54,7 @@ class _paymentInvoiceState extends State<paymentInvoice> {
         elevation: 0,
         leading: IconButton(
           iconSize: 40,
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios_sharp,
             color: Colors.black,
           ),
@@ -114,22 +120,32 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                   textAlign: TextAlign.left,
                                 ),
                               ),
-                              userInput('Name on card', TextInputType.text),
-                              userInput('Card Number', TextInputType.number),
+                              userInput('Name on card', TextInputType.text,
+                                  _nameOnCard, false, 30),
+                              userInput('Card Number', TextInputType.number,
+                                  _cardNumber, false, 16),
                               Row(
                                 children: [
                                   Expanded(
                                     child: userInput(
-                                        'Expiry Date', TextInputType.datetime),
+                                        'Expiry Date',
+                                        TextInputType.datetime,
+                                        _expiryDate,
+                                        false,
+                                        5),
                                   ),
                                   Expanded(
                                     child: userInput(
-                                        'Security Code', TextInputType.number),
+                                        'Security Code',
+                                        TextInputType.number,
+                                        _securityCode,
+                                        true,
+                                        3),
                                   ),
                                 ],
                               ),
-                              userInput(
-                                  'ZIP / Postal code', TextInputType.number),
+                              userInput('ZIP / Postal code',
+                                  TextInputType.number, _zip, false, 5),
                               allButton(
                                   buttonText: 'Pay Now',
                                   onPressed: () async {
@@ -149,18 +165,18 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                           .getName(FirebaseAuth
                                               .instance.currentUser);
                                       bookingManagement().storeNewBooking(
-                                          currentUserUid,
-                                          widget.package.agencyId,
-                                          widget.package.pid,
-                                          travelEndDate,
-                                          widget.package.PName,
-                                          widget.package.Days,
-                                          widget.package.Desc,
-                                          currentUserName,
-                                          widget.package.Price,
-                                          widget.package.Aname,
-                                          false,
-                                          widget.package.Location,
+                                        currentUserUid,
+                                        widget.package.agencyId,
+                                        widget.package.pid,
+                                        travelEndDate,
+                                        widget.package.PName,
+                                        widget.package.Days,
+                                        widget.package.Desc,
+                                        currentUserName,
+                                        widget.package.Price,
+                                        widget.package.Aname,
+                                        false,
+                                        widget.package.Location,
                                       );
                                       packageManagement()
                                           .updateSales(widget.package.pid);
@@ -187,26 +203,6 @@ class _paymentInvoiceState extends State<paymentInvoice> {
   }
 }
 
-Widget userInput(String hintTitle, TextInputType keyboardType) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 15),
-    decoration: BoxDecoration(
-        // color: Colors.blueGrey.shade200,
-        borderRadius: BorderRadius.circular(30)),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25),
-      child: TextField(
-        // controller: controller,
-        decoration: InputDecoration(
-          hintText: hintTitle,
-          hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-        ),
-        keyboardType: keyboardType,
-      ),
-    ),
-  );
-}
-
 class selectSchedule extends StatefulWidget {
   final Package1 package;
   const selectSchedule({Key? key, required this.package}) : super(key: key);
@@ -223,7 +219,10 @@ class _selectScheduleState extends State<selectSchedule> {
         Padding(
             padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: IconButton(
-              icon: Icon(Icons.calendar_today_outlined,color: Colors.blueAccent,),
+              icon: Icon(
+                Icons.calendar_today_outlined,
+                color: Colors.blueAccent,
+              ),
               onPressed: () async {
                 travelStartDate = await showDatePicker(
                     context: context,

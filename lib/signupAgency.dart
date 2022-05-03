@@ -6,6 +6,7 @@ import 'loginScreen.dart';
 import 'main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'services/agencyManagement.dart';
+import 'Widgets/userInput.dart';
 
 class signupAgency extends StatefulWidget {
   const signupAgency({Key? key}) : super(key: key);
@@ -22,7 +23,6 @@ class _signupAgencyState extends State<signupAgency> {
   final _confirmPassword = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -70,17 +70,22 @@ class _signupAgencyState extends State<signupAgency> {
                           child: Text('Sign Up',
                               style: TextStyle(
                                 fontSize: 50,
-
                               )),
                         ),
-                        userInput('Agency Name', TextInputType.text, _name),
+                        userInput('Agency Name', TextInputType.text, _name,
+                            false, 30),
+                        userInput('Phone Number', TextInputType.phone,
+                            _phoneNum, false, 11),
                         userInput(
-                            'Phone Number', TextInputType.phone, _phoneNum),
-                        userInput('Email', TextInputType.name, _email),
+                            'Email', TextInputType.name, _email, false, 40),
                         userInput('Password', TextInputType.visiblePassword,
-                            _password),
-                        userInput('Confirm Password',
-                            TextInputType.visiblePassword, _confirmPassword),
+                            _password, true, 20),
+                        userInput(
+                            'Confirm Password',
+                            TextInputType.visiblePassword,
+                            _confirmPassword,
+                            true,
+                            20),
                         Padding(
                           padding: EdgeInsets.all(20),
                           child: Container(
@@ -99,24 +104,29 @@ class _signupAgencyState extends State<signupAgency> {
                                           side: BorderSide(
                                               color: Colors.blueGrey)))),
                               onPressed: () {
-                                if(_password.text == _confirmPassword.text){
+                                if (_password.text == _confirmPassword.text) {
                                   FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
-                                      email: _email.text,
-                                      password: _password.text)
+                                          email: _email.text,
+                                          password: _password.text)
                                       .then((signedInUser) {
                                     agencyManagement(
-                                        uid: FirebaseAuth
-                                            .instance.currentUser!.uid)
-                                        .storeNewAgency(signedInUser.user,
-                                        _name.text, _phoneNum.text, context);
-                                    packageManagement.Agencyid=signedInUser.user!.uid;
+                                            uid: FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                        .storeNewAgency(
+                                            signedInUser.user,
+                                            _name.text,
+                                            _phoneNum.text,
+                                            context);
+                                    packageManagement.Agencyid =
+                                        signedInUser.user!.uid;
                                   }).catchError((e) {
                                     print(e);
                                     signupErrorDialog(e.code, context);
                                   });
-                                }else{
-                                  signupErrorDialog('Password do not match ', context);
+                                } else {
+                                  signupErrorDialog(
+                                      'Password do not match ', context);
                                 }
                               },
                               child: Text('Sign Up ',
@@ -148,24 +158,4 @@ void signupErrorDialog(String e, context) async {
           content: Text(e.toString()),
         );
       });
-}
-
-Widget userInput(String hintTitle, TextInputType keyboardType, controller) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 15),
-    decoration: BoxDecoration(
-        // color: Colors.blueGrey.shade200,
-        borderRadius: BorderRadius.circular(30)),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hintTitle,
-          hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-        ),
-        keyboardType: keyboardType,
-      ),
-    ),
-  );
 }

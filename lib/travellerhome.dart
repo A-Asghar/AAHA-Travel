@@ -264,22 +264,23 @@ class topTravelPackages extends StatelessWidget {
                                             builder: (context) =>
                                                 PkgDetailTraveller(
                                                   package: Package1(
-                                                    package['Package id'],
-                                                    package['Package name'],
-                                                    package['Agency Name'],
-                                                    package['price'],
-                                                    package['days'],
-                                                    package['description'],
-                                                    package['Location'],
-                                                    double.parse(package['Rating'].toString()),
-                                                    package['Agency id'],
-                                                    package['photoUrl'],
-                                                    package['ImgUrls']
-                                                        .cast<String>(),
-                                                    package['otherDetails']
-                                                        .cast<String>(),
-                                                    package['isSaved']
-                                                  ),
+                                                      package['Package id'],
+                                                      package['Package name'],
+                                                      package['Agency Name'],
+                                                      package['price'],
+                                                      package['days'],
+                                                      package['description'],
+                                                      package['Location'],
+                                                      double.parse(
+                                                          package['Rating']
+                                                              .toString()),
+                                                      package['Agency id'],
+                                                      package['photoUrl'],
+                                                      package['ImgUrls']
+                                                          .cast<String>(),
+                                                      package['otherDetails']
+                                                          .cast<String>(),
+                                                      package['isSaved']),
                                                 )));
                                   },
                                   child: Container(
@@ -360,18 +361,20 @@ class _topRatedAgenciesState extends State<topRatedAgencies> {
                                 size: const Size.fromRadius(50), // Image radius
                                 child: InkWell(
                                   onTap: () {
-                                    for(var i=0;i<packageManagement.p1.length;i++){
-                                      print(packageManagement.p1[i].agencyId);
-                                      print(context.read<agencyProvider>().getAgencyList()[index].uid);
+                                    for (var i = 0;
+                                        i < packageManagement.p1.length;
+                                        i++) {
                                       setState(() {
-                                        if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index].uid){
-                                          PackageList.add(packageManagement.p1[i]);
+                                        if (packageManagement.p1[i].agencyId ==
+                                            context
+                                                .read<agencyProvider>()
+                                                .getAgencyList()[index]
+                                                .uid) {
+                                          PackageList.add(
+                                              packageManagement.p1[i]);
                                         }
                                       });
                                     }
-                                    print(loginUser.agencyListLocal.length);
-                                    print(packageManagement.p1.length);
-                                    print(PackageList.length);
 
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
@@ -383,7 +386,8 @@ class _topRatedAgenciesState extends State<topRatedAgencies> {
                                                       agency['email'],
                                                       agency['photoUrl'],
                                                       agency['uid']),
-                                                ))).then((value) => PackageList=[]);
+                                                )))
+                                        .then((value) => PackageList = []);
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -397,7 +401,7 @@ class _topRatedAgenciesState extends State<topRatedAgencies> {
                                     child: Center(
                                       child: Text(
                                         snapshot.data.docs[index]['name'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white,

@@ -87,16 +87,16 @@ class _editPackage extends State<editPackage> {
         child: Center(
           child: Column(
             children: [
-              userInput('Package Name', TextInputType.text, _nameController,
-                  widget.package.PName),
-              userInput('Description', TextInputType.text, _descController,
-                  widget.package.Desc),
-              userInput(
-                  'Days', TextInputType.text, _daysController, widget.package.Days),
-              userInput('Price', TextInputType.number, _priceController,
-                  widget.package.Price),
-              userInput('Location', TextInputType.text, _locationController,
-                  widget.package.Location),
+              editPackageUserInput('Package Name', TextInputType.text,
+                  _nameController, widget.package.PName),
+              editPackageUserInput('Description', TextInputType.text,
+                  _descController, widget.package.Desc),
+              editPackageUserInput('Days', TextInputType.text, _daysController,
+                  widget.package.Days),
+              editPackageUserInput('Price', TextInputType.number,
+                  _priceController, widget.package.Price),
+              editPackageUserInput('Location', TextInputType.text,
+                  _locationController, widget.package.Location),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: RaisedButton(
@@ -307,10 +307,10 @@ class _editPackage extends State<editPackage> {
       );
 }
 
-userInput(String hintTitle, TextInputType keyboardType, TextEditingController a,
-    String initalText) {
+editPackageUserInput(String hintTitle, TextInputType keyboardType,
+    TextEditingController a, String initalText) {
   return Container(
-    margin: EdgeInsets.only(bottom: 15),
+    margin: const EdgeInsets.only(bottom: 15),
     decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
     child: Padding(
       padding: const EdgeInsets.only(left: 25.0, right: 25),

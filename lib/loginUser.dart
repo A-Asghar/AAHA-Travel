@@ -10,6 +10,7 @@ import 'SignupTraveller.dart';
 import 'AgHomeAgView.dart';
 import 'MyBottomBarDemo1.dart';
 import 'travellerProfile.dart';
+import 'Widgets/userInput.dart';
 
 class loginUser extends StatefulWidget {
   static List<Agency1> agencyListLocal = [];
@@ -23,26 +24,6 @@ class _loginUserState extends State<loginUser> {
   final _email = TextEditingController();
   final _password = TextEditingController();
 
-  Widget userInput(
-      String hintTitle, TextInputType keyboardType, controller, obscureText) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30)),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 25.0, right: 25),
-        child: TextField(
-          obscureText: obscureText,
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: hintTitle,
-            hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-          ),
-          keyboardType: keyboardType,
-        ),
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +79,9 @@ class _loginUserState extends State<loginUser> {
                               )),
                           SizedBox(height: 15),
                           userInput('Email', TextInputType.emailAddress, _email,
-                              false),
+                              false,40),
                           userInput('Password', TextInputType.visiblePassword,
-                              _password, true),
+                              _password, true,20),
                           Container(
                             height: 55,
                             padding: const EdgeInsets.only(

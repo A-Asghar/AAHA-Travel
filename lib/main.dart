@@ -3,25 +3,8 @@ import 'services/packageManagement.dart';
 import 'package:provider/provider.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'AgHomeAgView.dart';
-import 'ProfileAgency.dart';
-import 'addPackage.dart';
-import 'bookingHistory.dart';
-import 'loginScreen.dart';
 import 'mainScreen.dart';
-import 'paymentInvoice.dart';
-import 'searchPage.dart';
-import 'signupAgency.dart';
-import 'topTravelDestinations.dart';
-import 'travellerProfile.dart';
-import 'travellerhome.dart';
-import 'AgHomeTvView.dart';
-import 'Agency.dart';
-import 'agencyhome.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future main() async{
@@ -86,35 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class allButton extends StatelessWidget {
-  final String buttonText;
-  final VoidCallback onPressed;
-  const allButton({Key? key, required this.buttonText, required this.onPressed})
-      : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: SizedBox(
-      width: MediaQuery.of(context).size.width * 0.7,
-      height: 45,
-      child: ElevatedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(
-              Colors.indigo.shade800,
-            ),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    side: BorderSide(color: Colors.blueGrey)))),
-        onPressed: onPressed,
-        child: Text(
-          buttonText,
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-      ),
-    ));
-  }
-}
 
 

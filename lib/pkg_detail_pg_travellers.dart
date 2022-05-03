@@ -12,6 +12,7 @@ import 'otherDetails.dart';
 import 'paymentInvoice.dart';
 import 'Agency.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Widgets/allButton.dart';
 
 class PkgDetailTraveller extends StatefulWidget {
   final Package1 package;
@@ -46,50 +47,57 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
             )),
           ),
           SafeArea(
-            child: !widget.package.isSaved ? Padding(
-              padding: const EdgeInsets.symmetric(vertical: 300,horizontal: 100),
-              child: Column(
-                children: [
-                  Text('Other Details Not ',style: TextStyle(fontWeight: FontWeight.bold),),
-                  Text(' Added By The Agency',style: TextStyle(fontWeight: FontWeight.bold),),
-                ],
-              ),
-            ) :  Container(
-              //margin: const EdgeInsets.all(8),
-              padding: const EdgeInsets.all(4),
-              width: 300,
-              //color: Colors.white,
-              child: Column(
-                children: [
-
-                  const Text(
-                    'Day Wise Detail: ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+            child: !widget.package.isSaved
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 300, horizontal: 100),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Other Details Not ',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          ' Added By The Agency',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                : Container(
+                    //margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(4),
+                    width: 300,
+                    //color: Colors.white,
+                    child: Column(
+                      children: [
+                        const Text(
+                          'Day Wise Detail: ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Expanded(
+                            child: ListView.builder(
+                                itemCount: int.parse(widget.package.Days),
+                                itemBuilder: (context, index) => ListTile(
+                                      title: Text(
+                                        'Day: ${index + 1}',
+                                        style: const TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Text(
+                                        widget.package!.otherDetails[index],
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                        ),
+                                      ),
+                                    )))
+                      ],
                     ),
                   ),
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: int.parse(widget.package.Days),
-                          itemBuilder: (context, index) => ListTile(
-                            title: Text(
-                              'Day: ${index + 1}',
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            subtitle:  Text( widget.package!.otherDetails[index],
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          )
-                      )
-                  )
-                ],
-              ),
-            ),
           ),
           TweenAnimationBuilder(
               tween: Tween<double>(begin: 0, end: value),
@@ -164,7 +172,8 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         RichText(
                                           text: TextSpan(
@@ -192,7 +201,10 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                                 color: Colors.black),
                                             children: <TextSpan>[
                                               TextSpan(
-                                                text: widget.package.rating==0 ? 'Unrated' : widget.package.rating.toStringAsFixed(2),
+                                                text: widget.package.rating == 0
+                                                    ? 'Unrated'
+                                                    : widget.package.rating
+                                                        .toStringAsFixed(2),
                                                 style: TextStyle(
                                                     fontSize: 18,
                                                     color: Colors.black),
@@ -329,8 +341,8 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           paymentInvoice(
-                                                            package: widget.package
-                                                          )));
+                                                              package: widget
+                                                                  .package)));
                                             }),
                                       ),
 
