@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'services/agencyManagement.dart';
 import 'services/packageManagement.dart';
 import 'package:provider/provider.dart';
+import 'Widgets/userInput.dart';
 
 class loginScreen extends StatefulWidget {
   @override
@@ -62,9 +63,9 @@ class _loginScreenState extends State<loginScreen> {
                               )),
                           SizedBox(height: 25),
                           userInput('Email', TextInputType.emailAddress, _email,
-                              false),
+                              false,40),
                           userInput('Password', TextInputType.visiblePassword,
-                              _password, true),
+                              _password, true,20),
                           Container(
                             height: 55,
                             padding: const EdgeInsets.only(
@@ -163,24 +164,4 @@ class _loginScreenState extends State<loginScreen> {
   }
 }
 
-Widget userInput(
-    String hintTitle, TextInputType keyboardType, controller, obscureText) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 15),
-    decoration: BoxDecoration(
-        // color: Colors.blueGrey.shade200,
-        borderRadius: BorderRadius.circular(30)),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25),
-      child: TextField(
-        obscureText: obscureText,
-        controller: controller,
-        decoration: InputDecoration(
-          hintText: hintTitle,
-          hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-        ),
-        keyboardType: keyboardType,
-      ),
-    ),
-  );
-}
+

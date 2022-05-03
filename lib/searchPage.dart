@@ -127,12 +127,12 @@ class _searchResultsState extends State<searchResults> {
                               children: [
                                 Text(
                                   snapshot.data.docs[index]['Agency Name'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 16, color: Colors.black),
                                 ),
                                 Text(
                                   '\$ ' + snapshot.data.docs[index]['price'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 20, color: Colors.black),
                                 ),
                               ],

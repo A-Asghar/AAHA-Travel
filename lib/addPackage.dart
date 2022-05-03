@@ -17,9 +17,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:convert';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
+import 'Widgets/userInput.dart';
 
 TextEditingController _nameController = TextEditingController();
 TextEditingController _descController = TextEditingController();
@@ -39,7 +39,7 @@ class _addPackage extends State<addPackage> {
   List<XFile>? imageFileList = [];
   UploadTask? task;
   List<String> ImgUrls1 = [];
-  String PhotoUrl='';
+  String PhotoUrl = '';
   @override
   Widget build(BuildContext context) {
     final filename =
@@ -70,11 +70,15 @@ class _addPackage extends State<addPackage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                userInput('Package Name', TextInputType.text, _nameController),
-                userInput('Description', TextInputType.text, _descController),
-                userInput('Days', TextInputType.number, daysController),
-                userInput('Price', TextInputType.number, _priceController),
-                userInput('Location', TextInputType.text, _locationController),
+                userInput(
+                  'Package Name',
+                  TextInputType.text,
+                  _nameController, false , 40
+                ),
+                userInput('Description', TextInputType.text, _descController,false,500),
+                userInput('Days', TextInputType.number, daysController,false,3),
+                userInput('Price', TextInputType.number, _priceController,false,8),
+                userInput('Location', TextInputType.text, _locationController,false,20),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: RaisedButton(
@@ -83,7 +87,7 @@ class _addPackage extends State<addPackage> {
                         borderRadius: BorderRadius.circular(25)),
                     color: Colors.indigo.shade500,
                     onPressed: () {
-                     selectImage();
+                      selectImage();
                     },
                     child: Text(
                       'Add thumbnail photo',
@@ -94,7 +98,6 @@ class _addPackage extends State<addPackage> {
                       ),
                     ),
                   ),
-
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
@@ -124,9 +127,7 @@ class _addPackage extends State<addPackage> {
                       ),
                     ),
                   ),
-
                 ),
-
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Row(
@@ -208,8 +209,7 @@ class _addPackage extends State<addPackage> {
                             context: context,
                             title: 'Something went wrong',
                             content: 'Please enter daywise details');
-                      }
-                      else{
+                      } else {
                         await packageManagement.storeNewPackage(
                             FirebaseAuth.instance.currentUser,
                             _nameController.text,
@@ -222,9 +222,7 @@ class _addPackage extends State<addPackage> {
                             ImgUrls1,
                             otherDetailsList,
                             PhotoUrl,
-                            isSaved
-
-                            );
+                            isSaved);
                         setState(() {});
                         _nameController.clear();
                         _descController.clear();
@@ -253,7 +251,7 @@ class _addPackage extends State<addPackage> {
   }
 
   Future selectImage() async {
-    final result = await imagePicker.pickImage(source: ImageSource.gallery );
+    final result = await imagePicker.pickImage(source: ImageSource.gallery);
     if (result == null) return;
     final path = File(result.path);
     setState(() {});
@@ -263,22 +261,21 @@ class _addPackage extends State<addPackage> {
     try {
       FirebaseStorage storage = FirebaseStorage.instance;
       Reference ref =
-      storage.ref().child(packageManagement.Packid + '___' + fileName);
+          storage.ref().child(packageManagement.Packid + '___' + fileName);
       i = i + 1;
       String url = '';
       task = ref.putFile(path);
       setState(() {});
       TaskSnapshot taskSnapshot = await task!.whenComplete(() {});
       taskSnapshot.ref.getDownloadURL().then(
-            (value) {
+        (value) {
           url = value;
-          PhotoUrl=url;
+          PhotoUrl = url;
           print(PhotoUrl +
               '\n...................................................................................................................');
           print("Done: $value");
         },
       );
-
     } catch (e) {
       print('error occured');
       print(e);
@@ -352,25 +349,6 @@ class _addPackage extends State<addPackage> {
       );
 }
 
-Widget userInput(
-    String hintTitle, TextInputType keyboardType, TextEditingController a) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 15),
-    decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-    child: Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25),
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: hintTitle,
-          hintStyle: TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
-        ),
-        keyboardType: keyboardType,
-        controller: a,
-      ),
-    ),
-  );
-}
-
 showAlertDialog(
     {required BuildContext context,
     required String title,
@@ -386,8 +364,6 @@ showAlertDialog(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(contextAletDialog);
-
-
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
