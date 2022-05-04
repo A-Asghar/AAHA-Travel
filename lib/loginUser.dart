@@ -99,17 +99,6 @@ class _loginUserState extends State<loginUser> {
                                   if (await travellerManagement(
                                           uid: signedInUser.user!.uid)
                                       .isTraveller()) {
-                                    WidgetsBinding.instance
-                                        ?.addPostFrameCallback((_) async {
-                                      context
-                                          .read<agencyProvider>()
-                                          .setAgencies();
-                                      loginUser.agencyListLocal = await context
-                                          .read<agencyProvider>()
-                                          .getAgencyList();
-                                      setState(() {});
-                                    });
-
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) => MyBottomBarDemo1(),
