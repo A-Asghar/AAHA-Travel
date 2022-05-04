@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'pkg_detail_pg_travellers.dart';
-import 'signupAgency.dart';
-import 'loginScreen.dart';
+import 'Agency.dart';
 
 class searchPage extends StatefulWidget {
   final searchTerm; //searchTerm is the value received by travellerhome
@@ -81,10 +79,10 @@ class _searchResultsState extends State<searchResults> {
               .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData && snapshot.data.docs.length > 0) {
-          print(snapshot.data.docs.length);
           return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (context, index) {
+                var package = snapshot.data.docs[index];
                 return Align(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
@@ -94,6 +92,31 @@ class _searchResultsState extends State<searchResults> {
                       elevation: 0,
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
+                        onTap: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      PkgDetailTraveller(
+                                        package: Package1(
+                                            package['Package id'],
+                                            package['Package name'],
+                                            package['Agency Name'],
+                                            package['price'],
+                                            package['days'],
+                                            package['description'],
+                                            package['Location'],
+                                            double.parse(
+                                                package['Rating']
+                                                    .toString()),
+                                            package['Agency id'],
+                                            package['photoUrl'],
+                                            package['ImgUrls']
+                                                .cast<String>(),
+                                            package['otherDetails']
+                                                .cast<String>(),
+                                            package['isSaved']),
+                                      )));
+                        },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
                           child: Image.network(

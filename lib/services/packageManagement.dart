@@ -1,16 +1,7 @@
-import 'dart:io';
-
 import 'package:aaha/AgHomeAgView.dart';
 import 'package:aaha/Agency.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:aaha/MyBottomBarDemo.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'agencyManagement.dart';
 import 'package:aaha/agencyhome.dart';
 
 class packageManagement {
@@ -21,11 +12,12 @@ class packageManagement {
   static CollectionReference Package =
       FirebaseFirestore.instance.collection('Packages');
   static storeNewPackage(user, name, desc, days, price, location, rating,
-      context, ImgUrls, otherDetails, photoUrl,isSaved) {
+      context, ImgUrls, otherDetails, photoUrl, isSaved) {
     final docp = FirebaseFirestore.instance.collection('Packages').doc();
     Packid = docp.id;
     photoUrl == ''
-        ? photoUrl = 'https://www.teahub.io/photos/full/276-2767031_river-background-images-hd.jpg'
+        ? photoUrl =
+            'https://images.wallpapersden.com/image/wxl-south-america-patagonia-andes-mountains_15498.jpg'
         : photoUrl = photoUrl;
     docp.set({
       'Agency id': user.uid,
@@ -42,7 +34,7 @@ class packageManagement {
       'photoUrl': photoUrl,
       'packageAddedDate': DateTime.now(),
       'sales': 0,
-      'isSaved':isSaved
+      'isSaved': isSaved
     }).then((value) {
       Package1 p = Package1(
           docp.id,
@@ -57,8 +49,7 @@ class packageManagement {
           photoUrl,
           ImgUrls,
           otherDetails,
-          isSaved
-      );
+          isSaved);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -102,20 +93,19 @@ class packageManagement {
     List<String>? otherDetailsList =
         (json['otherDetails'] as List)?.map((item) => item as String)?.toList();
     Package1 p1 = Package1(
-      json['Package id'],
-      json['Package name'],
-      json['Agency Name'],
-      json['price'],
-      json['days'],
-      json['description'],
-      json['Location'],
-      double.parse(json['Rating'].toString()),
-      json['Agency id'],
-      json['photoUrl'],
-      imgUrls!,
-      otherDetailsList!,
-      json['isSaved']
-    );
+        json['Package id'],
+        json['Package name'],
+        json['Agency Name'],
+        json['price'],
+        json['days'],
+        json['description'],
+        json['Location'],
+        double.parse(json['Rating'].toString()),
+        json['Agency id'],
+        json['photoUrl'],
+        imgUrls!,
+        otherDetailsList!,
+        json['isSaved']);
     return p1;
   }
 
@@ -148,24 +138,30 @@ class packageManagement {
   updateSales(packageID) {
     Package.doc(packageID).update({'sales': FieldValue.increment(1)});
   }
-  updateRating(packageID,rating) async {
-    var document = await FirebaseFirestore.instance.collection('Packages').doc(packageID).get();
-    double ratingcount =double.parse(document['reviewCount'].toString());
-    double existingRating =double.parse(document['Rating'].toString());
-    double totalRating = (ratingcount-1)*existingRating;
-    Package.doc(packageID).update({'Rating': (rating+totalRating)/ratingcount});
+
+  updateRating(packageID, rating) async {
+    var document = await FirebaseFirestore.instance
+        .collection('Packages')
+        .doc(packageID)
+        .get();
+    double ratingcount = double.parse(document['reviewCount'].toString());
+    double existingRating = double.parse(document['Rating'].toString());
+    double totalRating = (ratingcount - 1) * existingRating;
+    Package.doc(packageID)
+        .update({'Rating': (rating + totalRating) / ratingcount});
   }
+
   updateReviewCount(packageID) {
     Package.doc(packageID).update({'reviewCount': FieldValue.increment(1)});
   }
-  Future<String> getLocation(p)async{
-    String name='a ';
+
+  Future<String> getLocation(p) async {
+    String name = 'a ';
     var document =
-    await FirebaseFirestore.instance.collection('Packages').doc(p);
+        await FirebaseFirestore.instance.collection('Packages').doc(p);
     await document.get().then((document) {
       print(document['Location']);
-       name = document['Location'];
-
+      name = document['Location'];
     });
     return name;
   }
@@ -227,7 +223,6 @@ class packageProvider extends ChangeNotifier {
     });
     return name;
   }
-
 
   Future<String>? getAgencyId(var p) async {
     var document =
