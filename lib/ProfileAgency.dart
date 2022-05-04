@@ -1,9 +1,10 @@
 import 'services/agencyManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'signupAgency.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'Widgets/updateDialog.dart';
+import 'Widgets/userData.dart';
 
 class ProfileAgency extends StatefulWidget {
   const ProfileAgency({Key? key}) : super(key: key);
@@ -43,9 +44,9 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                           TextButton(
                               onPressed: () async {
                                 var newPhotoUrl =
-                                await updateDialog(context, 'photo url');
+                                    await updateDialog(context, 'photo url');
                                 var agencyManagementObject =
-                                agencyManagement(uid: currentUser!.uid);
+                                    agencyManagement(uid: currentUser!.uid);
                                 if (newPhotoUrl != null) {
                                   setState(() {
                                     agencyManagementObject
@@ -75,9 +76,10 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                             InkWell(
                               child: Icon(Icons.edit),
                               onTap: () async {
-                                var newName = await updateDialog(context, 'name');
+                                var newName =
+                                    await updateDialog(context, 'name');
                                 var agencyManagementObject =
-                                agencyManagement(uid: currentUser!.uid);
+                                    agencyManagement(uid: currentUser!.uid);
                                 if (newName != null) {
                                   setState(() {
                                     agencyManagementObject
@@ -117,9 +119,9 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                               child: Icon(Icons.edit),
                               onTap: () async {
                                 var newPhoneNum =
-                                await updateDialog(context, 'phone number');
+                                    await updateDialog(context, 'phone number');
                                 var agencyManagementObject =
-                                agencyManagement(uid: currentUser!.uid);
+                                    agencyManagement(uid: currentUser!.uid);
                                 if (newPhoneNum != null) {
                                   setState(() {
                                     agencyManagementObject
@@ -153,9 +155,9 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                               child: Icon(Icons.edit),
                               onTap: () async {
                                 var newAbout =
-                                await updateDialog(context, 'about');
+                                    await updateDialog(context, 'about');
                                 var agencyManagementObject =
-                                agencyManagement(uid: currentUser!.uid);
+                                    agencyManagement(uid: currentUser!.uid);
                                 if (newAbout != null) {
                                   setState(() {
                                     agencyManagementObject
@@ -190,35 +192,6 @@ class _ProfileAgencyState extends State<ProfileAgency> {
         ),
       ),
     );
-  }
-
-  updateDialog(context, valueToBeChanged) async {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          var controller = TextEditingController();
-          return AlertDialog(
-            title: Text('Enter new ' + valueToBeChanged),
-            content: TextField(
-              controller: controller,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Cancel')),
-              TextButton(
-                  onPressed: () {
-                    controller.text != ""
-                        ? Navigator.of(context).pop(controller.text)
-                        : Navigator.of(context).pop();
-                  },
-                  child: Text('Update')),
-            ],
-          );
-        });
   }
 }
 
@@ -260,34 +233,6 @@ class ProfliePictureWidget extends StatelessWidget {
         } else {
           return CircularProgressIndicator();
         }
-      },
-    );
-  }
-}
-
-class userData extends StatelessWidget {
-  final Future<String>? future;
-  const userData({Key? key, required this.future}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Center(
-              child: Text(
-                snapshot.data!.toString() == "" ? "Set Up" : snapshot.data!.toString(),
-                style: TextStyle(color: Colors.black, fontSize: 25),
-              ),
-            ),
-          );
-        }
-        return CircularProgressIndicator(
-          color: Colors.blue,
-        );
       },
     );
   }

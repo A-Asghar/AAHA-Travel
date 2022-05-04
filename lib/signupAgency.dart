@@ -77,7 +77,7 @@ class _signupAgencyState extends State<signupAgency> {
                         userInput('Phone Number', TextInputType.phone,
                             _phoneNum, false, 11),
                         userInput(
-                            'Email', TextInputType.name, _email, false, 40),
+                            'Email', TextInputType.emailAddress, _email, false, 40),
                         userInput('Password', TextInputType.visiblePassword,
                             _password, true, 20),
                         userInput(

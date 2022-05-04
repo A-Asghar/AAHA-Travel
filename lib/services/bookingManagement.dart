@@ -18,7 +18,8 @@ class bookingManagement {
       'packagePrice': packagePrice,
       'agencyName':agencyName,
       'hasRated':hasRated,
-      'location' : location
+      'location' : location,
+      'ImgUrls': []
     });
   }
 

@@ -2,6 +2,7 @@ import 'package:aaha/Agency.dart';
 import 'package:aaha/loginUser.dart';
 import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/packageManagement.dart';
+import 'package:aaha/topRatedAgencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -197,7 +198,7 @@ class _TravellerHomeState extends State<TravellerHome> {
                           ),
                         ),
                         topTravelPackages(),
-                        const ListTile(
+                         ListTile(
                           title: Text(
                             'Top Rated Agencies',
                             style: TextStyle(
@@ -206,7 +207,11 @@ class _TravellerHomeState extends State<TravellerHome> {
                             ),
                           ),
                           trailing: InkWell(
-                            onTap: null,
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      topSellingAgencies()));
+                            },
                             child: Text('See All'),
                           ),
                         ),

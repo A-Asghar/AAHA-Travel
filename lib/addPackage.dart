@@ -1,23 +1,12 @@
-import 'package:aaha/Agency.dart';
-import 'package:aaha/editPackage.dart';
 import 'package:aaha/otherDetails.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'MyBottomBarDemo.dart';
-import 'signupAgency.dart';
-import 'loginScreen.dart';
-import 'MyBottomBarDemo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:convert';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
 import 'Widgets/userInput.dart';
 
@@ -143,7 +132,6 @@ class _addPackage extends State<addPackage> {
                         padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
                         child: IconButton(
                             onPressed: () {
-                              //_imageFromGallery();
                               selectImages();
                             },
                             icon: Icon(Icons.camera_alt_outlined)),

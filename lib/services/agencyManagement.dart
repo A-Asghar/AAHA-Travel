@@ -1,5 +1,6 @@
 import 'package:aaha/Agency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,21 +13,20 @@ import 'package:aaha/Agency.dart';
 import '../Agency.dart';
 
 class agencyManagement {
- static List<Agency1> AgenciesList=[];
+  static List<Agency1> AgenciesList = [];
   final String uid;
   agencyManagement({required this.uid});
   CollectionReference Agency =
       FirebaseFirestore.instance.collection('Agencies');
   storeNewAgency(user, name, phoneNum, context) {
-
     Agency.doc(uid).set({
       'email': user.email,
       'uid': user.uid,
       'name': name,
       'phoneNum': phoneNum,
       'about': 'About you',
-
       'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
+      'sales': 0
     }).then((value) {
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
@@ -34,6 +34,7 @@ class agencyManagement {
       ));
     });
   }
+
   static Agency1 fromJson(Map<String, dynamic> json) {
     Agency1 agency = Agency1(
       json['name'],
@@ -42,28 +43,21 @@ class agencyManagement {
       json['email'],
       json['photoUrl'],
       json['uid'],
-
     );
     return agency;
   }
-  static  getAgencies()  async{
 
-
-    await FirebaseFirestore.instance.collection('Agencies').get().then((QuerySnapshot querySnapshot) {
+  static getAgencies() async {
+    await FirebaseFirestore.instance
+        .collection('Agencies')
+        .get()
+        .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-
-        agencyManagement.AgenciesList.add(agencyManagement.fromJson(doc.data() as Map<String, dynamic>));
-        print(AgenciesList.length);
-        print('............');
-
+        agencyManagement.AgenciesList.add(
+            agencyManagement.fromJson(doc.data() as Map<String, dynamic>));
       });
-
     });
-
-
   }
-
-
 
   updateAgencyName(name) async {
     await Agency.doc(uid).update({'name': name});
@@ -79,6 +73,10 @@ class agencyManagement {
 
   updateAgencyPhotoUrl(photoUrl) {
     Agency.doc(uid).update({'photoUrl': photoUrl});
+  }
+
+  updateAgencySales(){
+    Agency.doc(uid).update({'sales': FieldValue.increment(1)});
   }
 
   Future<bool> isAgency() async {
@@ -99,18 +97,18 @@ class agencyProvider extends ChangeNotifier {
   String phoneNum = '00000000000';
   String about = 'About you';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
-  void setAgencies(){
-    WidgetsBinding.instance?.addPostFrameCallback((_) async{
+  void setAgencies() {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await agencyManagement.getAgencies();
-
-
     });
 
     notifyListeners();
   }
-  List<Agency1> getAgencyList(){
+
+  List<Agency1> getAgencyList() {
     return agencyManagement.AgenciesList;
   }
+
   Future<String>? getName(var user) async {
     var document =
         await FirebaseFirestore.instance.collection('Agencies').doc(user.uid);
@@ -143,9 +141,10 @@ class agencyProvider extends ChangeNotifier {
     });
     return phoneNum;
   }
+
   Future<String>? getPhoneNumber(var userid) async {
     var document =
-    await FirebaseFirestore.instance.collection('Agencies').doc(userid);
+        await FirebaseFirestore.instance.collection('Agencies').doc(userid);
     await document.get().then((document) {
       print(document['phoneNum']);
       phoneNum = document['phoneNum'];
@@ -175,4 +174,6 @@ class agencyProvider extends ChangeNotifier {
     });
     return photoUrl;
   }
+
+
 }
