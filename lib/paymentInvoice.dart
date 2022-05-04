@@ -1,4 +1,5 @@
 import 'package:aaha/addPackage.dart';
+import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
@@ -180,6 +181,7 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                       );
                                       packageManagement()
                                           .updateSales(widget.package.pid);
+                                      agencyManagement(uid: widget.package.agencyId).updateAgencySales();
                                       showAlertDialog(
                                           context: context,
                                           title: 'Success',

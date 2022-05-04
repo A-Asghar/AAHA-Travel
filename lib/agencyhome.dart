@@ -108,7 +108,7 @@ class AgencyHomeState extends State<AgencyHome> {
                 fit: BoxFit.fill,
               )),
               child: const Text(
-                'WELCOME !',
+                'WELCOME ',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 45,
