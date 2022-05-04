@@ -2,8 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:provider/provider.dart';
-import 'signupAgency.dart';
 import 'services/travellerManagement.dart';
+import 'Widgets/userData.dart';
+import 'Widgets/ProfilePictureWidget.dart';
 
 class EditUserProfile extends StatefulWidget {
   const EditUserProfile({Key? key}) : super(key: key);
@@ -40,9 +41,9 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                         TextButton(
                             onPressed: () async {
                               var newPhotoUrl =
-                              await updateDialog(context, 'photo url');
+                                  await updateDialog(context, 'photo url');
                               var travellerManagementObject =
-                              travellerManagement(uid: currentUser!.uid);
+                                  travellerManagement(uid: currentUser!.uid);
                               if (newPhotoUrl != null) {
                                 setState(() {
                                   travellerManagementObject
@@ -77,7 +78,7 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                             onTap: () async {
                               var newName = await updateDialog(context, 'name');
                               var travellerManagementObject =
-                              travellerManagement(uid: currentUser!.uid);
+                                  travellerManagement(uid: currentUser!.uid);
                               if (newName != null) {
                                 setState(() {
                                   travellerManagementObject
@@ -123,9 +124,9 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                             child: Icon(Icons.edit),
                             onTap: () async {
                               var newPhoneNum =
-                              await updateDialog(context, 'phone number');
+                                  await updateDialog(context, 'phone number');
                               var travellerManagementObject =
-                              travellerManagement(uid: currentUser!.uid);
+                                  travellerManagement(uid: currentUser!.uid);
                               if (newPhoneNum != null) {
                                 setState(() {
                                   travellerManagementObject
@@ -143,7 +144,7 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Icon(Icons.account_circle_outlined),
                           Container(
@@ -162,9 +163,9 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                             child: Icon(Icons.edit),
                             onTap: () async {
                               var newAbout =
-                              await updateDialog(context, 'about');
+                                  await updateDialog(context, 'about');
                               var travellerManagementObject =
-                              travellerManagement(uid: currentUser!.uid);
+                                  travellerManagement(uid: currentUser!.uid);
                               if (newAbout != null) {
                                 setState(() {
                                   travellerManagementObject
@@ -183,16 +184,23 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: InkWell(
-                          child: const Text(
-                            'Update your current city',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 25),
-                          ),
                           onTap: () async {
                             var newCity = await updateDialog(context, 'city');
                             travellerManagement(uid: currentUser!.uid)
                                 .updateTravellerCity(newCity);
                           },
+                          child: Padding(padding: EdgeInsets.all(15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(Icons.location_on_outlined),
+                              Text(
+                                'Update your current city',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            ],
+                          ),)
                         ),
                       ),
                     ),
@@ -259,56 +267,6 @@ class ProfilePictureScreen extends StatelessWidget {
           Navigator.pop(context);
         },
       ),
-    );
-  }
-}
-
-class ProfilePictureWidget extends StatelessWidget {
-  final Future<String>? future;
-  const ProfilePictureWidget({Key? key, required this.future})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return CircularProfileAvatar(snapshot.data.toString());
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}
-
-class userData extends StatelessWidget {
-  final Future<String>? future;
-  const userData({Key? key, required this.future}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Padding(
-            padding: EdgeInsets.all(15.0),
-            child: Center(
-              child: Text(
-                snapshot.data!.toString() == ""
-                    ? "Set Up"
-                    : snapshot.data!.toString(),
-                style: TextStyle(color: Colors.black, fontSize: 25),
-              ),
-            ),
-          );
-        }
-        return CircularProgressIndicator(
-          color: Colors.blue,
-        );
-      },
     );
   }
 }

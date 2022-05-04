@@ -20,10 +20,8 @@ class loginUser extends StatefulWidget {
 }
 
 class _loginUserState extends State<loginUser> {
-
   final _email = TextEditingController();
   final _password = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +77,9 @@ class _loginUserState extends State<loginUser> {
                               )),
                           SizedBox(height: 15),
                           userInput('Email', TextInputType.emailAddress, _email,
-                              false,40),
+                              false, 40),
                           userInput('Password', TextInputType.visiblePassword,
-                              _password, true,20),
+                              _password, true, 20),
                           Container(
                             height: 55,
                             padding: const EdgeInsets.only(
@@ -90,7 +88,7 @@ class _loginUserState extends State<loginUser> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(25)),
                               color: Colors.indigo.shade800,
-                              onPressed: () async {
+                              onPressed: () {
                                 FirebaseAuth.instance
                                     .signInWithEmailAndPassword(
                                         email: _email.text,
@@ -99,17 +97,6 @@ class _loginUserState extends State<loginUser> {
                                   if (await travellerManagement(
                                           uid: signedInUser.user!.uid)
                                       .isTraveller()) {
-                                    WidgetsBinding.instance
-                                        ?.addPostFrameCallback((_) async {
-                                      context
-                                          .read<agencyProvider>()
-                                          .setAgencies();
-                                      loginUser.agencyListLocal = await context
-                                          .read<agencyProvider>()
-                                          .getAgencyList();
-                                      setState(() {});
-                                    });
-
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) => MyBottomBarDemo1(),
