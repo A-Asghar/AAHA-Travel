@@ -275,9 +275,6 @@ class _editPackage extends State<editPackage> {
           (value) {
             url = value;
             ImgUrls1.add(url);
-            print(ImgUrls1[0] +
-                '\n...................................................................................................................');
-            print("Done: $value");
           },
         );
         final urlString = ref.getDownloadURL();

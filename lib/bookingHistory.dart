@@ -6,7 +6,11 @@ import './bookingHistoryScheduled.dart';
 class bookingHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: MaterialApp(
       home: DefaultTabController(
         length: 2,
         child: Scaffold(
@@ -29,6 +33,6 @@ class bookingHistory extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

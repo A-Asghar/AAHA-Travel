@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:aaha/MyBottomBarDemo1.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 class travellerManagement {
@@ -88,16 +84,18 @@ class travellerProvider extends ChangeNotifier {
     });
     return name;
   }
-  String getTravellerName(var user)  {
+
+  String getTravellerName(var user) {
     var document =
-     FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
-     document.get().then((document) {
+        FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
+    document.get().then((document) {
       print(document['name']);
       name = document['name'];
       notifyListeners();
     });
     return name;
   }
+
   Future<String>? getEmail(var user) async {
     var document =
         await FirebaseFirestore.instance.collection('Travellers').doc(user.uid);
