@@ -376,21 +376,10 @@ class _travellerProfileState extends State<travellerProfile> {
                           Container(
                             color: Colors.white,
                             padding: EdgeInsets.fromLTRB(
-                                80, 0, 80, 0), // color: Colors.red,
+                                0, 0, 0, 0), // color: Colors.red,
 
-                            child: const Center(
-                              child: ListTile(
-                                title: Padding(
-                                  padding: const EdgeInsets.only(bottom: 10.0),
-                                  child: Text('Add reviews!',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center),
-                                ),
-                                subtitle: Text(
-                                    'Reviews you add will be displayed here',
-                                    textAlign: TextAlign.center),
-                              ),
+                            child: Center(
+                              child: reviewsList(),
                             ),
                           ),
                           Container(
@@ -398,28 +387,30 @@ class _travellerProfileState extends State<travellerProfile> {
                             padding: EdgeInsets.fromLTRB(
                                 80, 0, 80, 0), // color: Colors.red,
 
-                            child:  Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ListTile(
-                                    title: Padding(
-                                      padding: const EdgeInsets.only(bottom: 10.0),
-                                      child: Text('Our forum!',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                          textAlign: TextAlign.center),
-                                    ),
-                                    subtitle: Text(
-                                        'You can connect with people of same interest here!',
+                            child: Center(
+                                child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const ListTile(
+                                  title: Padding(
+                                    padding: EdgeInsets.only(bottom: 10.0),
+                                    child: Text('Our forum!',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.center),
                                   ),
-                                  TextButton(onPressed: (){
-                                    _launchURL(Uri.parse('https://www.reddit.com/r/AAHATravel/'));
-                                  }, child: Text('Tap to open forum !')),
-                                ],
-                              )
-                            ),
+                                  subtitle: Text(
+                                      'You can connect with people of same interest here!',
+                                      textAlign: TextAlign.center),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      _launchURL(Uri.parse(
+                                          'https://www.reddit.com/r/AAHATravel/'));
+                                    },
+                                    child: const Text('Tap to open forum !')),
+                              ],
+                            )),
                           ),
                         ],
                       ),
@@ -480,6 +471,70 @@ class CoverPictureWidget extends StatelessWidget {
             color: Colors.white,
           );
         }
+      },
+    );
+  }
+}
+
+class reviewsList extends StatefulWidget {
+  const reviewsList({Key? key}) : super(key: key);
+
+  @override
+  State<reviewsList> createState() => _reviewsListState();
+}
+
+class _reviewsListState extends State<reviewsList> {
+  final CollectionReference Bookings =
+      FirebaseFirestore.instance.collection('Bookings');
+  var currentUserID = FirebaseAuth.instance.currentUser!.uid;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream:
+          Bookings.where('travellerID', isEqualTo: currentUserID).snapshots(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        }
+        if (snapshot.hasData) {
+          return Expanded(
+            child: ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    elevation: 8.0,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 6.0),
+                    child: ListTile(
+                      subtitle: Text(
+                        'Package : ' + snapshot.data.docs[index]['packageName'],
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      title: Text(
+                        'Your Review : ' +
+                            snapshot.data.docs[index]['ratingReview'],
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                }),
+          );
+        }
+        return ListTile(
+          title: Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: Text('Add reviews!',
+                style: TextStyle(fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center),
+          ),
+          subtitle: Text('Reviews you add will be displayed here',
+              textAlign: TextAlign.center),
+        );
       },
     );
   }

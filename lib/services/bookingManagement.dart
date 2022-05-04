@@ -19,10 +19,14 @@ class bookingManagement {
       'agencyName':agencyName,
       'hasRated':hasRated,
       'location' : location,
+      'ratingReview': '',
       'ImgUrls': []
     });
   }
 
+  storeReview(bookingID, review){
+    Bookings.doc(bookingID).update({'ratingReview':review });
+  }
   getBookingsForAgency(agencyID) {
     Bookings.where('agencyID', isEqualTo: agencyID).get();
   }

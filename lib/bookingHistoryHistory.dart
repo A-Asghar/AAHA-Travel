@@ -106,13 +106,18 @@ class _bookingHistoryListTravellerState
                                       style: const TextStyle(fontSize: 15),
                                     ),
                                     // your app's logo?
-                                    image: const FlutterLogo(size: 100),
+                                    image: const Image(
+                                        image: NetworkImage(
+                                            'https://i.ibb.co/Gtrmp6N/rating-gb9bcb3421-640-removebg-preview.png')),
                                     submitButtonText: 'Submit',
                                     commentHint: 'Write your review here.',
                                     onCancelled: () => print('cancelled'),
                                     onSubmitted: (response) {
                                       bookingManagement().updateHasRated(
                                           snapshot.data.docs[index].id);
+                                      bookingManagement().storeReview(
+                                          snapshot.data.docs[index].id,
+                                          response.comment);
                                       packageManagement().updateReviewCount(
                                           snapshot.data.docs[index]
                                               ['packageID']);
@@ -149,7 +154,7 @@ class _bookingHistoryListTravellerState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               'Description',
                               style: TextStyle(
                                   fontSize: 18,
@@ -298,13 +303,11 @@ class _bookingHistoryListTravellerState
   }
 
   void selectImages() async {
-    final List<XFile>? selectedImages =
-    await imagePicker.pickMultiImage();
+    final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
-    print("Image List Length:" +
-        imageFileList!.length.toString());
+    print("Image List Length:" + imageFileList!.length.toString());
     setState(() {});
     await uploadFile(imageFileList!);
   }
@@ -324,14 +327,14 @@ class _bookingHistoryListTravellerState
       try {
         FirebaseStorage storage = FirebaseStorage.instance;
         Reference ref =
-        storage.ref().child(packageManagement.Packid + '___' + fileName);
+            storage.ref().child(packageManagement.Packid + '___' + fileName);
         i = i + 1;
         String url = '';
         task = ref.putFile(file);
         setState(() {});
         TaskSnapshot taskSnapshot = await task!.whenComplete(() {});
         taskSnapshot.ref.getDownloadURL().then(
-              (value) {
+          (value) {
             url = value;
             ImgUrls.add(url);
             print(ImgUrls[0] +
