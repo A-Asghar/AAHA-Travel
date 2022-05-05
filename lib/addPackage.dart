@@ -10,7 +10,7 @@ import 'package:path/path.dart';
 import 'dart:io';
 import 'otherDetails.dart';
 import 'Widgets/userInput.dart';
-
+import 'Widgets/showAlertDialog.dart';
 TextEditingController _nameController = TextEditingController();
 TextEditingController _descController = TextEditingController();
 TextEditingController daysController = TextEditingController();
@@ -361,28 +361,4 @@ class _addPackage extends State<addPackage> {
       );
 }
 
-showAlertDialog(
-    {required BuildContext context,
-    required String title,
-    required String content}) {
-  return showDialog(
-      context: context,
-      builder: (BuildContext contextAletDialog) {
-        return AlertDialog(
-          title: Text(title ?? ""),
-          content: Text(content ?? ""),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(contextAletDialog);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Continue'),
-              ),
-            ),
-          ],
-        );
-      });
-}
+
