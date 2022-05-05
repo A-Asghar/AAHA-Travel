@@ -39,10 +39,10 @@ class _bookingHistoryListTravellerState
       FirebaseFirestore.instance.collection('Bookings');
   File? file;
   final ImagePicker imagePicker = ImagePicker();
-  List<XFile>? imageFileList = [];
+  List<XFile>? BookingsimageFileList = [];
   UploadTask? task;
-  List<String> ImgUrls = [];
-
+  List<String> bookingsImgUrls = [];
+  String id='';
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -157,89 +157,77 @@ class _bookingHistoryListTravellerState
                                   fontWeight: FontWeight.bold,
                                   color: Colors.black),
                             ),
+
                             InkWell(
                               child: Icon(Icons.camera_alt_outlined),
                               onTap: () {
-                                Dialog addPictures = Dialog(
-                                    child: Column(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {
-                                          selectImages();
-                                        },
-                                        icon: Icon(Icons.camera_alt)),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.9,
-                                      child: SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.25,
-                                        child: GridView.builder(
-                                            itemCount: imageFileList!.length,
-                                            gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              crossAxisSpacing: 6,
-                                              mainAxisSpacing: 6,
-                                            ),
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Container(
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                    color: Colors.white70),
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(4.0),
-                                                  child: Column(
-                                                    children: [
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(5),
-                                                        ),
-                                                        height: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .height *
-                                                            0.1,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.35,
-                                                        child: Image.file(
-                                                          File(imageFileList![
-                                                                  index]
-                                                              .path),
-                                                          fit: BoxFit.scaleDown,
-                                                        ),
-                                                      ),
-                                                      SizedBox(height: 5),
-                                                      task != null
-                                                          ? buildUploadStatus(
-                                                              task!)
-                                                          : Container(),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            }),
-                                      ),
-                                    ),
-                                  ],
-                                ));
+
                                 showDialog(
                                     context: context,
-                                    builder: (BuildContext context) =>
-                                        addPictures);
+                                    barrierDismissible: false,
+
+                                    builder: (BuildContext context) {
+            return StatefulBuilder(builder: (context, setState)
+            {
+              return Dialog(
+                  insetPadding: EdgeInsets.symmetric(vertical: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.4, horizontal: MediaQuery
+                      .of(context)
+                      .size
+                      .width * 0.2),
+                  child: Column(
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            id = snapshot.data.docs[index].id;
+                            await selectImages();
+                          },
+                          icon: Icon(Icons.camera_alt)),
+                      task != null
+                          ? buildUploadStatus(task!)
+                          : Text('xyz'),
+                      Container(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.5,
+                        child: RaisedButton(
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          color: Colors.indigo.shade800,
+                          onPressed: () {
+                            bookingManagement().updateBookingImages(
+                                id, bookingsImgUrls);
+                            print(bookingsImgUrls.length);
+                            bookingsImgUrls = [];
+                            BookingsimageFileList = [];
+                            setState(() {
+
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ));
+            });
+                                    }
+                                    );
+
                               },
-                            )
+                            ),
+
                           ],
                         ),
                         Align(
@@ -298,14 +286,18 @@ class _bookingHistoryListTravellerState
     );
   }
 
-  void selectImages() async {
+  selectImages() async {
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
-      imageFileList!.addAll(selectedImages);
+      setState(() {
+        BookingsimageFileList!.addAll(selectedImages);
+      });
+
     }
-    print("Image List Length:" + imageFileList!.length.toString());
+    print("Image List Length:" + BookingsimageFileList!.length.toString());
     setState(() {});
-    await uploadFile(imageFileList!);
+    await uploadFile(BookingsimageFileList!);
+
   }
 
   firebase_storage.FirebaseStorage storage =
@@ -332,8 +324,8 @@ class _bookingHistoryListTravellerState
         taskSnapshot.ref.getDownloadURL().then(
           (value) {
             url = value;
-            ImgUrls.add(url);
-            print(ImgUrls[0] +
+            bookingsImgUrls.add(url);
+            print(bookingsImgUrls[0] +
                 '\n...................................................................................................................');
             print("Done: $value");
           },
@@ -344,6 +336,7 @@ class _bookingHistoryListTravellerState
         print(e);
       }
     });
+
   }
 
   Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(

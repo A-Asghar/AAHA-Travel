@@ -67,12 +67,17 @@ class _topAgenciesState extends State<topAgencies> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
                         onTap: () {
-                          for(var i=0;i<packageManagement.p1.length;i++){
-                            print(packageManagement.p1[i].agencyId);
-                            print(context.read<agencyProvider>().getAgencyList()[index].uid);
+                          for (var i = 0;
+                          i < packageManagement.p1.length;
+                          i++) {
                             setState(() {
-                              if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index].uid){
-                                PackageList.add(packageManagement.p1[i]);
+                              if (packageManagement.p1[i].agencyId ==
+                                  context
+                                      .read<agencyProvider>()
+                                      .getAgencyList()[index]
+                                      .uid) {
+                                PackageList.add(
+                                    packageManagement.p1[i]);
                               }
                             });
                           }

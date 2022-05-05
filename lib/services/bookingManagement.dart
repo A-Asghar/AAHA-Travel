@@ -1,11 +1,13 @@
+import 'package:aaha/bookingHistoryHistory.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:flutter/cupertino.dart';
+List<String> urls=[];
 class bookingManagement {
   CollectionReference Bookings =
       FirebaseFirestore.instance.collection('Bookings');
 
   storeNewBooking(travellerID, agencyID, packageID, travelEndDate, packageName,
-      packageNumOfDays, packageDescription, travellerName, packagePrice,agencyName,hasRated,location) {
+      packageNumOfDays, packageDescription, travellerName, packagePrice,agencyName,hasRated,location,BookingImagesUrls) {
     Bookings.add({
       'travellerID': travellerID,
       'agencyID': agencyID,
@@ -19,7 +21,8 @@ class bookingManagement {
       'agencyName':agencyName,
       'hasRated':hasRated,
       'location' : location,
-      'ImgUrls': []
+      'ImgUrls': [],
+      'BookingImagesUrls':BookingImagesUrls
     });
   }
 
@@ -31,5 +34,9 @@ class bookingManagement {
   }
   updateHasRated(bookingID) {
     Bookings.doc(bookingID).update({'hasRated': true});
+  }
+  updateBookingImages(bookingID,BookingImagesUrlsList){
+
+    Bookings.doc(bookingID).update({'BookingImagesUrls':BookingImagesUrlsList});
   }
 }
