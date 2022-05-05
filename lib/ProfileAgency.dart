@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'Widgets/updateDialog.dart';
 import 'Widgets/userData.dart';
+import 'Widgets/ProfilePictureWidget.dart';
 
 class ProfileAgency extends StatefulWidget {
   const ProfileAgency({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                 children: <Widget>[
                   Row(
                     children: [
-                      ProfliePictureWidget(
+                      ProfilePictureWidget(
                           future: context
                               .read<agencyProvider>()
                               .getPhotoUrl(currentUser)),
@@ -64,8 +65,11 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             // - - - Name - - -
                             Icon(Icons.person_outline_outlined),
@@ -93,8 +97,11 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                       ),
                       // - - - Email - - -
                       Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(Icons.email_outlined),
                             userData(
@@ -107,8 +114,11 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                       ),
                       // - - - Phone Number - - -
                       Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(Icons.phone_outlined),
                             userData(
@@ -135,8 +145,11 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                       ),
                       // - - - About - - -
                       Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             Icon(Icons.account_circle_outlined),
                             Container(
@@ -218,22 +231,4 @@ class ProfilePictureScreen extends StatelessWidget {
   }
 }
 
-class ProfliePictureWidget extends StatelessWidget {
-  final Future<String>? future;
-  const ProfliePictureWidget({Key? key, required this.future})
-      : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return CircularProfileAvatar(snapshot.data.toString());
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}

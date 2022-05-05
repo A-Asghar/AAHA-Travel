@@ -491,14 +491,13 @@ class _reviewsListState extends State<reviewsList> {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream:
-          Bookings.where('travellerID', isEqualTo: currentUserID).snapshots(),
+          Bookings.where('travellerID', isEqualTo: currentUserID).where('hasRated',isEqualTo: true).snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
-        if (snapshot.hasData) {
-          return Expanded(
-            child: ListView.builder(
+        if (snapshot.hasData && snapshot.data.docs.length > 0) {
+          return ListView.builder(
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   return Card(
@@ -522,8 +521,8 @@ class _reviewsListState extends State<reviewsList> {
                       ),
                     ),
                   );
-                }),
-          );
+                });
+
         }
         return ListTile(
           title: Padding(

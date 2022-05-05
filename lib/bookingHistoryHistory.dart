@@ -8,12 +8,8 @@ import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'otherDetails.dart';
-import 'Widgets/userInput.dart';
-import 'addPackage.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
