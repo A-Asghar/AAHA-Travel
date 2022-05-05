@@ -356,7 +356,7 @@ class topSellingPackages extends StatelessWidget {
                                                       package['days'],
                                                       package['description'],
                                                       package['Location'],
-                                                      package['Rating'],
+                                                      double.parse(package['Rating'].toString()),
                                                       package['Agency id'],
                                                       package['photoUrl'],
                                                       package['ImgUrls']
