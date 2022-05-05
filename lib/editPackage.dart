@@ -20,6 +20,8 @@ import 'dart:io';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'otherDetails.dart';
+import 'package:path/path.dart';
+import 'dart:io';
 
 class editPackage extends StatefulWidget {
   final Package1 package;
@@ -53,6 +55,7 @@ class _editPackage extends State<editPackage> {
   List<XFile>? imageFileList = [];
   UploadTask? task;
   List<String> ImgUrls1 = [];
+  String PhotoUrl = '';
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descController = TextEditingController();
   TextEditingController _daysController = TextEditingController();
@@ -97,6 +100,26 @@ class _editPackage extends State<editPackage> {
                   _priceController, widget.package.Price),
               editPackageUserInput('Location', TextInputType.text,
                   _locationController, widget.package.Location),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: RaisedButton(
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25)),
+                  color: Colors.indigo.shade500,
+                  onPressed: () {
+                    selectImage();
+                  },
+                  child: Text(
+                    'Edit thumbnail photo',
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: RaisedButton(
@@ -205,7 +228,9 @@ class _editPackage extends State<editPackage> {
                         _locationController.text,
                         0,
                         context,
-                        ImgUrls1);
+                        ImgUrls1,
+                        PhotoUrl
+                    );
                     setState(() {});
                     context.read<packageProvider>().updatePackage(
                         widget.package,
@@ -234,10 +259,36 @@ class _editPackage extends State<editPackage> {
   }
 
   Future selectImage() async {
-    final result = await FilePicker.platform.pickFiles();
+    final result = await imagePicker.pickImage(source: ImageSource.gallery);
     if (result == null) return;
-    final path = result.files.toList();
+    final path = File(result.path);
     setState(() {});
+
+    final fileName = basename(path.path);
+    final destination = '$fileName';
+    int i = 1;
+    try {
+      FirebaseStorage storage = FirebaseStorage.instance;
+      Reference ref =
+      storage.ref().child(packageManagement.Packid + '___' + fileName);
+      i = i + 1;
+      String url = '';
+      task = ref.putFile(path);
+      setState(() {});
+      TaskSnapshot taskSnapshot = await task!.whenComplete(() {});
+      taskSnapshot.ref.getDownloadURL().then(
+            (value) {
+          url = value;
+          PhotoUrl = url;
+          print(PhotoUrl +
+              '\n...................................................................................................................');
+          print("Done: $value");
+        },
+      );
+    } catch (e) {
+      print('error occured');
+      print(e);
+    }
   }
 
   void selectImages() async {
