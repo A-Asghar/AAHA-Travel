@@ -1,25 +1,12 @@
 import 'package:aaha/Agency.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'MyBottomBarDemo.dart';
 import 'editOtherDetails.dart';
-import 'signupAgency.dart';
-import 'loginScreen.dart';
-import 'MyBottomBarDemo.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:convert';
-import 'package:path/path.dart';
-import 'dart:io';
-import 'package:aaha/pkg_detail_pg_travellers.dart';
-import 'package:image_picker/image_picker.dart';
-import 'otherDetails.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 
@@ -375,27 +362,4 @@ editPackageUserInput(String hintTitle, TextInputType keyboardType,
   );
 }
 
-showAlertDialog(
-    {required BuildContext context,
-    required String title,
-    required String content}) {
-  return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(title ?? ""),
-          content: Text(content ?? ""),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Continue'),
-              ),
-            ),
-          ],
-        );
-      });
-}
+
