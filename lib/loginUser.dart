@@ -94,9 +94,26 @@ class _loginUserState extends State<loginUser> {
                                         email: _email.text,
                                         password: _password.text)
                                     .then((signedInUser) async {
+
                                   if (await travellerManagement(
                                           uid: signedInUser.user!.uid)
                                       .isTraveller()) {
+                                    WidgetsBinding.instance
+                                        ?.addPostFrameCallback((_) async {
+                                      context
+                                          .read<agencyProvider>()
+                                          .setAgencies();
+                                      loginUser.agencyListLocal = await context
+                                          .read<agencyProvider>()
+                                          .getAgencyList();
+                                      setState(() {});
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyBottomBarDemo1(),
+                                      ));
+                                    });
+
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                       builder: (context) => MyBottomBarDemo1(),
