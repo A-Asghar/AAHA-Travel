@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path/path.dart';
 import 'dart:io';
 import 'otherDetails.dart';
@@ -29,6 +30,7 @@ class _addPackage extends State<addPackage> {
   UploadTask? task;
   List<String> ImgUrls1 = [];
   String PhotoUrl = '';
+  bool isLoaded = false;
   @override
   Widget build(BuildContext context) {
     final filename =
@@ -59,15 +61,16 @@ class _addPackage extends State<addPackage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                userInput('Package Name', TextInputType.text, _nameController,
+                    false, 40),
+                userInput('Description', TextInputType.text, _descController,
+                    false, 500),
                 userInput(
-                  'Package Name',
-                  TextInputType.text,
-                  _nameController, false , 40
-                ),
-                userInput('Description', TextInputType.text, _descController,false,500),
-                userInput('Days', TextInputType.number, daysController,false,3),
-                userInput('Price', TextInputType.number, _priceController,false,8),
-                userInput('Location', TextInputType.text, _locationController,false,20),
+                    'Days', TextInputType.number, daysController, false, 3),
+                userInput(
+                    'Price', TextInputType.number, _priceController, false, 8),
+                userInput('Location', TextInputType.text, _locationController,
+                    false, 20),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: RaisedButton(
@@ -132,6 +135,9 @@ class _addPackage extends State<addPackage> {
                         padding: EdgeInsets.fromLTRB(0, 0, 20, 10),
                         child: IconButton(
                             onPressed: () {
+                              setState(() {
+                                isLoaded = false;
+                              });
                               selectImages();
                             },
                             icon: Icon(Icons.camera_alt_outlined)),
@@ -183,53 +189,59 @@ class _addPackage extends State<addPackage> {
                         }),
                   ),
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: RaisedButton(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(25)),
-                    color: Colors.indigo.shade800,
-                    onPressed: () async {
-                      print(ImgUrls1.length);
-                      if (daysController.text == '') {
-                        showAlertDialog(
-                            context: context,
-                            title: 'Something went wrong',
-                            content: 'Please enter daywise details');
-                      } else {
-                        await packageManagement.storeNewPackage(
-                            FirebaseAuth.instance.currentUser,
-                            _nameController.text,
-                            _descController.text,
-                            daysController.text,
-                            _priceController.text,
-                            _locationController.text,
-                            0.0,
-                            context,
-                            ImgUrls1,
-                            otherDetailsList,
-                            PhotoUrl,
-                            isSaved);
-                        setState(() {});
-                        _nameController.clear();
-                        _descController.clear();
-                        daysController.clear();
-                        _priceController.clear();
-                        _locationController.clear();
-                        otherDetailsList = [];
-                      }
-                    },
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
+                !isLoaded
+                    ? Container(
+                  height: 50,
+                  child: LoadingAnimationWidget.threeArchedCircle(
+                      color: Colors.blueAccent, size: 20),
+                )
+                    : Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: RaisedButton(
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25)),
+                          color: Colors.indigo.shade800,
+                          onPressed: () async {
+                            print(ImgUrls1.length);
+                            if (daysController.text == '') {
+                              showAlertDialog(
+                                  context: context,
+                                  title: 'Something went wrong',
+                                  content: 'Please enter daywise details');
+                            } else {
+                              await packageManagement.storeNewPackage(
+                                  FirebaseAuth.instance.currentUser,
+                                  _nameController.text,
+                                  _descController.text,
+                                  daysController.text,
+                                  _priceController.text,
+                                  _locationController.text,
+                                  0.0,
+                                  context,
+                                  ImgUrls1,
+                                  otherDetailsList,
+                                  PhotoUrl,
+                                  isSaved);
+                              setState(() {});
+                              _nameController.clear();
+                              _descController.clear();
+                              daysController.clear();
+                              _priceController.clear();
+                              _locationController.clear();
+                              otherDetailsList = [];
+                            }
+                          },
+                          child: Text(
+                            'Submit',
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -278,11 +290,13 @@ class _addPackage extends State<addPackage> {
     print("Image List Length:" + imageFileList!.length.toString());
     setState(() {});
     await uploadFile(imageFileList!);
+
   }
 
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
   Future uploadFile(List _images) async {
+    int count = 0 ;
     _images.forEach((_photo) async {
       if (_photo == null) {
         return;
@@ -305,8 +319,15 @@ class _addPackage extends State<addPackage> {
           (value) {
             url = value;
             ImgUrls1.add(url);
+            count++;
+            if(count == imageFileList!.length){
+              setState(() {
+                isLoaded=true;
+              });
+            }
             print(ImgUrls1[0] +
-                '\n...................................................................................................................');
+                '\n......................................................................................................');
+            print('imgurls1 length'+ ImgUrls1.length.toString());
             print("Done: $value");
           },
         );
@@ -317,6 +338,7 @@ class _addPackage extends State<addPackage> {
       }
     });
   }
+
 
   Widget buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
         stream: task.snapshotEvents,

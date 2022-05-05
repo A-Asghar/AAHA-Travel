@@ -44,7 +44,7 @@ class _topPackagesState extends State<topPackages> {
     CollectionReference Packages =
         FirebaseFirestore.instance.collection('Packages');
     return StreamBuilder(
-      stream: Packages.orderBy('sales',descending: true).snapshots(),
+      stream: Packages.orderBy('sales', descending: true).snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData && snapshot.data.docs.length > 0) {
           return ListView.builder(
@@ -60,29 +60,24 @@ class _topPackagesState extends State<topPackages> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
                         onTap: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      PkgDetailTraveller(
-                                        package: Package1(
-                                            package['Package id'],
-                                            package['Package name'],
-                                            package['Agency Name'],
-                                            package['price'],
-                                            package['days'],
-                                            package['description'],
-                                            package['Location'],
-                                            double.parse(
-                                                package['Rating']
-                                                    .toString()),
-                                            package['Agency id'],
-                                            package['photoUrl'],
-                                            package['ImgUrls']
-                                                .cast<String>(),
-                                            package['otherDetails']
-                                                .cast<String>(),
-                                            package['isSaved']),
-                                      )));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PkgDetailTraveller(
+                                    package: Package1(
+                                        package['Package id'],
+                                        package['Package name'],
+                                        package['Agency Name'],
+                                        package['price'],
+                                        package['days'],
+                                        package['description'],
+                                        package['Location'],
+                                        double.parse(
+                                            package['Rating'].toString()),
+                                        package['Agency id'],
+                                        package['photoUrl'],
+                                        package['ImgUrls'].cast<String>(),
+                                        package['otherDetails'].cast<String>(),
+                                        package['isSaved']),
+                                  )));
                         },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
@@ -146,4 +141,3 @@ class _topPackagesState extends State<topPackages> {
     );
   }
 }
-

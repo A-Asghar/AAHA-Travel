@@ -19,7 +19,6 @@ class travellerProfile extends StatefulWidget {
 }
 
 class _travellerProfileState extends State<travellerProfile> {
-
   @override
   Widget build(BuildContext context) {
     var currentUser = FirebaseAuth.instance.currentUser;
@@ -362,129 +361,151 @@ class _travellerProfileState extends State<travellerProfile> {
 
                             child: (snapshot.data.docs.length == 0)
                                 ? const Center(
-                              child: ListTile(
-                                title: Padding(
-                                  padding: const EdgeInsets.only(bottom: 0.0),
-                                  child: Text('Add Photos!',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                      textAlign: TextAlign.center),
-                                ),
-                                subtitle: Text(
-                                    'Photos you add will be displayed here!',
-                                    textAlign: TextAlign.center),
-                              ),
-                            ) : ListView.builder(
-                              itemCount: snapshot.data.docs.length,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
-                                return Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    BorderRadius.circular(10),
-                                  ),
-                                  elevation: 8.0,
-                                  margin: const EdgeInsets.symmetric(
-                                      horizontal: 5.0, vertical: 6.0),
-                                  child: Stack(
-                                    children: [
-                                      (snapshot.data.docs[index]['BookingImagesUrls'].length == 0) ? Center(
-                                        child: Column(
-                                    children: [
-                                        Text(
-                                          snapshot.data
-                                              .docs[index]
-                                          ['location'],
-                                          style: TextStyle(
-                                              fontWeight:
-                                              FontWeight.bold,
-                                              fontSize: 20),
+                                    child: ListTile(
+                                      title: Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 0.0),
+                                        child: Text('Add Photos!',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                            textAlign: TextAlign.center),
+                                      ),
+                                      subtitle: Text(
+                                          'Photos you add will be displayed here!',
+                                          textAlign: TextAlign.center),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    itemCount: snapshot.data.docs.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Card(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        Text('No Photos Added for this trip')
-                                    ],
-                                  ),
-                                      ) : ListTile(
-                                        title: Row(
-                                          mainAxisAlignment:
-                                          MainAxisAlignment
-                                              .spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                        elevation: 8.0,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 5.0, vertical: 6.0),
+                                        child: Stack(
                                           children: [
-                                            Column(
-                                              children: [
-                                                Text(
-                                                  snapshot.data
-                                                      .docs[index]
-                                                  ['location'],
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 20),
-                                                ),
-                                                Container(
-                                                  width: MediaQuery.of(context).size.width * 0.8,
-                                                  height: MediaQuery.of(context).size.height * 0.15,
-                                                  child: SizedBox(
-
-                                                    child: GridView.builder(
-                                                        itemCount:snapshot.data
-                                                            .docs[index]
-                                                        ['BookingImagesUrls'].length,
-                                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                                          crossAxisCount: 3,
-
-                                                          crossAxisSpacing: 0,
-                                                          mainAxisSpacing: 0,
+                                            (snapshot
+                                                        .data
+                                                        .docs[index][
+                                                            'BookingImagesUrls']
+                                                        .length ==
+                                                    0)
+                                                ? Center(
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          snapshot.data
+                                                                  .docs[index]
+                                                              ['location'],
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 20),
                                                         ),
-                                                        itemBuilder: (BuildContext context1, int index1) {
-                                                          return Container(
-                                                            decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(10),
-                                                                color: Colors.white70),
-                                                            child: Padding(
-                                                              padding: const EdgeInsets.all(1.0),
-                                                              child: Column(
-                                                                children: [
-                                                                  Container(
-                                                                    decoration: BoxDecoration(
-                                                                      borderRadius: BorderRadius.circular(5),
-                                                                    ),
-                                                                    height: MediaQuery.of(context1).size.height *
-                                                                        0.1,
-                                                                    width: MediaQuery.of(context1).size.width *
-                                                                        0.28,
-                                                                    child: Image.network(
-                                                                      snapshot.data.docs[index]['BookingImagesUrls'][index1]
-                                                                        //'https://firebasestorage.googleapis.com/v0/b/assignment4-e9d53.appspot.com/o/1Th27TLGG2sDXplAZ5KA___image_picker4324000153360234181.jpg?alt=media&token=4f488c9c-3702-4a7b-8f96-43f9e6c93908'
-                                                                    ,fit: BoxFit.fill,
-                                                                    ),
-                                                                  ),
-
-
-                                                                ],
+                                                        Text(
+                                                            'No Photos Added for this trip')
+                                                      ],
+                                                    ),
+                                                  )
+                                                : ListTile(
+                                                    title: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Column(
+                                                          children: [
+                                                            Text(
+                                                              snapshot.data
+                                                                          .docs[
+                                                                      index]
+                                                                  ['location'],
+                                                              style: TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 20),
+                                                            ),
+                                                            Container(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.8,
+                                                              height: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .height *
+                                                                  0.15,
+                                                              child: SizedBox(
+                                                                child: GridView
+                                                                    .builder(
+                                                                        itemCount: snapshot
+                                                                            .data
+                                                                            .docs[index][
+                                                                                'BookingImagesUrls']
+                                                                            .length,
+                                                                        gridDelegate:
+                                                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                                                          crossAxisCount:
+                                                                              3,
+                                                                          crossAxisSpacing:
+                                                                              0,
+                                                                          mainAxisSpacing:
+                                                                              0,
+                                                                        ),
+                                                                        itemBuilder:
+                                                                            (BuildContext context1,
+                                                                                int index1) {
+                                                                          return Container(
+                                                                            decoration:
+                                                                                BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white70),
+                                                                            child:
+                                                                                Padding(
+                                                                              padding: const EdgeInsets.all(1.0),
+                                                                              child: Column(
+                                                                                children: [
+                                                                                  Container(
+                                                                                    decoration: BoxDecoration(
+                                                                                      borderRadius: BorderRadius.circular(5),
+                                                                                    ),
+                                                                                    height: MediaQuery.of(context1).size.height * 0.1,
+                                                                                    width: MediaQuery.of(context1).size.width * 0.28,
+                                                                                    child: Image.network(
+                                                                                      snapshot.data.docs[index]['BookingImagesUrls'][index1],
+                                                                                      fit: BoxFit.fill,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }),
                                                               ),
                                                             ),
-                                                          );
-                                                        }),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  )
                                           ],
                                         ),
-                                      )
-                                    ],
+                                      );
+                                    },
                                   ),
-                                );
-                              },
-                            ),
                           ),
                           Container(
                             color: Colors.white,
-                            padding: EdgeInsets.fromLTRB(
-                                0, 0, 0, 0), // color: Colors.red,
-
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                             child: Center(
                               child: reviewsList(),
                             ),
@@ -597,39 +618,39 @@ class _reviewsListState extends State<reviewsList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream:
-          Bookings.where('travellerID', isEqualTo: currentUserID).where('hasRated',isEqualTo: true).snapshots(),
+      stream: Bookings.where('travellerID', isEqualTo: currentUserID)
+          .where('hasRated', isEqualTo: true)
+          .snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
         if (snapshot.hasData && snapshot.data.docs.length > 0) {
           return ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  elevation: 8.0,
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 10.0, vertical: 6.0),
+                  child: ListTile(
+                    subtitle: Text(
+                      'Package : ' + snapshot.data.docs[index]['packageName'],
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    elevation: 8.0,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10.0, vertical: 6.0),
-                    child: ListTile(
-                      subtitle: Text(
-                        'Package : ' + snapshot.data.docs[index]['packageName'],
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      title: Text(
-                        'Your Review : ' +
-                            snapshot.data.docs[index]['ratingReview'],
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
+                    title: Text(
+                      'Your Review : ' +
+                          snapshot.data.docs[index]['ratingReview'],
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                  );
-                });
-
+                  ),
+                );
+              });
         }
         return ListTile(
           title: Padding(
