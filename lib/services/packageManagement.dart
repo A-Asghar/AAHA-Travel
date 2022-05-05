@@ -53,7 +53,7 @@ class packageManagement {
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AgHomeAgView(),
+        builder: (context) => AgHomeAgView(agencyID: user.uid),
       ));
     });
   }
@@ -76,7 +76,7 @@ class packageManagement {
                 }).then((value) {
       Navigator.of(context).pop();
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AgHomeAgView(),
+        builder: (context) => AgHomeAgView(agencyID: user.uid),
       ));
     }).catchError((error) => print(error));
   }

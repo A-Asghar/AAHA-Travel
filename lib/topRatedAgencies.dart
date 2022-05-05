@@ -1,10 +1,6 @@
-import 'package:aaha/AgHomeAgView.dart';
 import 'package:aaha/services/agencyManagement.dart';
 import 'package:flutter/material.dart';
-import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import "package:collection/collection.dart";
 import 'package:provider/provider.dart';
 import 'services/packageManagement.dart';
 import 'AgHomeTvView.dart';
@@ -87,14 +83,9 @@ class _topAgenciesState extends State<topAgencies> {
                           Navigator.of(context)
                               .push(MaterialPageRoute(
                               builder: (context) => AgHomeTvView(
-                                agency: Agency1(
-                                    agency['name'],
-                                    agency['phoneNum'],
-                                    agency['about'],
-                                    agency['email'],
-                                    agency['photoUrl'],
-                                    agency['uid']),
-                              ))).then((value) => PackageList=[]);
+                                agencyID: snapshot.data.docs[index]['uid'],
+                              )
+                          )).then((value) => PackageList=[]);
                         },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),

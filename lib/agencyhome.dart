@@ -1,9 +1,7 @@
 import 'package:aaha/Agency.dart';
 import 'package:aaha/addPackage.dart';
-import 'package:aaha/loginScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AgHomeAgView.dart';
@@ -30,19 +28,7 @@ class AgencyHomeState extends State<AgencyHome> {
   }
 
   static String Agencyname = '';
-  final List<String> images = [
-    'https://wander-lush.org/wp-content/uploads/2020/01/PhanderLakePakistanKanokwanPonokCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/Beautiful-places-in-Pakistan-Hingol-National-Park-LukasBischoffGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/MargalaHillsPakistanNaqshCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/KatpanaColdDesertPakistanSuthidaloedchaiyapanCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Naltar-Valley-lake-MolviDSLRGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/RohtasFortPakistanSimonImagesCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/RakaposhiMountainPakistanSkazzjyCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Swat-Valley-KhwajaSaeedGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Hunza-Valley-undefinedGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Passu-Cones-SiddiquiGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/PassuConesPakistanSuthidaloedchaiyapanCanvaPro.jpg',
-  ];
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -141,7 +127,7 @@ class AgencyHomeState extends State<AgencyHome> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AgHomeAgView()));
+                            builder: (context) => AgHomeAgView(agencyID: FirebaseAuth.instance.currentUser!.uid,)));
                       },
                     )),
               ],
@@ -170,7 +156,7 @@ class AgencyHomeState extends State<AgencyHome> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AgHomeAgView()));
+                            builder: (context) => AgHomeAgView(agencyID: FirebaseAuth.instance.currentUser!.uid)));
                       },
                     )),
               ],
@@ -230,364 +216,28 @@ class recentlyAddedPackages extends StatelessWidget {
                                               builder: (context) =>
                                                   PkgDetailAgency(
                                                     pack: Package1(
-                                                      package['Package id'],
-                                                      package['Package name'],
-                                                      package['Agency Name'],
-                                                      package['price'],
-                                                      package['days'],
-                                                      package['description'],
-                                                      package['Location'],
-                                                      double.parse(package['Rating'].toString()),                                                      package['Agency id'],
-                                                      package['photoUrl'],
-                                                      package['ImgUrls']
-                                                          .cast<String>(),
-                                                      package['otherDetails']
-                                                          .cast<String>(),
-                                                      package['isSaved']
-                                                    ),
+                                                        package['Package id'],
+                                                        package['Package name'],
+                                                        package['Agency Name'],
+                                                        package['price'],
+                                                        package['days'],
+                                                        package['description'],
+                                                        package['Location'],
+                                                        double.parse(
+                                                            package['Rating']
+                                                                .toString()),
+                                                        package['Agency id'],
+                                                        package['photoUrl'],
+                                                        package['ImgUrls']
+                                                            .cast<String>(),
+                                                        package['otherDetails']
+                                                            .cast<String>(),
+                                                        package['isSaved']),
                                                   )));
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
                                         image: DecorationImage(
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             image: NetworkImage(
                                               snapshot.data.docs[index]
                                                   ['photoUrl'],
@@ -686,22 +336,23 @@ class topSellingPackages extends StatelessWidget {
                                               builder: (context) =>
                                                   PkgDetailAgency(
                                                     pack: Package1(
-                                                      package['Package id'],
-                                                      package['Package name'],
-                                                      package['Agency Name'],
-                                                      package['price'],
-                                                      package['days'],
-                                                      package['description'],
-                                                      package['Location'],
-                                                      double.parse(package['Rating'].toString()),
-                                                      package['Agency id'],
-                                                      package['photoUrl'],
-                                                      package['ImgUrls']
-                                                          .cast<String>(),
-                                                      package['otherDetails']
-                                                          .cast<String>(),
-                                                      package['isSaved']
-                                                    ),
+                                                        package['Package id'],
+                                                        package['Package name'],
+                                                        package['Agency Name'],
+                                                        package['price'],
+                                                        package['days'],
+                                                        package['description'],
+                                                        package['Location'],
+                                                        double.parse(
+                                                            package['Rating']
+                                                                .toString()),
+                                                        package['Agency id'],
+                                                        package['photoUrl'],
+                                                        package['ImgUrls']
+                                                            .cast<String>(),
+                                                        package['otherDetails']
+                                                            .cast<String>(),
+                                                        package['isSaved']),
                                                   )));
                                     },
                                     child: Container(
