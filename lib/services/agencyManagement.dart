@@ -120,6 +120,17 @@ class agencyProvider extends ChangeNotifier {
     return name;
   }
 
+  Future<String>? getAgencyNameUsinguid(var uid) async {
+    var document =
+    await FirebaseFirestore.instance.collection('Agencies').doc(uid);
+    await document.get().then((document) {
+      print(document['name']);
+      name = document['name'];
+      notifyListeners();
+    });
+    return name;
+  }
+
   Future<String>? getEmail(var user) async {
     var document =
         await FirebaseFirestore.instance.collection('Agencies').doc(user.uid);
@@ -175,5 +186,15 @@ class agencyProvider extends ChangeNotifier {
     return photoUrl;
   }
 
+  Future<String>? getPhotoUrlUsinguid(var uid) async {
+    var document =
+    await FirebaseFirestore.instance.collection('Agencies').doc(uid);
+    await document.get().then((document) {
+      print(document['photoUrl']);
+      photoUrl = document['photoUrl'];
+      notifyListeners();
+    });
+    return photoUrl;
+  }
 
 }

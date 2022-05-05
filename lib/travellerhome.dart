@@ -4,7 +4,6 @@ import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:aaha/topRatedAgencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -34,19 +33,6 @@ class _TravellerHomeState extends State<TravellerHome> {
     super.initState();
   }
 
-  final List<String> images = [
-    'https://wander-lush.org/wp-content/uploads/2020/01/KatpanaColdDesertPakistanSuthidaloedchaiyapanCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Naltar-Valley-lake-MolviDSLRGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/RohtasFortPakistanSimonImagesCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/RakaposhiMountainPakistanSkazzjyCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Swat-Valley-KhwajaSaeedGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Hunza-Valley-undefinedGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/12/Beautiful-places-in-Pakistan-Passu-Cones-SiddiquiGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/PassuConesPakistanSuthidaloedchaiyapanCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/PhanderLakePakistanKanokwanPonokCanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/Beautiful-places-in-Pakistan-Hingol-National-Park-LukasBischoffGetty-CanvaPro.jpg',
-    'https://wander-lush.org/wp-content/uploads/2020/01/MargalaHillsPakistanNaqshCanvaPro.jpg',
-  ];
   final TextEditingController searchbarController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -379,13 +365,8 @@ class _topRatedAgenciesState extends State<topRatedAgencies> {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: (context) => AgHomeTvView(
-                                                  agency: Agency1(
-                                                      agency['name'],
-                                                      agency['phoneNum'],
-                                                      agency['about'],
-                                                      agency['email'],
-                                                      agency['photoUrl'],
-                                                      agency['uid']),
+                                                  agencyID: snapshot
+                                                      .data.docs[index]['uid'],
                                                 )))
                                         .then((value) => PackageList = []);
                                   },

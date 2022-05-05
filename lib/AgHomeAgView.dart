@@ -1,22 +1,14 @@
 import 'package:aaha/Pkg_details_Ag.dart';
-import 'package:aaha/services/agencyManagement.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'agencyhome.dart';
 import 'editPackage.dart';
-import 'addPackage.dart';
-import 'ProfileAgency.dart';
 import 'Agency.dart';
-import 'main.dart';
 import 'package:flutter/material.dart';
-import 'MyBottomBarDemo.dart';
-import 'otherDetails.dart';
 import 'services/packageManagement.dart';
-import 'package:aaha/pkg_detail_pg_travellers.dart';
+import 'Widgets/agencyPackagesTopView.dart';
 
 class AgHomeAgView extends StatefulWidget {
-  const AgHomeAgView({Key? key}) : super(key: key);
+  final agencyID;
+  const AgHomeAgView({Key? key,required this.agencyID}) : super(key: key);
 
   @override
   _AgHomeAgViewState createState() => _AgHomeAgViewState();
@@ -39,7 +31,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
           child: Center(
             child: Column(
               children: <Widget>[
-                topView(),
+                topView(agencyID: widget.agencyID,agencyView: true),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
                   child: ListView.builder(
@@ -204,66 +196,3 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
   }
 }
 
-class topView extends StatelessWidget {
-  const topView({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    return FutureBuilder(
-      future: context.read<agencyProvider>().getPhotoUrl(currentUser),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Stack(
-              clipBehavior: Clip.none,
-              alignment: Alignment.center,
-              children: [
-                Image.network(
-                  'https://i.ibb.co/3dyzPVD/dylan-gillis-Kdeq-A3a-Tn-BY-unsplash.jpg',
-                ),
-                Positioned(
-                  top: 250,
-                  left: 30,
-                  child: CircularProfileAvatar(
-                    snapshot.data.toString(),
-                    radius: 55,
-                  ),
-                ),
-                Positioned(
-                    top: 300,
-                    left: 150,
-                    child: Row(
-                      children: [
-                        Text(
-                          AgencyHomeState.Agencyname,
-                          style: TextStyle(fontSize: 30),
-                        ),
-                        Text("                       "),
-                      ],
-                    )),
-                Positioned(
-                  child: FloatingActionButton(
-                    heroTag: null,
-                    child: Icon(Icons.add),
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(
-                        builder: (Context) => addPackage(),
-                      )).then((value) => isSaved=false)
-                          .then((value) {
-                        daysController.clear();
-                      }).then((value) => Navigator.pop(context));
-                    },
-                    backgroundColor: Colors.black,
-                  ),
-                  top: 240,
-                  right: 40,
-                ),
-              ]);
-        } else {
-          return CircularProgressIndicator();
-        }
-      },
-    );
-  }
-}
