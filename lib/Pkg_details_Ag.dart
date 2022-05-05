@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:aaha/Agency.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'main.dart';
-import 'paymentInvoice.dart';
 import 'Widgets/allButton.dart';
 
 class PkgDetailAgency extends StatefulWidget {

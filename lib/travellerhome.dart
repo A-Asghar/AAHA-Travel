@@ -156,8 +156,6 @@ class _TravellerHomeState extends State<TravellerHome> {
                                 child: Icon(Icons.search,
                                     size: 30, color: Colors.grey.shade700),
                                 onTap: () {
-                                  print('from home : ' +
-                                      searchbarController.text);
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => searchPage(
                                             searchTerm:
@@ -174,13 +172,11 @@ class _TravellerHomeState extends State<TravellerHome> {
               Padding(
                   padding: EdgeInsets.symmetric(vertical: 50),
                   child: Container(
-                    //margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
                     child: Column(
-                      // crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ListTile(
-                          title: Text(
+                          title: const Text(
                             'Top Travel Packages',
                             style: TextStyle(
                               fontSize: 24,
@@ -198,7 +194,7 @@ class _TravellerHomeState extends State<TravellerHome> {
                           ),
                         ),
                         topTravelPackages(),
-                         ListTile(
+                        ListTile(
                           title: Text(
                             'Top Rated Agencies',
                             style: TextStyle(
@@ -207,10 +203,9 @@ class _TravellerHomeState extends State<TravellerHome> {
                             ),
                           ),
                           trailing: InkWell(
-                            onTap: (){
+                            onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      topSellingAgencies()));
+                                  builder: (context) => topSellingAgencies()));
                             },
                             child: Text('See All'),
                           ),

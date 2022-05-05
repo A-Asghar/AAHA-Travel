@@ -192,7 +192,7 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                           child: Padding(padding: EdgeInsets.all(15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
+                            children: const [
                               Icon(Icons.location_on_outlined),
                               Text(
                                 'Update your current city',
