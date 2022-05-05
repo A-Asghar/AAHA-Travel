@@ -31,6 +31,7 @@ class _addPackage extends State<addPackage> {
   List<String> ImgUrls1 = [];
   String PhotoUrl = '';
   bool isLoaded = false;
+  bool imagesUploading = false;
   @override
   Widget build(BuildContext context) {
     final filename =
@@ -189,7 +190,7 @@ class _addPackage extends State<addPackage> {
                         }),
                   ),
                 ),
-                !isLoaded
+                !isLoaded && imagesUploading == true
                     ? Container(
                   height: 50,
                   child: LoadingAnimationWidget.threeArchedCircle(
@@ -203,7 +204,6 @@ class _addPackage extends State<addPackage> {
                               borderRadius: BorderRadius.circular(25)),
                           color: Colors.indigo.shade800,
                           onPressed: () async {
-                            print(ImgUrls1.length);
                             if (daysController.text == '') {
                               showAlertDialog(
                                   context: context,
@@ -283,6 +283,7 @@ class _addPackage extends State<addPackage> {
   }
 
   void selectImages() async {
+    imagesUploading = true ;
     final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
@@ -323,6 +324,7 @@ class _addPackage extends State<addPackage> {
             if(count == imageFileList!.length){
               setState(() {
                 isLoaded=true;
+                imagesUploading = false;
               });
             }
             print(ImgUrls1[0] +
