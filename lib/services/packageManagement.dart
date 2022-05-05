@@ -129,9 +129,13 @@ class packageManagement {
         .collection('Packages')
         .get()
         .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        p1.add(packageManagement.fromJson(doc.data() as Map<String, dynamic>));
-      });
+      if(p1.length<(querySnapshot.docs.length)) {
+        querySnapshot.docs.forEach((doc) {
+          p1.add(
+              packageManagement.fromJson(doc.data() as Map<String, dynamic>));
+          print(p1.length);
+        });
+      }
     });
   }
 

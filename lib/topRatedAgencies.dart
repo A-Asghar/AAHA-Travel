@@ -1,14 +1,16 @@
 import 'package:aaha/AgHomeAgView.dart';
+import 'package:aaha/services/agencyManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:aaha/pkg_detail_pg_travellers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import "package:collection/collection.dart";
-
+import 'package:provider/provider.dart';
+import 'services/packageManagement.dart';
 import 'AgHomeTvView.dart';
 import 'Agency.dart';
-
+import 'loginUser.dart';
 class topSellingAgencies extends StatelessWidget {
   const topSellingAgencies({Key? key}) : super(key: key);
 
@@ -65,20 +67,30 @@ class _topAgenciesState extends State<topAgencies> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
                         onTap: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AgHomeTvView(
-                                        agency: Agency1(
-                                          agency['name'],
-                                          agency['phoneNum'],
-                                          agency['about'],
-                                          agency['email'],
-                                          agency['photoUrl'],
-                                          agency['uid'],
-                                        ),
-                                      )
-                                      ));
+                          for(var i=0;i<packageManagement.p1.length;i++){
+                            print(packageManagement.p1[i].agencyId);
+                            print(context.read<agencyProvider>().getAgencyList()[index].uid);
+                            setState(() {
+                              if(packageManagement.p1[i].agencyId==context.read<agencyProvider>().getAgencyList()[index].uid){
+                                PackageList.add(packageManagement.p1[i]);
+                              }
+                            });
+                          }
+                          print(loginUser.agencyListLocal.length);
+                          print(packageManagement.p1.length);
+                          print(PackageList.length);
+
+                          Navigator.of(context)
+                              .push(MaterialPageRoute(
+                              builder: (context) => AgHomeTvView(
+                                agency: Agency1(
+                                    agency['name'],
+                                    agency['phoneNum'],
+                                    agency['about'],
+                                    agency['email'],
+                                    agency['photoUrl'],
+                                    agency['uid']),
+                              ))).then((value) => PackageList=[]);
                         },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
