@@ -150,7 +150,7 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                   buttonText: 'Pay Now',
                                   onPressed: () async {
                                     if (travelEndDate.day ==
-                                        DateTime.now().day) {
+                                        DateTime.now().day && travelEndDate.month == DateTime.now().month) {
                                       showAlertDialog(
                                         context: context,
                                         title: 'A problem has occurred',
@@ -185,8 +185,6 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                       CoolAlert.show(
                                         context: context,
                                         type: CoolAlertType.success,
-                                        // animType: CoolAlertAnimType.scale ,
-                                        // loopAnimation: true,
                                         autoCloseDuration: Duration(seconds: 5),
                                         text: "Your holiday has been booked successfully",
                                       );
@@ -257,3 +255,4 @@ class _selectScheduleState extends State<selectSchedule> {
     );
   }
 }
+
