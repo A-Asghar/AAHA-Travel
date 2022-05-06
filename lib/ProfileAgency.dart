@@ -1,3 +1,5 @@
+import 'package:advance_notification/advance_notification.dart';
+
 import 'services/agencyManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
@@ -89,6 +91,10 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                     agencyManagementObject
                                         .updateAgencyName(newName);
                                   });
+                                  const AdvanceSnackBar(
+                                    message: "Updated Successfully",
+                                    mode: Mode.ADVANCE,
+                                    duration: Duration(seconds: 5),).show(context);
                                 }
                               },
                             ),
@@ -137,6 +143,10 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                     agencyManagementObject
                                         .updateAgencyPhoneNum(newPhoneNum);
                                   });
+                                  const AdvanceSnackBar(
+                                    message: "Updated Successfully",
+                                    mode: Mode.ADVANCE,
+                                    duration: Duration(seconds: 5),).show(context);
                                 }
                               },
                             )
@@ -176,6 +186,10 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                     agencyManagementObject
                                         .updateAgencyAbout(newAbout);
                                   });
+                                  const AdvanceSnackBar(
+                                    message: "Updated Successfully",
+                                    mode: Mode.ADVANCE,
+                                    duration: Duration(seconds: 5),).show(context);
                                 }
                               },
                             )

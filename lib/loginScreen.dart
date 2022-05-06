@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'AgHomeAgView.dart';
 import 'MyBottomBarDemo.dart';
 import 'signupAgency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'services/agencyManagement.dart';
 import 'services/packageManagement.dart';
-import 'package:provider/provider.dart';
 import 'Widgets/userInput.dart';
 
 class loginScreen extends StatefulWidget {

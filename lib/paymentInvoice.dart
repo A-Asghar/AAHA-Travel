@@ -9,6 +9,7 @@ import 'Agency.dart';
 import 'services/packageManagement.dart';
 import 'Widgets/allButton.dart';
 import 'Widgets/showAlertDialog.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 class paymentInvoice extends StatefulWidget {
   final Package1 package;
@@ -164,28 +165,31 @@ class _paymentInvoiceState extends State<paymentInvoice> {
                                           .getName(FirebaseAuth
                                               .instance.currentUser);
                                       bookingManagement().storeNewBooking(
-                                        currentUserUid,
-                                        widget.package.agencyId,
-                                        widget.package.pid,
-                                        travelEndDate,
-                                        widget.package.PName,
-                                        widget.package.Days,
-                                        widget.package.Desc,
-                                        currentUserName,
-                                        widget.package.Price,
-                                        widget.package.Aname,
-                                        false,
-                                        widget.package.Location,
-                                        []
-                                      );
+                                          currentUserUid,
+                                          widget.package.agencyId,
+                                          widget.package.pid,
+                                          travelEndDate,
+                                          widget.package.PName,
+                                          widget.package.Days,
+                                          widget.package.Desc,
+                                          currentUserName,
+                                          widget.package.Price,
+                                          widget.package.Aname,
+                                          false,
+                                          widget.package.Location, []);
                                       packageManagement()
                                           .updateSales(widget.package.pid);
-                                      agencyManagement(uid: widget.package.agencyId).updateAgencySales();
-                                      showAlertDialog(
-                                          context: context,
-                                          title: 'Success',
-                                          content:
-                                              'Your holiday has been successfully booked');
+                                      agencyManagement(
+                                              uid: widget.package.agencyId)
+                                          .updateAgencySales();
+                                      CoolAlert.show(
+                                        context: context,
+                                        type: CoolAlertType.success,
+                                        // animType: CoolAlertAnimType.scale ,
+                                        // loopAnimation: true,
+                                        autoCloseDuration: Duration(seconds: 5),
+                                        text: "Your holiday has been booked successfully",
+                                      );
                                     }
                                   })
                             ],

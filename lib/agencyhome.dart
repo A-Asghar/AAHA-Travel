@@ -127,7 +127,10 @@ class AgencyHomeState extends State<AgencyHome> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AgHomeAgView(agencyID: FirebaseAuth.instance.currentUser!.uid,)));
+                            builder: (context) => AgHomeAgView(
+                                  agencyID:
+                                      FirebaseAuth.instance.currentUser!.uid,
+                                )));
                       },
                     )),
               ],
@@ -156,7 +159,9 @@ class AgencyHomeState extends State<AgencyHome> {
                       ),
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AgHomeAgView(agencyID: FirebaseAuth.instance.currentUser!.uid)));
+                            builder: (context) => AgHomeAgView(
+                                agencyID:
+                                    FirebaseAuth.instance.currentUser!.uid)));
                       },
                     )),
               ],

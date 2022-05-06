@@ -93,29 +93,24 @@ class _searchResultsState extends State<searchResults> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
                         onTap: () {
-                          Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      PkgDetailTraveller(
-                                        package: Package1(
-                                            package['Package id'],
-                                            package['Package name'],
-                                            package['Agency Name'],
-                                            package['price'],
-                                            package['days'],
-                                            package['description'],
-                                            package['Location'],
-                                            double.parse(
-                                                package['Rating']
-                                                    .toString()),
-                                            package['Agency id'],
-                                            package['photoUrl'],
-                                            package['ImgUrls']
-                                                .cast<String>(),
-                                            package['otherDetails']
-                                                .cast<String>(),
-                                            package['isSaved']),
-                                      )));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PkgDetailTraveller(
+                                    package: Package1(
+                                        package['Package id'],
+                                        package['Package name'],
+                                        package['Agency Name'],
+                                        package['price'],
+                                        package['days'],
+                                        package['description'],
+                                        package['Location'],
+                                        double.parse(
+                                            package['Rating'].toString()),
+                                        package['Agency id'],
+                                        package['photoUrl'],
+                                        package['ImgUrls'].cast<String>(),
+                                        package['otherDetails'].cast<String>(),
+                                        package['isSaved']),
+                                  )));
                         },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
