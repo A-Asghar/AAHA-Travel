@@ -1,10 +1,11 @@
+import 'package:advance_notification/advance_notification.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:provider/provider.dart';
 import 'services/travellerManagement.dart';
 import 'Widgets/userData.dart';
 import 'Widgets/ProfilePictureWidget.dart';
+import 'Widgets/updateDialog.dart';
 
 class EditUserProfile extends StatefulWidget {
   const EditUserProfile({Key? key}) : super(key: key);
@@ -49,6 +50,10 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                                   travellerManagementObject
                                       .updateTravellerPhotoUrl(newPhotoUrl);
                                 });
+                                AdvanceSnackBar(
+                                  message: "Updated Successfully",
+                                  mode: Mode.ADVANCE,
+                                  duration: Duration(seconds: 5),).show(context);
                               }
                             },
                             child: Text('Change Profile Picture')),
@@ -84,6 +89,10 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                                   travellerManagementObject
                                       .updateTravellerName(newName);
                                 });
+                                AdvanceSnackBar(
+                                  message: "Updated Successfully",
+                                  mode: Mode.ADVANCE,
+                                  duration: Duration(seconds: 5),).show(context);
                               }
                             },
                           ),
@@ -132,6 +141,10 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                                   travellerManagementObject
                                       .updateTravellerPhoneNum(newPhoneNum);
                                 });
+                                AdvanceSnackBar(
+                                  message: "Updated Successfully",
+                                  mode: Mode.ADVANCE,
+                                  duration: Duration(seconds: 5),).show(context);
                               }
                             },
                           )
@@ -171,6 +184,10 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                                   travellerManagementObject
                                       .updateTravellerAbout(newAbout);
                                 });
+                                AdvanceSnackBar(
+                                  message: "Updated Successfully",
+                                  mode: Mode.ADVANCE,
+                                  duration: Duration(seconds: 5),).show(context);
                               }
                             },
                           )
@@ -188,6 +205,10 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
                             var newCity = await updateDialog(context, 'city');
                             travellerManagement(uid: currentUser!.uid)
                                 .updateTravellerCity(newCity);
+                            AdvanceSnackBar(
+                              message: "Updated Successfully",
+                              mode: Mode.ADVANCE,
+                              duration: Duration(seconds: 5),).show(context);
                           },
                           child: Padding(padding: EdgeInsets.all(15.0),
                           child: Row(
@@ -212,35 +233,6 @@ class _ProfileAgencyState1 extends State<EditUserProfile> {
         ),
       ),
     );
-  }
-
-  updateDialog(context, valueToBeChanged) async {
-    return showDialog(
-        barrierDismissible: false,
-        context: context,
-        builder: (context) {
-          var controller = TextEditingController();
-          return AlertDialog(
-            title: Text('Enter new ' + valueToBeChanged),
-            content: TextField(
-              controller: controller,
-            ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Cancel')),
-              TextButton(
-                  onPressed: () {
-                    controller.text != ""
-                        ? Navigator.of(context).pop(controller.text)
-                        : Navigator.of(context).pop();
-                  },
-                  child: Text('Update')),
-            ],
-          );
-        });
   }
 }
 

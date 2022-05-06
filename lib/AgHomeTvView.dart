@@ -147,8 +147,16 @@ class agencyPackageList extends StatelessWidget {
             );
           }
 
-          return const Center(
-            child: Text('Looks like this agency has not added any packages !'),
+          return Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.3,
+              ),
+              const Center(
+                child:
+                    Text('Looks like this agency has not added any packages !'),
+              )
+            ],
           );
         });
   }

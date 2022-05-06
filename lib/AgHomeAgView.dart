@@ -8,7 +8,7 @@ import 'Widgets/agencyPackagesTopView.dart';
 
 class AgHomeAgView extends StatefulWidget {
   final agencyID;
-  const AgHomeAgView({Key? key,required this.agencyID}) : super(key: key);
+  const AgHomeAgView({Key? key, required this.agencyID}) : super(key: key);
 
   @override
   _AgHomeAgViewState createState() => _AgHomeAgViewState();
@@ -31,7 +31,7 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
           child: Center(
             child: Column(
               children: <Widget>[
-                topView(agencyID: widget.agencyID,agencyView: true),
+                topView(agencyID: widget.agencyID, agencyView: true),
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
                   child: ListView.builder(
@@ -195,4 +195,3 @@ class _AgHomeAgViewState extends State<AgHomeAgView> {
     );
   }
 }
-
