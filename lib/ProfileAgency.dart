@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:aaha/services/googleMaps.dart';
 import 'package:advance_notification/advance_notification.dart';
 
 import 'services/agencyManagement.dart';
@@ -8,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'Widgets/updateDialog.dart';
 import 'Widgets/userData.dart';
 import 'Widgets/ProfilePictureWidget.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProfileAgency extends StatefulWidget {
   const ProfileAgency({Key? key}) : super(key: key);
@@ -18,6 +22,25 @@ class ProfileAgency extends StatefulWidget {
 
 class _ProfileAgencyState extends State<ProfileAgency> {
   User? currentUser = FirebaseAuth.instance.currentUser;
+  final Completer<GoogleMapController> _controller = Completer();
+  late LatLng latLng;
+  final CameraPosition _initialPosition =
+  CameraPosition(target: const LatLng(30.3753, 69.3451), zoom: 15);
+
+  Future<void> goToLocation(coordinate) async {
+    CameraPosition cameraPosition = CameraPosition(zoom: 14, target: coordinate);
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
+  late bool theme;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    latLng = LatLng(30.3753, 69.3451);
+    theme = true;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -196,13 +219,54 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                           ],
                         ),
                       ),
-                      Text(
+                      const Text(
                         '\n        Location:\n',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Center(
-                        child: Image.network(
-                          'https://media.wired.com/photos/59269cd37034dc5f91bec0f1/master/w_320,c_limit/GoogleMapTA.jpg',
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 200,
+                              child: GoogleMap(
+                                initialCameraPosition: _initialPosition,
+                                mapType: theme ? MapType.normal : MapType.satellite,
+                                onMapCreated: (GoogleMapController controller) {
+                                  setState(() {
+                                    _controller.complete(controller);
+                                  });
+                                },
+                                markers: {
+                                  Marker(
+                                    markerId: const MarkerId("Location"),
+                                    icon:
+                                    BitmapDescriptor.defaultMarkerWithHue(
+                                        BitmapDescriptor.hueBlue),
+                                    position: latLng,
+                                  ),
+                                },
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => GoogleMaps(
+                                      position: latLng,
+                                      callback: (value) {
+                                        latLng = value;
+                                        setState(() {});
+                                        goToLocation(latLng);
+                                      }, theme: (bool ) {
+                                      theme = bool;
+                                      setState(() {});
+                                    }, color: theme,
+                                    )));
+                              },
+                              child: const Center(
+                                child: Text('Click to go Full Screen'),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
 

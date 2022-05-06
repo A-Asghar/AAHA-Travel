@@ -40,6 +40,8 @@ dependencies:
   loading_animation_widget: ^1.1.0+5
   advance_notification: ^1.0.6
   cool_alert: ^1.1.0
+  google_maps_flutter: ^2.1.4
+  geolocator: ^8.2.1
 
 
   flutter:
