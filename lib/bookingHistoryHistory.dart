@@ -185,16 +185,14 @@ class _bookingHistoryListTravellerState
                             await selectImages();
                           },
                           icon: Icon(Icons.camera_alt)),
-                      task != null
-                          ? buildUploadStatus(task!)
-                          : Text('xyz'),
+                       Center(child: Text('Please wait for a few \nseconds after selecting photos')),
                       Container(
                         width: MediaQuery
                             .of(context)
                             .size
                             .width * 0.5,
                         child: RaisedButton(
-                          elevation: 20,
+                           elevation: 20,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(25)),
                           color: Colors.indigo.shade800,
