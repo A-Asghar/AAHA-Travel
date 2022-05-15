@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aaha/services/googleMaps.dart';
 import 'package:advance_notification/advance_notification.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'services/agencyManagement.dart';
 import 'package:flutter/material.dart';
@@ -24,23 +25,28 @@ class _ProfileAgencyState extends State<ProfileAgency> {
   User? currentUser = FirebaseAuth.instance.currentUser;
   final Completer<GoogleMapController> _controller = Completer();
   late LatLng latLng;
-  final CameraPosition _initialPosition =
-  CameraPosition(target: const LatLng(30.3753, 69.3451), zoom: 15);
 
   Future<void> goToLocation(coordinate) async {
-    CameraPosition cameraPosition = CameraPosition(zoom: 14, target: coordinate);
+    CameraPosition cameraPosition =
+        CameraPosition(zoom: 14, target: coordinate);
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
+
   late bool theme;
 
+  LatLng loadLocation(point) {
+    GeoPoint p = point;
+    return LatLng(p.latitude, p.longitude);
+  }
+
   @override
-  void initState() {
+  initState() {
     // TODO: implement initState
-    latLng = LatLng(30.3753, 69.3451);
     theme = true;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -117,7 +123,8 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                   const AdvanceSnackBar(
                                     message: "Updated Successfully",
                                     mode: Mode.ADVANCE,
-                                    duration: Duration(seconds: 5),).show(context);
+                                    duration: Duration(seconds: 5),
+                                  ).show(context);
                                 }
                               },
                             ),
@@ -169,7 +176,8 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                   const AdvanceSnackBar(
                                     message: "Updated Successfully",
                                     mode: Mode.ADVANCE,
-                                    duration: Duration(seconds: 5),).show(context);
+                                    duration: Duration(seconds: 5),
+                                  ).show(context);
                                 }
                               },
                             )
@@ -212,7 +220,8 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                                   const AdvanceSnackBar(
                                     message: "Updated Successfully",
                                     mode: Mode.ADVANCE,
-                                    duration: Duration(seconds: 5),).show(context);
+                                    duration: Duration(seconds: 5),
+                                  ).show(context);
                                 }
                               },
                             )
@@ -228,22 +237,39 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                           children: [
                             Container(
                               height: 200,
-                              child: GoogleMap(
-                                initialCameraPosition: _initialPosition,
-                                mapType: theme ? MapType.normal : MapType.satellite,
-                                onMapCreated: (GoogleMapController controller) {
-                                  setState(() {
-                                    _controller.complete(controller);
-                                  });
-                                },
-                                markers: {
-                                  Marker(
-                                    markerId: const MarkerId("Location"),
-                                    icon:
-                                    BitmapDescriptor.defaultMarkerWithHue(
-                                        BitmapDescriptor.hueBlue),
-                                    position: latLng,
-                                  ),
+                              child: FutureBuilder(
+                                future: context
+                                    .read<agencyProvider>()
+                                    .getLocation(currentUser),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    latLng = loadLocation(snapshot.data);
+                                    return GoogleMap(
+                                      initialCameraPosition: CameraPosition(
+                                          target: loadLocation(snapshot.data),
+                                          zoom: 15),
+                                      mapType: theme
+                                          ? MapType.normal
+                                          : MapType.satellite,
+                                      onMapCreated:
+                                          (GoogleMapController controller) {
+                                        setState(() {
+                                          _controller.complete(controller);
+                                        });
+                                      },
+                                      markers: {
+                                        Marker(
+                                          markerId: const MarkerId("Location"),
+                                          icon: BitmapDescriptor
+                                              .defaultMarkerWithHue(
+                                                  BitmapDescriptor.hueBlue),
+                                          position: latLng,
+                                        ),
+                                      },
+                                    );
+                                  } else {
+                                    return const CircularProgressIndicator();
+                                  }
                                 },
                               ),
                             ),
@@ -251,16 +277,29 @@ class _ProfileAgencyState extends State<ProfileAgency> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => GoogleMaps(
-                                      position: latLng,
-                                      callback: (value) {
-                                        latLng = value;
-                                        setState(() {});
-                                        goToLocation(latLng);
-                                      }, theme: (bool ) {
-                                      theme = bool;
-                                      setState(() {});
-                                    }, color: theme,
-                                    )));
+                                          position: latLng,
+                                          callback: (value) {
+                                            latLng = value;
+                                            var agencyManagementObject =
+                                                agencyManagement(
+                                                    uid: currentUser!.uid);
+                                            if (value != null) {
+                                              setState(() {
+                                                agencyManagementObject
+                                                    .updateAgencyLocation(
+                                                        GeoPoint(value.latitude,
+                                                            value.longitude));
+                                              });
+                                            }
+                                            // setState(() {});
+                                            goToLocation(latLng);
+                                          },
+                                          theme: (bool) {
+                                            theme = bool;
+                                            setState(() {});
+                                          },
+                                          color: theme,
+                                        )));
                               },
                               child: const Center(
                                 child: Text('Click to go Full Screen'),

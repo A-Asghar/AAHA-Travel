@@ -1,24 +1,26 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Agency1 {
   String AName;
   String PhNo;
   String About;
   String Email;
+  GeoPoint Location;
   String PhotoUrl;
   String uid;
   Agency1(
-      this.AName, this.PhNo, this.About, this.Email, this.PhotoUrl, this.uid) {
+      this.AName, this.PhNo, this.About, this.Email,this.Location, this.PhotoUrl, this.uid) {
     AName = this.AName;
     PhNo = this.PhNo;
     About = this.About;
     Email = this.Email;
+    Location = this.Location;
     PhotoUrl = this.PhotoUrl;
     uid = this.uid;
   }
 }
 
-Agency1 a = Agency1('XYZ', '03331234567', 'About', 'a@gmail.com', '', '000');
+Agency1 a = Agency1('XYZ', '03331234567', 'About', 'a@gmail.com', GeoPoint(0.0, 0.0), '', '000');
 List<Agency1> AgencyList = [a, a, a];
 List<Package1> PackageList = [];
 

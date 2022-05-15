@@ -13,15 +13,15 @@ class userData extends StatelessWidget {
             padding: EdgeInsets.all(15.0),
             child: Center(
               child: Text(
-                snapshot.data!.toString() == ""
+                snapshot.data.toString() == ""
                     ? "Set Up"
-                    : snapshot.data!.toString(),
+                    : snapshot.data.toString(),
                 style: TextStyle(color: Colors.black, fontSize: 25),
               ),
             ),
           );
         }
-        return CircularProgressIndicator(
+        return const CircularProgressIndicator(
           color: Colors.blue,
         );
       },
