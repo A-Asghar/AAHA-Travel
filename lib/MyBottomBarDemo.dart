@@ -10,7 +10,7 @@ import 'agencyhome.dart';
 
 class MyBottomBarDemo extends StatefulWidget {
   @override
-  _MyBottomBarDemoState createState() => new _MyBottomBarDemoState();
+  _MyBottomBarDemoState createState() => _MyBottomBarDemoState();
 }
 
 class _MyBottomBarDemoState extends State<MyBottomBarDemo> {

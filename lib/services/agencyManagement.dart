@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:aaha/MyBottomBarDemo.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'packageManagement.dart';
 import 'package:aaha/Agency.dart';
@@ -24,6 +25,7 @@ class agencyManagement {
       'uid': user.uid,
       'name': name,
       'phoneNum': phoneNum,
+      'location': const GeoPoint(0.0, 0.0),
       'about': 'About you',
       'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
       'sales': 0
@@ -41,6 +43,7 @@ class agencyManagement {
       json['phoneNum'],
       json['about'],
       json['email'],
+      json['location'],
       json['photoUrl'],
       json['uid'],
     );
@@ -70,6 +73,9 @@ class agencyManagement {
   updateAgencyAbout(about) {
     Agency.doc(uid).update({'about': about});
   }
+  updateAgencyLocation(GeoPoint location) {
+    Agency.doc(uid).update({'location': location});
+  }
 
   updateAgencyPhotoUrl(photoUrl) {
     Agency.doc(uid).update({'photoUrl': photoUrl});
@@ -95,10 +101,11 @@ class agencyProvider extends ChangeNotifier {
   String name = 'DummyName';
   String email = 'DummyEmail@DummyEmail.com';
   String phoneNum = '00000000000';
+  GeoPoint location = GeoPoint(0, 0);
   String about = 'About you';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
   void setAgencies() {
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       await agencyManagement.getAgencies();
     });
 
@@ -173,6 +180,16 @@ class agencyProvider extends ChangeNotifier {
       notifyListeners();
     });
     return about;
+  }
+  Future<GeoPoint> getLocation(var user) async {
+    var document =
+    FirebaseFirestore.instance.collection('Agencies').doc(user.uid);
+    await document.get().then((document) {
+      print(document['location']);
+      location = document['location'];
+      notifyListeners();
+    });
+    return location;
   }
 
   Future<String>? getPhotoUrl(var user) async {
