@@ -44,7 +44,7 @@ class _signupAgencyState extends State<signupAgency> {
                         alignment: Alignment.topLeft,
                         child: IconButton(
                           iconSize: 40,
-                          icon: Icon(Icons.arrow_back_ios),
+                          icon: Icon(Icons.arrow_back_ios,color: Colors.white70,),
                           onPressed: () => Navigator.pop(context, false),
                         )),
                   ),

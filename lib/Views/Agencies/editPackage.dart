@@ -221,7 +221,7 @@ class _editPackage extends State<editPackage> {
                         PhotoUrl
                     );
                     setState(() {});
-                    print('PhotoUrl Changed ? $PhotoUrl');
+
                     context.read<packageProvider>().updatePackage(
                         widget.package,
                         _nameController.text,
