@@ -25,7 +25,7 @@ class _editPackage extends State<editPackage> {
     _daysController..text = widget.package.Days;
     _priceController..text = widget.package.Price;
     _descController..text = widget.package.Desc;
-
+    PhotoUrl=widget.package.photoUrl;
     // TODO: implement initState
     super.initState();
   }
@@ -179,8 +179,10 @@ class _editPackage extends State<editPackage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
-                                  height: 95,
-                                  width: 110,
+                                  height: MediaQuery.of(context).size.height *
+                                      0.1,
+                                  width: MediaQuery.of(context).size.width *
+                                      0.35,
                                   child: Image.file(
                                     File(imageFileList![index].path),
                                     fit: BoxFit.scaleDown,
