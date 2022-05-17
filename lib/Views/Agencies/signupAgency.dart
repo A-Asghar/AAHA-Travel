@@ -2,9 +2,9 @@ import 'package:aaha/services/packageManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'services/agencyManagement.dart';
-import 'Widgets/userInput.dart';
-import 'Widgets/signUpErrorDialog.dart';
+import '../../services/agencyManagement.dart';
+import '../../Widgets/userInput.dart';
+import '../../Widgets/signUpErrorDialog.dart';
 
 class signupAgency extends StatefulWidget {
   const signupAgency({Key? key}) : super(key: key);

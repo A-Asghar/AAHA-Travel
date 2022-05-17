@@ -1,9 +1,13 @@
 // import 'package:aaha/AgHomeAgView.dart';
+import 'package:aaha/services/agencyManagement.dart';
+import 'package:aaha/services/GoogleMapsLauncher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'Agency.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import '../Agencies/Agency.dart';
 import 'package:flutter/material.dart';
-import 'package:aaha/pkg_detail_pg_travellers.dart';
-import 'Widgets/agencyPackagesTopView.dart';
+import 'package:aaha/Views/Traveller/pkg_detail_pg_travellers.dart';
+import '../../Widgets/agencyPackagesTopView.dart';
 
 class AgHomeTvView extends StatefulWidget {
   // final Agency1 agency;
@@ -15,16 +19,40 @@ class AgHomeTvView extends StatefulWidget {
 }
 
 class _AgHomeTvViewState extends State<AgHomeTvView> {
+  LatLng loadLocation(point) {
+    GeoPoint p = point;
+    return LatLng(p.latitude, p.longitude);
+  }
   @override
   Widget build(BuildContext context) {
+    var agencyLocation =
+    context.read<agencyProvider>().getLocationUsinguid(widget.agencyID);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Center(
             child: Column(
-              children: <Widget>[
+              children: [
                 topView(agencyID: widget.agencyID, agencyView: false),
+                Padding(
+                  padding: const EdgeInsets.only(left: 300,top:20),
+                  child: Column(
+                    children: [
+                      IconButton(
+                        onPressed: () async{
+                                var loc = await agencyLocation;
+                                LatLng latlng = loadLocation(loc);
+                                GoogleMapLauncher.navigateTo(latlng.latitude, latlng.longitude);
+                        },
+                        icon: Icon(Icons.navigation,size: 35,),
+
+                      ),
+                      Text('Navigate')
+                    ],
+                  ),
+                ),
+
                 agencyPackageList(
                   agencyID: widget.agencyID,
                 ),
@@ -43,7 +71,7 @@ class agencyPackageList extends StatelessWidget {
   agencyPackageList({required this.agencyID});
 
   final CollectionReference Packages =
-      FirebaseFirestore.instance.collection('Packages');
+  FirebaseFirestore.instance.collection('Packages');
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -95,13 +123,13 @@ class agencyPackageList extends StatelessWidget {
                                   child: Row(children: [
                                     Column(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                      MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           snapshot.data.docs[index]
-                                              ['Package name'],
+                                          ['Package name'],
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
@@ -128,12 +156,12 @@ class agencyPackageList extends StatelessWidget {
                                         ),
                                         SizedBox(
                                             width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                                .size
+                                                .width *
                                                 0.6,
                                             child: Text(
                                                 snapshot.data.docs[index]
-                                                        ['description'] +
+                                                ['description'] +
                                                     '')),
                                       ],
                                     ),
@@ -154,7 +182,7 @@ class agencyPackageList extends StatelessWidget {
               ),
               const Center(
                 child:
-                    Text('Looks like this agency has not added any packages !'),
+                Text('Looks like this agency has not added any packages !'),
               )
             ],
           );

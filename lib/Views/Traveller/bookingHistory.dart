@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './bookingHistoryHistory.dart';
-import './bookingHistoryScheduled.dart';
+import 'bookingHistoryHistory.dart';
+import 'bookingHistoryScheduled.dart';
 
 
 class bookingHistory extends StatelessWidget {

@@ -1,4 +1,4 @@
-import 'package:aaha/otherDetails.dart';
+import 'package:aaha/Views/Traveller/otherDetails.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path/path.dart';
 import 'dart:io';
-import 'otherDetails.dart';
-import 'Widgets/userInput.dart';
-import 'Widgets/showAlertDialog.dart';
+import '../Traveller/otherDetails.dart';
+import '../../Widgets/userInput.dart';
+import '../../Widgets/showAlertDialog.dart';
 TextEditingController _nameController = TextEditingController();
 TextEditingController _descController = TextEditingController();
 TextEditingController daysController = TextEditingController();

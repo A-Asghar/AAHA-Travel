@@ -1,8 +1,8 @@
-import 'package:aaha/Agency.dart';
-import 'package:aaha/loginUser.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
+import 'package:aaha/Views/Traveller/loginUser.dart';
 import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/packageManagement.dart';
-import 'package:aaha/topRatedAgencies.dart';
+import 'package:aaha/Views/Traveller/topRatedAgencies.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +10,9 @@ import 'package:provider/provider.dart';
 import 'pkg_detail_pg_travellers.dart';
 import 'searchPage.dart';
 import 'topTravelDestinations.dart';
-import 'services/travellerManagement.dart';
+import '../../services/travellerManagement.dart';
 import 'AgHomeTvView.dart';
-import 'Agency.dart';
+import '../Agencies/Agency.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TravellerHome extends StatefulWidget {

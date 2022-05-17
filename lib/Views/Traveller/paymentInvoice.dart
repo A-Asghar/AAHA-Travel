@@ -2,13 +2,13 @@ import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
-import 'Widgets/userInput.dart';
-import 'services/bookingManagement.dart';
+import '../../Widgets/userInput.dart';
+import '../../services/bookingManagement.dart';
 import 'package:flutter/material.dart';
-import 'Agency.dart';
-import 'services/packageManagement.dart';
-import 'Widgets/allButton.dart';
-import 'Widgets/showAlertDialog.dart';
+import '../Agencies/Agency.dart';
+import '../../services/packageManagement.dart';
+import '../../Widgets/allButton.dart';
+import '../../Widgets/showAlertDialog.dart';
 import 'package:cool_alert/cool_alert.dart';
 
 class paymentInvoice extends StatefulWidget {

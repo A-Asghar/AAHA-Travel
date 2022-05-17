@@ -1,10 +1,10 @@
-import 'package:aaha/Pkg_details_Ag.dart';
+import 'package:aaha/Views/Agencies/Pkg_details_Ag.dart';
 import 'package:provider/provider.dart';
 import 'editPackage.dart';
 import 'Agency.dart';
 import 'package:flutter/material.dart';
-import 'services/packageManagement.dart';
-import 'Widgets/agencyPackagesTopView.dart';
+import '../../services/packageManagement.dart';
+import '../../Widgets/agencyPackagesTopView.dart';
 
 class AgHomeAgView extends StatefulWidget {
   final agencyID;

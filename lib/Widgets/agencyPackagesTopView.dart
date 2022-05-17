@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../addPackage.dart';
-import '../otherDetails.dart';
+import '../Views/Agencies/addPackage.dart';
+import '../Views/Traveller/otherDetails.dart';
 import '../services/agencyManagement.dart';
 
 class topView extends StatelessWidget {

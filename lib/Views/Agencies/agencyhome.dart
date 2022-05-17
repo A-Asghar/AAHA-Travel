@@ -1,13 +1,13 @@
-import 'package:aaha/Agency.dart';
-import 'package:aaha/addPackage.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
+import 'package:aaha/Views/Agencies/addPackage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'AgHomeAgView.dart';
 import 'Pkg_details_Ag.dart';
-import 'services/agencyManagement.dart';
-import 'services/packageManagement.dart';
+import '../../services/agencyManagement.dart';
+import '../../services/packageManagement.dart';
 
 class AgencyHome extends StatefulWidget {
   const AgencyHome({Key? key}) : super(key: key);

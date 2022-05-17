@@ -1,28 +1,21 @@
-import 'package:aaha/services/agencyManagement.dart';
-import 'package:aaha/services/travellerManagement.dart';
-import 'package:aaha/travellerhome.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'Agency.dart';
-import 'SignupTraveller.dart';
-import 'AgHomeAgView.dart';
-import 'MyBottomBarDemo1.dart';
-import 'travellerProfile.dart';
-import 'Widgets/userInput.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'MyBottomBarDemo.dart';
+import 'signupAgency.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import '../../services/agencyManagement.dart';
+import '../../services/packageManagement.dart';
+import '../../Widgets/userInput.dart';
 
-class loginUser extends StatefulWidget {
-  static List<Agency1> agencyListLocal = [];
-
+class loginScreen extends StatefulWidget {
   @override
-  State<loginUser> createState() => _loginUserState();
+  State<loginScreen> createState() => _loginScreenState();
 }
 
-class _loginUserState extends State<loginUser> {
+class _loginScreenState extends State<loginScreen> {
   final _email = TextEditingController();
+
   final _password = TextEditingController();
   bool isLoading = false;
 
@@ -33,7 +26,7 @@ class _loginUserState extends State<loginUser> {
       body: isLoading
           ? Center(
               child:
-                  LoadingAnimationWidget.threeArchedCircle(color: Colors.blueAccent, size: 80)
+              LoadingAnimationWidget.threeArchedCircle(color: Colors.blueAccent, size: 80)
             )
           : Container(
               decoration: const BoxDecoration(
@@ -45,23 +38,14 @@ class _loginUserState extends State<loginUser> {
                   ),
                 ),
               ),
-              child: Stack(
+              child: Column(
                 children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                          iconSize: 40,
-                          icon: Icon(Icons.arrow_back_ios),
-                          onPressed: () => Navigator.pop(context, false),
-                        )),
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      SizedBox(height: MediaQuery.of(context).size.height * .3),
                       Container(
-                        height: 560,
+                        height: MediaQuery.of(context).size.height * .7,
                         width: double.infinity,
                         decoration: const BoxDecoration(
                           color: Colors.white,
@@ -83,7 +67,7 @@ class _loginUserState extends State<loginUser> {
                                       fontSize: 50,
                                     ),
                                   )),
-                              SizedBox(height: 15),
+                              SizedBox(height: 25),
                               userInput('Email', TextInputType.emailAddress,
                                   _email, false, 40),
                               userInput(
@@ -109,33 +93,24 @@ class _loginUserState extends State<loginUser> {
                                             email: _email.text,
                                             password: _password.text)
                                         .then((signedInUser) async {
-                                      if (await travellerManagement(
+                                      if (await agencyManagement(
                                               uid: signedInUser.user!.uid)
-                                          .isTraveller()) {
-                                        WidgetsBinding.instance
-                                            ?.addPostFrameCallback((_) async {
-                                          context
-                                              .read<agencyProvider>()
-                                              .setAgencies();
-                                          loginUser.agencyListLocal =
-                                              await context
-                                                  .read<agencyProvider>()
-                                                  .getAgencyList();
-                                          setState(() {
-                                            isLoading = false;
-                                          });
-                                        });
-
+                                          .isAgency()) {
+                                        packageManagement.Agencyid =
+                                            signedInUser.user!.uid;
                                         Navigator.of(context)
                                             .push(MaterialPageRoute(
                                           builder: (context) =>
-                                              MyBottomBarDemo1(),
+                                              MyBottomBarDemo(),
                                         ));
                                         _email.clear();
                                         _password.clear();
+                                        setState(() {
+                                          isLoading = false;
+                                        });
                                       } else {
                                         loginErrorDialog(
-                                            'You are registered as an agency !',
+                                            'You are registered as a traveller !',
                                             context);
                                         setState(() {
                                           isLoading = false;
@@ -149,7 +124,7 @@ class _loginUserState extends State<loginUser> {
                                       });
                                     });
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'Sign in',
                                     style: TextStyle(
                                       fontSize: 20,
@@ -159,7 +134,7 @@ class _loginUserState extends State<loginUser> {
                                   ),
                                 ),
                               ),
-                              SizedBox(height: 10),
+                              SizedBox(height: 20),
                               const Center(
                                 child: Text('Forgot password ?'),
                               ),
@@ -178,7 +153,7 @@ class _loginUserState extends State<loginUser> {
                                     onPressed: () {
                                       Navigator.of(context)
                                           .push(MaterialPageRoute(
-                                        builder: (Context) => SignupTraveller(),
+                                        builder: (context) => signupAgency(),
                                       ));
                                     },
                                     child: const Text(

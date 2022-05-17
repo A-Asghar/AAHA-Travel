@@ -1,4 +1,4 @@
-import 'package:aaha/Agency.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';

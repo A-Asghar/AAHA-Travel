@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'pkg_detail_pg_travellers.dart';
-import 'Agency.dart';
+import '../Agencies/Agency.dart';
 
 class searchPage extends StatefulWidget {
   final searchTerm; //searchTerm is the value received by travellerhome
