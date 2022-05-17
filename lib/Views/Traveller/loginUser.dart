@@ -1,16 +1,15 @@
 import 'package:aaha/services/agencyManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';
-import 'package:aaha/Views/Traveller/travellerhome.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../Agencies/Agency.dart';
 import 'SignupTraveller.dart';
-import '../Agencies/AgHomeAgView.dart';
+
 import 'MyBottomBarDemo1.dart';
-import 'travellerProfile.dart';
+
 import '../../Widgets/userInput.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -29,15 +28,13 @@ class _loginUserState extends State<loginUser> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: isLoading
           ? Center(
-              child:
-                  LoadingAnimationWidget.threeArchedCircle(color: Colors.blueAccent, size: 80)
-            )
-          :
-      Container(
-            height: MediaQuery.of(context).size.height,
+              child: LoadingAnimationWidget.threeArchedCircle(
+                  color: Colors.blueAccent, size: 80))
+          : Container(
+              height: MediaQuery.of(context).size.height,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   alignment: Alignment.topCenter,
@@ -159,7 +156,6 @@ class _loginUserState extends State<loginUser> {
                                   ),
                                 ),
                               ),
-
                               Divider(thickness: 0, color: Colors.white),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,

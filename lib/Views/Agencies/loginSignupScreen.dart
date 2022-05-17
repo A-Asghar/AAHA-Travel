@@ -2,9 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'signupAgency.dart';
 import 'loginScreen.dart';
-import 'main.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 
 class loginSignupScreen extends StatelessWidget {
   @override
@@ -15,10 +12,7 @@ class loginSignupScreen extends StatelessWidget {
           image: DecorationImage(
             alignment: Alignment.topCenter,
             fit: BoxFit.cover,
-            image: AssetImage('assets/agencyImages/login-Signup.png'),
-            /*NetworkImage(
-              'https://i.ibb.co/YTk7nyk/login-Signup.png',
-            ),*/
+            image: AssetImage('assets/login-Signup.png'),
           ),
         ),
         child: Column(

@@ -2,11 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'SignupTraveller.dart';
 import 'loginUser.dart';
-import '../Agencies/signupAgency.dart';
-import '../Agencies/loginScreen.dart';
-import '../Agencies/main.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+
 
 class loginSignupScreenTraveller extends StatelessWidget {
   @override
@@ -17,7 +13,7 @@ class loginSignupScreenTraveller extends StatelessWidget {
           image: DecorationImage(
             alignment: Alignment.topCenter,
             fit: BoxFit.cover,
-            image: AssetImage('assets/travellerImages/login-Signup-traveller.png'),
+            image: AssetImage('assets/login-Signup.png'),
           ),
         ),
         child: Column(

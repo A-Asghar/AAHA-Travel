@@ -176,7 +176,7 @@ class packageProvider extends ChangeNotifier {
   String days = '00';
   String desc = 'About package';
   String price = '20';
-  String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
+  String photoUrl = '';
   void updatePackage(Package1 p, name, desc, days, price, location, ImgUrls,photoUrl) {
     for (var i = 0; i < PackageList.length; i++) {
       if (PackageList[i].pid == p.pid) {

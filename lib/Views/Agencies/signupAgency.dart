@@ -34,9 +34,6 @@ class _signupAgencyState extends State<signupAgency> {
                   alignment: Alignment.topCenter,
                   fit: BoxFit.fill,
                   image: AssetImage('assets/signup-agency.jpg'),
-                  /*NetworkImage(
-                    'https://i.ibb.co/bgXk4gp/pexels-mudassir-ali-2680270.jpg',
-                  ),*/
                 ),
               ),
               child: Stack(
