@@ -226,7 +226,9 @@ class _editPackage extends State<editPackage> {
                         _daysController.text,
                         _priceController.text,
                         _locationController.text,
-                        ImgUrls1);
+                        ImgUrls1,
+                        PhotoUrl
+                    );
                   },
                   child: Text(
                     'Edit',

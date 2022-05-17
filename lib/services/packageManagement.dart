@@ -52,9 +52,9 @@ class packageManagement {
           isSaved);
       packageProvider.getList1().add(p);
       Navigator.of(context).pop();
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => AgHomeAgView(agencyID: user.uid),
-      ));
+      // Navigator.of(context).push(MaterialPageRoute(
+      //   builder: (context) => AgHomeAgView(agencyID: user.uid),
+      // ));
     });
   }
 
@@ -177,7 +177,7 @@ class packageProvider extends ChangeNotifier {
   String desc = 'About package';
   String price = '20';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
-  void updatePackage(Package1 p, name, desc, days, price, location, ImgUrls) {
+  void updatePackage(Package1 p, name, desc, days, price, location, ImgUrls,photoUrl) {
     for (var i = 0; i < PackageList.length; i++) {
       if (PackageList[i].pid == p.pid) {
         PackageList[i].PName = name;
@@ -186,6 +186,7 @@ class packageProvider extends ChangeNotifier {
         PackageList[i].Price = price;
         PackageList[i].Location = location;
         PackageList[i].ImgUrls = ImgUrls;
+        PackageList[i].photoUrl=photoUrl;
       }
     }
 
