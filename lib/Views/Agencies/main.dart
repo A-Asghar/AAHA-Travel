@@ -1,5 +1,5 @@
 import 'package:aaha/services/agencyManagement.dart';
-import 'services/packageManagement.dart';
+import '../../services/packageManagement.dart';
 import 'package:provider/provider.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:aaha/services/travellerManagement.dart';

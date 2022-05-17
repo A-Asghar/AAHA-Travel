@@ -1,13 +1,11 @@
-import 'package:aaha/services/agencyManagement.dart';
-import 'package:flutter/material.dart';
+import 'package:aaha/Views/Traveller/pkg_detail_pg_travellers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:provider/provider.dart';
-import 'services/packageManagement.dart';
-import 'AgHomeTvView.dart';
-import 'Agency.dart';
-import 'loginUser.dart';
-class topSellingAgencies extends StatelessWidget {
-  const topSellingAgencies({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+
+import '../Agencies/Agency.dart';
+
+class topTravelDestinations extends StatelessWidget {
+  const topTravelDestinations({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -23,36 +21,36 @@ class topSellingAgencies extends StatelessWidget {
               color: Colors.black,
             )),
         title: const Text(
-          "Top Selling Agencies",
+          "Top Travel Destinations",
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: topAgencies(),
+      body: topPackages(),
     );
   }
 }
 
-class topAgencies extends StatefulWidget {
+class topPackages extends StatefulWidget {
   @override
-  _topAgenciesState createState() => _topAgenciesState();
+  _topPackagesState createState() => _topPackagesState();
 }
 
-class _topAgenciesState extends State<topAgencies> {
+class _topPackagesState extends State<topPackages> {
   @override
   Widget build(BuildContext context) {
-    CollectionReference Agencies =
-    FirebaseFirestore.instance.collection('Agencies');
+    CollectionReference Packages =
+        FirebaseFirestore.instance.collection('Packages');
     return StreamBuilder(
-      stream: Agencies.orderBy('sales',descending: true).snapshots(),
+      stream: Packages.orderBy('sales', descending: true).snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData && snapshot.data.docs.length > 0) {
           return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (context, index) {
-                var agency = snapshot.data.docs[index];
+                var package = snapshot.data.docs[index];
                 return Align(
                   alignment: Alignment.centerRight,
                   child: SizedBox(
@@ -62,30 +60,24 @@ class _topAgenciesState extends State<topAgencies> {
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
                       child: ListTile(
                         onTap: () {
-                          for (var i = 0;
-                          i < packageManagement.p1.length;
-                          i++) {
-                            setState(() {
-                              if (packageManagement.p1[i].agencyId ==
-                                  context
-                                      .read<agencyProvider>()
-                                      .getAgencyList()[index]
-                                      .uid) {
-                                PackageList.add(
-                                    packageManagement.p1[i]);
-                              }
-                            });
-                          }
-                          print(loginUser.agencyListLocal.length);
-                          print(packageManagement.p1.length);
-                          print(PackageList.length);
-
-                          Navigator.of(context)
-                              .push(MaterialPageRoute(
-                              builder: (context) => AgHomeTvView(
-                                agencyID: snapshot.data.docs[index]['uid'],
-                              )
-                          )).then((value) => PackageList=[]);
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => PkgDetailTraveller(
+                                    package: Package1(
+                                        package['Package id'],
+                                        package['Package name'],
+                                        package['Agency Name'],
+                                        package['price'],
+                                        package['days'],
+                                        package['description'],
+                                        package['Location'],
+                                        double.parse(
+                                            package['Rating'].toString()),
+                                        package['Agency id'],
+                                        package['photoUrl'],
+                                        package['ImgUrls'].cast<String>(),
+                                        package['otherDetails'].cast<String>(),
+                                        package['isSaved']),
+                                  )));
                         },
                         title: ClipRRect(
                           borderRadius: BorderRadius.circular(5.0),
@@ -97,8 +89,8 @@ class _topAgenciesState extends State<topAgencies> {
                             Row(
                               children: [
                                 Text(
-                                  'Agency ' +
-                                      snapshot.data.docs[index]['name'],
+                                  'Package ' +
+                                      snapshot.data.docs[index]['Package name'],
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold,
@@ -109,7 +101,7 @@ class _topAgenciesState extends State<topAgencies> {
                             Container(
                               width: double.infinity,
                               child: Text(
-                                snapshot.data.docs[index]['sales'].toString() + ' Sales',
+                                snapshot.data.docs[index]['days'] + ' Days',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.black),
                                 textAlign: TextAlign.left,
@@ -118,10 +110,15 @@ class _topAgenciesState extends State<topAgencies> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Give them a call : '+
-                                  snapshot.data.docs[index]['phoneNum'],
+                                Text(
+                                  snapshot.data.docs[index]['Agency Name'],
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.black),
+                                ),
+                                Text(
+                                  '\$ ' + snapshot.data.docs[index]['price'],
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.black),
                                 ),
                               ],
                             )
@@ -144,5 +141,3 @@ class _topAgenciesState extends State<topAgencies> {
     );
   }
 }
-
-

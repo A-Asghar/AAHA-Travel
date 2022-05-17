@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'SignupTraveller.dart';
 import 'loginUser.dart';
-import 'signupAgency.dart';
-import 'loginScreen.dart';
-import 'main.dart';
+import '../Agencies/signupAgency.dart';
+import '../Agencies/loginScreen.dart';
+import '../Agencies/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 

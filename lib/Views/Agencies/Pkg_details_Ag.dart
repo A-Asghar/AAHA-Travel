@@ -1,36 +1,24 @@
 import 'dart:math';
 
-import 'package:aaha/services/agencyManagement.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'main.dart';
-import 'otherDetails.dart';
-import 'otherDetails.dart';
-import 'paymentInvoice.dart';
-import 'Agency.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'Widgets/allButton.dart';
+import '../../Widgets/allButton.dart';
 
-class PkgDetailTraveller extends StatefulWidget {
-  final Package1 package;
-  const PkgDetailTraveller({Key? key, required this.package}) : super(key: key);
+class PkgDetailAgency extends StatefulWidget {
+  final Package1 pack;
+  PkgDetailAgency({Key? key, required this.pack}) : super(key: key);
 
   @override
-  State<PkgDetailTraveller> createState() => PkgDetailTravellerState();
+  State<PkgDetailAgency> createState() => PkgDetailAgencyState();
 }
 
-class PkgDetailTravellerState extends State<PkgDetailTraveller> {
+class PkgDetailAgencyState extends State<PkgDetailAgency> {
   double value = 0;
-
   @override
   Widget build(BuildContext context) {
-    List<String> images = widget.package.ImgUrls;
-    var agencyID = widget.package.agencyId;
-    var agencyPhoneNumber =
-        context.read<agencyProvider>().getPhoneNumber(agencyID);
+    List<String> images = widget.pack.ImgUrls;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -47,57 +35,50 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
             )),
           ),
           SafeArea(
-            child: !widget.package.isSaved
-                ? Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 300, horizontal: 100),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Other Details Not ',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          ' Added By The Agency',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  )
-                : Container(
-                    //margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(4),
-                    width: 300,
-                    //color: Colors.white,
-                    child: Column(
-                      children: [
-                        const Text(
-                          'Day Wise Detail: ',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
-                        ),
-                        Expanded(
-                            child: ListView.builder(
-                                itemCount: int.parse(widget.package.Days),
-                                itemBuilder: (context, index) => ListTile(
-                                      title: Text(
-                                        'Day: ${index + 1}',
-                                        style: const TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Text(
-                                        widget.package!.otherDetails[index],
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                      ),
-                                    )))
-                      ],
+            child: !widget.pack.isSaved ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 300,horizontal: 100),
+              child: Column(
+                children: [
+                  Text('Other Details Not ',style: TextStyle(fontWeight: FontWeight.bold),),
+                  Text(' Added By The Agency',style: TextStyle(fontWeight: FontWeight.bold),),
+                ],
+              ),
+            ) : Container(
+              //margin: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(4),
+              width: 300,
+              //color: Colors.white,
+              child: Column(
+                children: [
+
+                  const Text(
+                    'Day Wise Detail: ',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: int.parse(widget.pack.Days),
+                          itemBuilder: (context, index) => ListTile(
+                                title: Text(
+                                  'Day: ${index + 1}',
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                subtitle:  Text( widget.pack!.otherDetails[index],
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              )
+                      )
+                  )
+                ],
+              ),
+            ),
           ),
           TweenAnimationBuilder(
               tween: Tween<double>(begin: 0, end: value),
@@ -112,7 +93,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                     ..rotateY((pi / 6) * val),
                   child: Scaffold(
                     appBar: AppBar(
-                      title: Text(widget.package.PName,
+                      title: Text(widget.pack.PName,
                           style: TextStyle(color: Colors.black, fontSize: 25)),
                       backgroundColor: Colors.transparent,
                       elevation: 0,
@@ -171,48 +152,22 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            text: 'No. of Days: ',
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: 'No. of Days: ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,
+                                            color: Colors.black),
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                            text: widget.pack.Days,
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                                fontSize: 18,
                                                 color: Colors.black),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text: widget.package.Days,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
                                           ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            text: 'Rating: ',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
-                                                color: Colors.black),
-                                            children: <TextSpan>[
-                                              TextSpan(
-                                                text: widget.package.rating == 0
-                                                    ? 'Unrated'
-                                                    : widget.package.rating
-                                                        .toStringAsFixed(2),
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    color: Colors.black),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                   ),
                                   Padding(
@@ -226,7 +181,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: widget.package.Location,
+                                            text: (widget.pack.Location),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -239,14 +194,14 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                     padding: EdgeInsets.all(8),
                                     child: RichText(
                                       text: TextSpan(
-                                        text: 'Cost: \$',
+                                        text: 'Price: ',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20,
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: widget.package.Price,
+                                            text: ('\$ ' + widget.pack.Price),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -266,7 +221,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                             color: Colors.black),
                                         children: <TextSpan>[
                                           TextSpan(
-                                            text: widget.package.Aname,
+                                            text: (widget.pack.Aname),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.black),
@@ -301,7 +256,7 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                               child: SingleChildScrollView(
                                             scrollDirection: Axis.vertical,
                                             child: Text(
-                                              widget.package.Desc,
+                                              (widget.pack.Desc),
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: Colors.black),
@@ -315,40 +270,12 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
                                     child: allButton(
                                         buttonText: 'Other Details',
                                         onPressed: () {
-                                          print(widget.package.isSaved);
                                           setState(() {
                                             value == 0 ? value = 1 : value = 0;
                                           });
                                         }),
                                   ),
                                   SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: allButton(
-                                            buttonText: 'Call',
-                                            onPressed: () async {
-                                              String phone =
-                                                  await agencyPhoneNumber!;
-                                              _makePhoneCall(phone);
-                                            }),
-                                      ),
-                                      Expanded(
-                                        child: allButton(
-                                            buttonText: 'Book Now',
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          paymentInvoice(
-                                                              package: widget
-                                                                  .package)));
-                                            }),
-                                      ),
-
-                                      // allButton(buttonText: 'Book Now', onPressed: (){}),
-                                    ],
-                                  ),
                                 ],
                               ),
                             ),
@@ -371,13 +298,5 @@ class PkgDetailTravellerState extends State<PkgDetailTraveller> {
         ],
       ),
     );
-  }
-
-  Future<void> _makePhoneCall(String phoneNumber) async {
-    final Uri launchUri = Uri(
-      scheme: 'tel',
-      path: phoneNumber,
-    );
-    await launchUrl(launchUri);
   }
 }

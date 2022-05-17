@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import './bookingHistoryHistory.dart';
-import './bookingHistoryScheduled.dart';
+import '../Traveller/bookingHistoryHistory.dart';
+import '../Traveller/bookingHistoryScheduled.dart';
 import 'bookingHistoryAgHistory.dart';
 import 'bookingHistoryAgScheduled.dart';
 

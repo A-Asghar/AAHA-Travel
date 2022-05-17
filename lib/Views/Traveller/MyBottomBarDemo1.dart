@@ -1,11 +1,11 @@
-import 'package:aaha/Agency.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 import 'package:aaha/services/packageManagement.dart';
 import 'package:flutter/material.dart';
-import 'AgHomeAgView.dart';
-import 'ProfileAgency.dart';
+import '../Agencies/AgHomeAgView.dart';
+import '../Agencies/ProfileAgency.dart';
 import 'bookingHistory.dart';
-import 'bookingHistoryAg.dart';
-import 'mainScreen.dart';
+import '../Agencies/bookingHistoryAg.dart';
+import '../Agencies/mainScreen.dart';
 import 'travellerProfile.dart';
 import 'travellerhome.dart';
 

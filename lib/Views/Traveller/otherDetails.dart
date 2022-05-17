@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'addPackage.dart';
+import '../Agencies/addPackage.dart';
 
 class otherDetails extends StatefulWidget {
   const otherDetails({Key? key}) : super(key: key);

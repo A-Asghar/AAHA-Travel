@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'EditUserProfile.dart';
 import 'package:intl/intl.dart';
-import 'Widgets/updateDialog.dart';
-import 'Widgets/userData.dart';
+import '../../Widgets/updateDialog.dart';
+import '../../Widgets/userData.dart';
 
 class travellerProfile extends StatefulWidget {
   const travellerProfile({Key? key}) : super(key: key);
@@ -530,12 +530,12 @@ class _travellerProfileState extends State<travellerProfile> {
                     StreamBuilder<Object>(
                     stream: Bookings.snapshots(),
           builder: (context, AsyncSnapshot snapshot1) {
-          if (snapshot.hasError) {
+          if (snapshot1.hasError) {
           return Text('Something went wrong');
           }
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading . .. ");
+          if (snapshot1.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
           }
             return Container(
               color: Colors.white,

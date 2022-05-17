@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'loginSignupScreen.dart';
-import 'loginSignupScreenTraveller.dart';
-import 'travellerProfile.dart';
+import '../Traveller/loginSignupScreenTraveller.dart';
+import '../Traveller/travellerProfile.dart';
 import 'main.dart';
-import 'Widgets/allButton.dart';
+import '../../Widgets/allButton.dart';
 
 class mainScreen extends StatelessWidget {
   const mainScreen({Key? key}) : super(key: key);

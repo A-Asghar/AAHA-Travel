@@ -1,17 +1,17 @@
-import 'package:aaha/Agency.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:aaha/MyBottomBarDemo.dart';
+import 'package:aaha/Views/Agencies/MyBottomBarDemo.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'packageManagement.dart';
-import 'package:aaha/Agency.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 
-import '../Agency.dart';
+import '../Views/Agencies/Agency.dart';
 
 class agencyManagement {
   static List<Agency1> AgenciesList = [];
@@ -105,7 +105,7 @@ class agencyProvider extends ChangeNotifier {
   String about = 'About you';
   String photoUrl = 'https://flyclipart.com/thumb2/person-icon-137546.png';
   void setAgencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
       await agencyManagement.getAgencies();
     });
 
@@ -202,7 +202,16 @@ class agencyProvider extends ChangeNotifier {
     });
     return photoUrl;
   }
-
+  Future<GeoPoint> getLocationUsinguid(var uid) async {
+    var document =
+    FirebaseFirestore.instance.collection('Agencies').doc(uid);
+    await document.get().then((document) {
+      print(document['location']);
+      location = document['location'];
+      notifyListeners();
+    });
+    return location;
+  }
   Future<String>? getPhotoUrlUsinguid(var uid) async {
     var document =
     await FirebaseFirestore.instance.collection('Agencies').doc(uid);
@@ -215,3 +224,4 @@ class agencyProvider extends ChangeNotifier {
   }
 
 }
+

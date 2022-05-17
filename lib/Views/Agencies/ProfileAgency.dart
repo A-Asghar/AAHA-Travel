@@ -4,14 +4,14 @@ import 'package:aaha/services/googleMaps.dart';
 import 'package:advance_notification/advance_notification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'services/agencyManagement.dart';
+import '../../services/agencyManagement.dart';
 import 'package:flutter/material.dart';
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'Widgets/updateDialog.dart';
-import 'Widgets/userData.dart';
-import 'Widgets/ProfilePictureWidget.dart';
+import '../../Widgets/updateDialog.dart';
+import '../../Widgets/userData.dart';
+import '../../Widgets/ProfilePictureWidget.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ProfileAgency extends StatefulWidget {

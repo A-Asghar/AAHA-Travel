@@ -1,8 +1,8 @@
-import 'package:aaha/AgHomeAgView.dart';
-import 'package:aaha/Agency.dart';
+import 'package:aaha/Views/Agencies/AgHomeAgView.dart';
+import 'package:aaha/Views/Agencies/Agency.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:aaha/agencyhome.dart';
+import 'package:aaha/Views/Agencies/agencyhome.dart';
 
 class packageManagement {
   static String Agencyid = '';
