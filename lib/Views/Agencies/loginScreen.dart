@@ -33,9 +33,10 @@ class _loginScreenState extends State<loginScreen> {
                 image: DecorationImage(
                   alignment: Alignment.topCenter,
                   fit: BoxFit.fill,
-                  image: NetworkImage(
+                  image: AssetImage('assets/signup-agency.jpg'),
+                  /*NetworkImage(
                     'https://i.ibb.co/bgXk4gp/pexels-mudassir-ali-2680270.jpg',
-                  ),
+                  ),*/
                 ),
               ),
               child: Column(
