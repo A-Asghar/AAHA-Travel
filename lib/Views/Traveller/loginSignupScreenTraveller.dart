@@ -17,9 +17,7 @@ class loginSignupScreenTraveller extends StatelessWidget {
           image: DecorationImage(
             alignment: Alignment.topCenter,
             fit: BoxFit.cover,
-            image: NetworkImage(
-              'https://i.ibb.co/YTk7nyk/login-Signup.png',
-            ),
+            image: AssetImage('assets/travellerImages/login-Signup-traveller.png'),
           ),
         ),
         child: Column(

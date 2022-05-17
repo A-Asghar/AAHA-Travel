@@ -42,9 +42,7 @@ class _loginUserState extends State<loginUser> {
                 image: DecorationImage(
                   alignment: Alignment.topCenter,
                   fit: BoxFit.fill,
-                  image: NetworkImage(
-                    'https://i.ibb.co/bgXk4gp/pexels-mudassir-ali-2680270.jpg',
-                  ),
+                  image: AssetImage('assets/signup-agency.jpg'),
                 ),
               ),
               child: Stack(

@@ -15,9 +15,10 @@ class loginSignupScreen extends StatelessWidget {
           image: DecorationImage(
             alignment: Alignment.topCenter,
             fit: BoxFit.cover,
-            image: NetworkImage(
+            image: AssetImage('assets/agencyImages/login-Signup.png'),
+            /*NetworkImage(
               'https://i.ibb.co/YTk7nyk/login-Signup.png',
-            ),
+            ),*/
           ),
         ),
         child: Column(
