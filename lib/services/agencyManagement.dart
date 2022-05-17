@@ -27,7 +27,8 @@ class agencyManagement {
       'phoneNum': phoneNum,
       'location': const GeoPoint(0.0, 0.0),
       'about': 'About you',
-      'photoUrl': 'https://cdn-icons-png.flaticon.com/512/32/32441.png',
+      'photoUrl':
+          'https://i.ibb.co/KKKZmzQ/l-IZrwvbe-Ruuzq-Oo-WJUEn-Photoaday-CSD-1-of-1-5-1.jpg',
       'sales': 0
     }).then((value) {
       Navigator.of(context).pop();
@@ -73,6 +74,7 @@ class agencyManagement {
   updateAgencyAbout(about) {
     Agency.doc(uid).update({'about': about});
   }
+
   updateAgencyLocation(GeoPoint location) {
     Agency.doc(uid).update({'location': location});
   }
@@ -81,7 +83,7 @@ class agencyManagement {
     Agency.doc(uid).update({'photoUrl': photoUrl});
   }
 
-  updateAgencySales(){
+  updateAgencySales() {
     Agency.doc(uid).update({'sales': FieldValue.increment(1)});
   }
 
@@ -129,7 +131,7 @@ class agencyProvider extends ChangeNotifier {
 
   Future<String>? getAgencyNameUsinguid(var uid) async {
     var document =
-    await FirebaseFirestore.instance.collection('Agencies').doc(uid);
+        await FirebaseFirestore.instance.collection('Agencies').doc(uid);
     await document.get().then((document) {
       print(document['name']);
       name = document['name'];
@@ -181,9 +183,10 @@ class agencyProvider extends ChangeNotifier {
     });
     return about;
   }
+
   Future<GeoPoint> getLocation(var user) async {
     var document =
-    FirebaseFirestore.instance.collection('Agencies').doc(user.uid);
+        FirebaseFirestore.instance.collection('Agencies').doc(user.uid);
     await document.get().then((document) {
       print(document['location']);
       location = document['location'];
@@ -202,9 +205,9 @@ class agencyProvider extends ChangeNotifier {
     });
     return photoUrl;
   }
+
   Future<GeoPoint> getLocationUsinguid(var uid) async {
-    var document =
-    FirebaseFirestore.instance.collection('Agencies').doc(uid);
+    var document = FirebaseFirestore.instance.collection('Agencies').doc(uid);
     await document.get().then((document) {
       print(document['location']);
       location = document['location'];
@@ -212,9 +215,10 @@ class agencyProvider extends ChangeNotifier {
     });
     return location;
   }
+
   Future<String>? getPhotoUrlUsinguid(var uid) async {
     var document =
-    await FirebaseFirestore.instance.collection('Agencies').doc(uid);
+        await FirebaseFirestore.instance.collection('Agencies').doc(uid);
     await document.get().then((document) {
       print(document['photoUrl']);
       photoUrl = document['photoUrl'];
@@ -222,6 +226,4 @@ class agencyProvider extends ChangeNotifier {
     });
     return photoUrl;
   }
-
 }
-
