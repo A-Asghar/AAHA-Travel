@@ -15,7 +15,7 @@ class mainScreen extends StatelessWidget {
         constraints: const BoxConstraints.expand(),
         decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage('assets/main-Screen.png')/*NetworkImage("https://i.ibb.co/wC05sqh/main-Screen.png")*/,
+                image: AssetImage('assets/main-Screen.png'),
                 fit: BoxFit.fill)),
         child: Scaffold(
           backgroundColor: Colors.transparent,

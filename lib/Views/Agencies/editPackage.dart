@@ -221,6 +221,7 @@ class _editPackage extends State<editPackage> {
                         PhotoUrl
                     );
                     setState(() {});
+                    print('PhotoUrl Changed ? $PhotoUrl');
                     context.read<packageProvider>().updatePackage(
                         widget.package,
                         _nameController.text,
@@ -270,7 +271,8 @@ class _editPackage extends State<editPackage> {
       taskSnapshot.ref.getDownloadURL().then(
             (value) {
           url = value;
-          PhotoUrl = url;
+            PhotoUrl = url;
+
           print(PhotoUrl +
               '\n...................................................................................................................');
           print("Done: $value");
