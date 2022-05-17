@@ -1,5 +1,7 @@
 import 'package:aaha/Views/Agencies/AgHomeAgView.dart';
 import 'package:aaha/Views/Agencies/Agency.dart';
+import 'package:aaha/Views/Agencies/MyBottomBarDemo.dart';
+import 'package:aaha/Views/Agencies/ProfileAgency.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aaha/Views/Agencies/agencyhome.dart';
